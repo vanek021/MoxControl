@@ -1,5 +1,6 @@
 using MoxControl.Core.Extensions;
 using MoxControl.Data;
+using MoxControl.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,8 @@ builder.Services.RegisterInjectableTypesFromAssemblies(typeof(Program), typeof(A
 builder.Services.AddApplicationIdentity<AppDbContext>();
 
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddAppServices();
 
 var app = builder.Build();
 

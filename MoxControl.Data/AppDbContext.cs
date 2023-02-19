@@ -2,6 +2,7 @@
 using MoxControl.Core.Data;
 using MoxControl.Core.Models;
 using MoxControl.Models.Entities;
+using MoxControl.Models.Entities.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,5 +17,12 @@ namespace MoxControl.Data
         {
 
         }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+        }
+
+        public DbSet<GeneralSetting> GeneralSettings { get; set; }
     }
 }

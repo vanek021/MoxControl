@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using MoxControl.Models;
 using System.Diagnostics;
@@ -20,10 +21,26 @@ namespace MoxControl.Controllers
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        [AllowAnonymous]
+        public IActionResult Error(string id)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            int statusCode = Int32.Parse(id);
+            var model = new ErrorViewModel()
+            {
+                ReturnUrl = "/Home/Index",
+                StatusCode = statusCode,
+            };
+
+            model.Title = model.StatusCode switch
+            {
+                400 => "Error 400",
+                401 => "Error 401",
+                403 => "Error 403",
+                404 => "Error 404",
+                _ => "Error 500",
+            };
+
+            return View(model);
         }
     }
 }

@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MoxControl.Connect.Proxmox\MoxControl.Connect.Proxmox.csproj" />
     <ProjectReference Include="..\MoxControl.Core\MoxControl.Core.csproj" />
   </ItemGroup>
 

@@ -9,7 +9,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoxControl.Core", "MoxContr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoxControl.Models", "MoxControl.Models\MoxControl.Models.csproj", "{74624FC1-D30A-4ECD-B652-6A3D84EF8385}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoxControl.Data", "MoxControl.Data\MoxControl.Data.csproj", "{0C5CE1FC-6D9A-47ED-A696-EE5440C21F96}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoxControl.Data", "MoxControl.Data\MoxControl.Data.csproj", "{0C5CE1FC-6D9A-47ED-A696-EE5440C21F96}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoxControl.Connect", "MoxControl.Connect\MoxControl.Connect.csproj", "{3A20D6B3-3FC6-4B16-90DA-14B2352ECB1E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoxControl.Connect.Proxmox", "MoxControl.Connect.Proxmox\MoxControl.Connect.Proxmox.csproj", "{45E88B87-C950-47D5-ADA6-D0EC52F682D8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoxControl.Infrastructure", "MoxControl.Infrastructure\MoxControl.Infrastructure.csproj", "{68C746F2-2188-4A4F-B601-48013F0B4292}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +39,18 @@ Global
 		{0C5CE1FC-6D9A-47ED-A696-EE5440C21F96}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C5CE1FC-6D9A-47ED-A696-EE5440C21F96}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C5CE1FC-6D9A-47ED-A696-EE5440C21F96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A20D6B3-3FC6-4B16-90DA-14B2352ECB1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A20D6B3-3FC6-4B16-90DA-14B2352ECB1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A20D6B3-3FC6-4B16-90DA-14B2352ECB1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A20D6B3-3FC6-4B16-90DA-14B2352ECB1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45E88B87-C950-47D5-ADA6-D0EC52F682D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45E88B87-C950-47D5-ADA6-D0EC52F682D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45E88B87-C950-47D5-ADA6-D0EC52F682D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45E88B87-C950-47D5-ADA6-D0EC52F682D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68C746F2-2188-4A4F-B601-48013F0B4292}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68C746F2-2188-4A4F-B601-48013F0B4292}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68C746F2-2188-4A4F-B601-48013F0B4292}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68C746F2-2188-4A4F-B601-48013F0B4292}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

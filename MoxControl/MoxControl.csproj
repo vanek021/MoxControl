@@ -16,9 +16,11 @@
   <ItemGroup>
     <ProjectReference Include="..\MoxControl.Core\MoxControl.Core.csproj" />
     <ProjectReference Include="..\MoxControl.Data\MoxControl.Data.csproj" />
+    <ProjectReference Include="..\MoxControl.Infrastructure\MoxControl.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Services\" />
     <Folder Include="wwwroot\media\" />
   </ItemGroup>
 

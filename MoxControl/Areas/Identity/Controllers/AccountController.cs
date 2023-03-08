@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MoxControl.Areas.Identity.ViewModels;
+using MoxControl.Infrastructure.Services;
 
 namespace MoxControl.Areas.Identity.Controllers
 {
@@ -10,6 +11,13 @@ namespace MoxControl.Areas.Identity.Controllers
     [AllowAnonymous]
     public class AccountController : Controller
     {
+        private readonly LdapService _ldapService;
+
+        public AccountController(LdapService ldapService)
+        {
+            _ldapService = ldapService;
+        }
+
         public IActionResult Index()
         {
             return View();

@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MoxControl.Core\MoxControl.Core.csproj" />
+    <ProjectReference Include="..\MoxControl.Models\MoxControl.Models.csproj" />
+  </ItemGroup>
+
 </Project>

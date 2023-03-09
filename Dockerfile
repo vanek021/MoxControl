@@ -15,6 +15,12 @@ RUN dotnet restore
 
 # copy everything else and build app
 COPY MoxControl/. ./MoxControl/
+COPY MoxControl.Connect/. ./MoxControl.Connect/
+COPY MoxControl.Connect.Proxmox/. ./MoxControl.Connect.Proxmox/
+COPY MoxControl.Core/. ./MoxControl.Core/
+COPY MoxControl.Data/. ./MoxControl.Data/
+COPY MoxControl.Infrastructure/. ./MoxControl.Infrastructure/
+COPY MoxControl.Models/. ./MoxControl.Models/
 WORKDIR /source/MoxControl
 RUN dotnet publish -c release -o /app --no-restore
 

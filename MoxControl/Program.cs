@@ -30,11 +30,6 @@ if (!app.Environment.IsDevelopment())
 
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
-
-    using var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope();
-    var ctx = serviceScope.ServiceProvider.GetService<AppDbContext>();
-    ctx?.Database.Migrate();
-
 }
 
 app.UseHttpsRedirection();

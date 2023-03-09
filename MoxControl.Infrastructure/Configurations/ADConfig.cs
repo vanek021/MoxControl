@@ -19,7 +19,7 @@ namespace MoxControl.Infrastructure.Configurations
         public string LDAPserver { get; set; } = string.Empty;
         public string LDAPQueryBase { get; set; } = string.Empty;
 
-        public string Crew { get; set; } = string.Empty;
-        public string Managers { get; set; } = string.Empty;
+        public string Users { get; set; } = string.Empty;
+        public string Administrators { get; set; } = string.Empty;
     }
 }

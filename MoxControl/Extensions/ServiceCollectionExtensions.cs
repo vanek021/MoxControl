@@ -1,4 +1,5 @@
-﻿using MoxControl.Infrastructure.Configurations;
+﻿using MoxControl.Data.Seeds;
+using MoxControl.Infrastructure.Configurations;
 using MoxControl.Infrastructure.Services;
 
 namespace MoxControl.Extensions
@@ -17,6 +18,11 @@ namespace MoxControl.Extensions
             serviceCollection.Configure<ADConfig>(configuration.GetSection("AD"));
 
             return serviceCollection;
+        }
+
+        public static void SeedData(this IServiceProvider serviceProvider)
+        {
+            RoleSeeds.Seed(serviceProvider);
         }
     }
 }

@@ -5,6 +5,12 @@ WORKDIR /source
 # copy csproj and restore as distinct layers
 COPY *.sln .
 COPY MoxControl/*.csproj ./MoxControl/
+COPY MoxControl.Connect/*.csproj ./MoxControl.Connect/
+COPY MoxControl.Connect.Proxmox/*.csproj ./MoxControl.Connect.Proxmox/
+COPY MoxControl.Core/*.csproj ./MoxControl.Core/
+COPY MoxControl.Data/*.csproj ./MoxControl.Data/
+COPY MoxControl.Infrastructure/*.csproj ./MoxControl.Infrastructure/
+COPY MoxControl.Models/*.csproj ./MoxControl.Models/
 RUN dotnet restore
 
 # copy everything else and build app

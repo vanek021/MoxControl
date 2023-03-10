@@ -59,7 +59,7 @@
                 <div class="fv-row mb-10 form-check">
                     <input type="checkbox" class="form-check-input" asp-for="RememberMe">
                     <label class="form-check-label" asp-for="RememberMe">Запомнить меня</label>
-                </div>
+                </div>              
                 <!--end::Input group-->
                 <!--begin::Actions-->
                 <div class="text-center">
@@ -73,6 +73,7 @@
                 </div>
                 <!--end::Actions-->
                 <div></div>
+                <span class="text-danger">@Html.ValidationMessage("Login")</span>
             </form>
             <!--end::Form-->
         </div>

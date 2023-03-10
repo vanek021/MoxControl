@@ -17,7 +17,11 @@ namespace MoxControl.Infrastructure.Configurations
         public string Username { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
 
-        public string Users { get; set; } = string.Empty;
-        public string Administrators { get; set; } = string.Empty;
+        public string UsersOU { get; set; } = string.Empty;
+        public string GroupsOU { get; set; } = string.Empty;
+
+        public string SearchBase { get; set; } = string.Empty;
+        public string SearchFilter { get; set; } = string.Empty;
+        public string GroupSearchFilter { get; set; } = string.Empty;
     }
 }

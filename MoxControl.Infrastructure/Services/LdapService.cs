@@ -1,9 +1,13 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
+using MoxControl.Core.Models;
 using MoxControl.Infrastructure.Configurations;
+using MoxControl.Models.Entities;
+using Novell.Directory.Ldap;
 using System;
 using System.Collections.Generic;
-using System.DirectoryServices.Protocols;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,64 +16,87 @@ namespace MoxControl.Infrastructure.Services
     public class LdapService
     {
         private readonly ADConfig _adConfig;
+        private readonly RoleManager<BaseRole> _roleManager;
 
-        public LdapService(IOptions<ADConfig> adConfig)
+        public LdapService(IOptions<ADConfig> adConfig, RoleManager<BaseRole> roleManager)
         {
+            _roleManager = roleManager;
             _adConfig = adConfig.Value;
         }
 
-        public SearchResponse SearchInAD(string domainForAD, string username, string password, string targetOU,
-            string query, SearchScope scope, params string[] attributeList)
+        public User? SearchUserInfoInAD(string username, string password)
         {
-            // on Windows the authentication type is Negotiate, so there is no need to prepend
-            // AD user login with domain. On other platforms at the moment only
-            // Basic authentication is supported
-            var authType = AuthType.Basic;
-            // also can fail on non AD servers, so you might prefer
-            // to just use AuthType.Basic everywhere
-            if (!OperatingSystem.IsWindows())
+            var connection = new LdapConnection() { SecureSocketLayer = false };
+
+            connection.Connect(_adConfig.Server, _adConfig.Port);
+            connection.Bind(_adConfig.Username, _adConfig.Password);
+
+            var searchFilter = string.Format(_adConfig.SearchFilter, username);
+
+            var attributes = new[] 
+            { 
+                LDAPAttributeConstants.GivenName,
+                LDAPAttributeConstants.Sn,
+                LDAPAttributeConstants.UserName,
+                LDAPAttributeConstants.GidNumber
+            };
+
+            var groupAttributes = new[]
             {
-                authType = AuthType.Basic;
-                username = OperatingSystem.IsWindows()
-                    ? username
-                    // this might need to be changed to your actual AD domain value
-                    : $"{domainForAD}\\{username}";
+                LDAPAttributeConstants.GidNumber,
+                LDAPAttributeConstants.Cn
+            };
+
+            var userResult = connection.Search(_adConfig.SearchBase, LdapConnection.ScopeSub, searchFilter, attributes, false);
+            var groupsResult = connection.Search(_adConfig.SearchBase, LdapConnection.ScopeSub, string.Empty, groupAttributes, false);
+
+            try
+            {
+                var user = userResult.Next();
+                if (user != null)
+                {
+                    connection.Bind(user.Dn, password);
+
+                    if (connection.Bound)
+                    {
+                        var appUser = new User()
+                        {
+                            FirstName = user.GetAttribute(LDAPAttributeConstants.GivenName).StringValue,
+                            LastName = user.GetAttribute(LDAPAttributeConstants.Sn).StringValue,
+                            UserName = user.GetAttribute(LDAPAttributeConstants.UserName).StringValue
+                        };
+
+                        var gidNumber = user.GetAttribute(LDAPAttributeConstants.GidNumber).StringValue;
+                    }
+                }
+            }
+            catch
+            {
+                throw new Exception("Login failed.");
             }
 
-            // depending on LDAP server, username might require some proper wrapping
-            // instead(!) of prepending username with domain
-            //username = $"uid={username},CN=Users,DC=subdomain,DC=domain,DC=zone";
-
-            //var connection = new LdapConnection(ldapServer)
-            var connection = new LdapConnection(
-                new LdapDirectoryIdentifier(_adConfig.Server, 389)
-                )
-            {
-                AuthType = authType,
-                Credential = new(_adConfig.Username, _adConfig.Password)
-            };
-            // the default one is v2 (at least in that version), and it is unknown if v3
-            // is actually needed, but at least Synology LDAP works only with v3,
-            // and since our Exchange doesn't complain, let it be v3
-            connection.SessionOptions.ProtocolVersion = 3;
-
-            // this is for connecting via LDAPS (636 port). It should be working,
-            // according to https://github.com/dotnet/runtime/issues/43890,
-            // but it doesn't (at least with Synology DSM LDAP), although perhaps
-            // for a different reason
-            //connection.SessionOptions.SecureSocketLayer = true;
-
-            connection.Bind();
-
-            var request = new SearchRequest(targetOU, query, scope, attributeList);
-
-            return (SearchResponse)connection.SendRequest(request);
+            connection.Disconnect();
+            return null;
         }
-    }
+        public static class LdapOUConstants
+        {
+            public const string UsersOU = "users";
+            public const string GroupsOU = "groups";
+        }
 
-    public static class LdapConstants
-    {
-        public const string UsersOU = "users";
-        public const string GroupsOU = "groups";
+        public static class LDAPAttributeConstants
+        {
+            public const string MemberOf = "memberOf";
+            public const string SAMAccountName = "sAMAccountName";
+            public const string DisplayName = "displayName";
+            public const string ObjectGuid = "objectGUID";
+            public const string Mail = "mail";
+            public const string WhenCreated = "whenCreated";
+            public const string GivenName = "givenName";
+            public const string Sn = "sn";
+            public const string Cn = "cn";
+            public const string UserName = "uid";
+            public const string GidNumber = "gidNumber";
+        }
     }
 }

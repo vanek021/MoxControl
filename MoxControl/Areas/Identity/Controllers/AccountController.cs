@@ -6,7 +6,7 @@ using Microsoft.Extensions.Options;
 using MoxControl.Areas.Identity.ViewModels;
 using MoxControl.Infrastructure.Configurations;
 using MoxControl.Infrastructure.Services;
-using System.DirectoryServices.Protocols;
+using static MoxControl.Infrastructure.Services.LdapService;
 
 namespace MoxControl.Areas.Identity.Controllers
 {
@@ -33,7 +33,7 @@ namespace MoxControl.Areas.Identity.Controllers
         {
             var attributesToQuery = new string[] { "objectGUID", "sAMAccountName", "displayName", "mail", "whenCreated" };
 
-            _ldapService.SearchInAD(_adConfig.Domain, _adConfig.Username, _adConfig.Password, LdapConstants.GroupsOU, string.Empty, SearchScope.Base, attributesToQuery);
+            _ldapService.SearchUserInfoInAD("Ivan", "polkmn021");
             var model = new LoginViewModel();
 
             // Clear the existing external cookie to ensure a clean login process

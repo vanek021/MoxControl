@@ -18,13 +18,13 @@ namespace MoxControl.Infrastructure.Services
             _adConfig = adConfig.Value;
         }
 
-        public static SearchResponse SearchInAD(string ldapServer, int ldapPort, string domainForAD, string username,
-            string password, string targetOU, string query, SearchScope scope, params string[] attributeList)
+        public SearchResponse SearchInAD(string domainForAD, string username, string password, string targetOU,
+            string query, SearchScope scope, params string[] attributeList)
         {
             // on Windows the authentication type is Negotiate, so there is no need to prepend
             // AD user login with domain. On other platforms at the moment only
             // Basic authentication is supported
-            var authType = AuthType.Negotiate;
+            var authType = AuthType.Basic;
             // also can fail on non AD servers, so you might prefer
             // to just use AuthType.Basic everywhere
             if (!OperatingSystem.IsWindows())
@@ -42,11 +42,11 @@ namespace MoxControl.Infrastructure.Services
 
             //var connection = new LdapConnection(ldapServer)
             var connection = new LdapConnection(
-                new LdapDirectoryIdentifier(ldapServer, ldapPort)
+                new LdapDirectoryIdentifier(_adConfig.Server, 389)
                 )
             {
                 AuthType = authType,
-                Credential = new(username, password)
+                Credential = new(_adConfig.Username, _adConfig.Password)
             };
             // the default one is v2 (at least in that version), and it is unknown if v3
             // is actually needed, but at least Synology LDAP works only with v3,
@@ -65,5 +65,11 @@ namespace MoxControl.Infrastructure.Services
 
             return (SearchResponse)connection.SendRequest(request);
         }
+    }
+
+    public static class LdapConstants
+    {
+        public const string UsersOU = "users";
+        public const string GroupsOU = "groups";
     }
 }

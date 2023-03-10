@@ -8,6 +8,7 @@ namespace MoxControl.Infrastructure.Configurations
 {
     public class ADConfig
     {
+        public string Server { get; set; }
         public int Port { get; set; } = 389;
         public string Zone { get; set; } = string.Empty;
         public string Domain { get; set; } = string.Empty;
@@ -15,9 +16,6 @@ namespace MoxControl.Infrastructure.Configurations
 
         public string Username { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
-
-        public string LDAPserver { get; set; } = string.Empty;
-        public string LDAPQueryBase { get; set; } = string.Empty;
 
         public string Users { get; set; } = string.Empty;
         public string Administrators { get; set; } = string.Empty;

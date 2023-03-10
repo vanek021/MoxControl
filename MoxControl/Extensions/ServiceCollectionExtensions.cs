@@ -9,6 +9,7 @@ namespace MoxControl.Extensions
         public static IServiceCollection AddAppServices(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddScoped<LdapService>();
+            serviceCollection.AddScoped<MoxControlUserManager>();
 
             return serviceCollection;
         }

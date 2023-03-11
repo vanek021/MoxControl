@@ -6,6 +6,7 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>@ViewData["Title"] - MoxControl</title>
+		<link rel="icon" type="image/x-icon" sizes="46x46" href="~/favicon.ico" />
         <!--begin::Fonts-->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,600,700" />
         <!--end::Fonts-->
@@ -162,13 +163,13 @@
 							<!--begin::Page title-->
 							<div class="page-title d-flex flex-column align-items-start justify-content-center flex-wrap me-lg-2 pb-2 pb-lg-0" data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_content_container', lg: '#kt_header_container'}">
 								<!--begin::Heading-->
-								<h1 class="text-dark fw-bolder my-1 fs-2">Welcome to Jet
+								<h1 class="text-dark fw-bolder my-1 fs-2">@User.Identity?.Name?.GetWelcomeMessage()
 								<small class="text-muted fs-6 fw-normal ms-1"></small></h1>
 								<!--end::Heading-->
 								<!--begin::Breadcrumb-->
 								<ul class="breadcrumb fw-bold fs-base my-1">
 									<li class="breadcrumb-item text-muted">
-										<a href="index.html" class="text-muted">Home</a>
+										<a asp-controller="Home" asp-action="Index" class="text-muted">Home</a>
 									</li>
 									<li class="breadcrumb-item text-dark">Dashboard</li>
 								</ul>

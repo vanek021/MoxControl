@@ -60,7 +60,8 @@ namespace MoxControl.Infrastructure.Services
                                 FirstName = user.GetAttribute(LDAPAttributeConstants.GivenName).StringValue,
                                 LastName = user.GetAttribute(LDAPAttributeConstants.Sn).StringValue,
                                 Email = $"{username}@mox.com",
-                                UserName = username
+                                UserName = username,
+                                LastLogin = DateTime.UtcNow
                             };
 
                             currentUser.Roles.Add(new BaseUserRole() { RoleId = role.Id });
@@ -73,6 +74,7 @@ namespace MoxControl.Infrastructure.Services
                             currentUser.FirstName = user.GetAttribute(LDAPAttributeConstants.GivenName).StringValue;
                             currentUser.LastName = user.GetAttribute(LDAPAttributeConstants.Sn).StringValue;
                             currentUser.Email = $"{username}@mox.com";
+                            currentUser.LastLogin = DateTime.UtcNow;
 
                             if (!await _userManager.IsInRoleAsync(currentUser, role.Name!))
                             {

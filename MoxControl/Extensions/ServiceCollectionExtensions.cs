@@ -1,6 +1,7 @@
 ﻿using MoxControl.Data.Seeds;
 using MoxControl.Infrastructure.Configurations;
 using MoxControl.Infrastructure.Services;
+using MoxControl.Services;
 
 namespace MoxControl.Extensions
 {
@@ -8,6 +9,7 @@ namespace MoxControl.Extensions
     {
         public static IServiceCollection AddAppServices(this IServiceCollection serviceCollection)
         {
+            serviceCollection.AddScoped<UserService>();
             serviceCollection.AddScoped<LdapService>();
             serviceCollection.AddScoped<MoxControlUserManager>();
 

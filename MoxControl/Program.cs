@@ -1,7 +1,9 @@
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using MoxControl.Core.Extensions;
 using MoxControl.Data;
 using MoxControl.Extensions;
+using MoxControl.Models.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,8 +15,9 @@ builder.Services.AddBasePgsqlContext<AppDbContext>(connectionString);
 builder.Services.RegisterInjectableTypesFromAssemblies(typeof(Program), typeof(AppDbContext));
 
 builder.Services.AddApplicationIdentity<AppDbContext>();
-
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddAutoMapper(typeof(Program), typeof(MoxControl.Core.Interfaces.IEntity), typeof(AppDbContext), typeof(User));
 
 builder.Services.AddConfigurations(builder.Configuration);
 

@@ -2,6 +2,7 @@
 using MoxControl.Core.Data;
 using MoxControl.Core.Models;
 using MoxControl.Models.Entities;
+using MoxControl.Models.Entities.Notifications;
 using MoxControl.Models.Entities.Settings;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,9 @@ namespace MoxControl.Data
         {
             base.OnModelCreating(builder);
         }
+
+        public DbSet<NotificationReceiver> NotificationReceivers { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
 
         public DbSet<GeneralSetting> GeneralSettings { get; set; }
     }

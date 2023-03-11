@@ -1,4 +1,5 @@
 ﻿using MoxControl.Core.Models;
+using MoxControl.Models.Entities.Notifications;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,6 @@ namespace MoxControl.Models.Entities
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public NotificationReceiver NotificationReceiver { get; set; } = new();
     }
 }

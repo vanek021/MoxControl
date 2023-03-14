@@ -1,13 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using MoxControl.Connect.Enums;
 using MoxControl.Connect.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace MoxControl.Connect.Infrastructure
+namespace MoxControl.Connect.Factory
 {
     public class VirtualizationSystemClientFactory
     {

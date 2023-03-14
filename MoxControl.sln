@@ -11,11 +11,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoxControl.Models", "MoxCon
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoxControl.Data", "MoxControl.Data\MoxControl.Data.csproj", "{0C5CE1FC-6D9A-47ED-A696-EE5440C21F96}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoxControl.Connect", "MoxControl.Connect\MoxControl.Connect.csproj", "{3A20D6B3-3FC6-4B16-90DA-14B2352ECB1E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoxControl.Connect", "MoxControl.Connect\MoxControl.Connect.csproj", "{3A20D6B3-3FC6-4B16-90DA-14B2352ECB1E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoxControl.Connect.Proxmox", "MoxControl.Connect.Proxmox\MoxControl.Connect.Proxmox.csproj", "{45E88B87-C950-47D5-ADA6-D0EC52F682D8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoxControl.Connect.Proxmox", "MoxControl.Connect.Proxmox\MoxControl.Connect.Proxmox.csproj", "{45E88B87-C950-47D5-ADA6-D0EC52F682D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoxControl.Infrastructure", "MoxControl.Infrastructure\MoxControl.Infrastructure.csproj", "{68C746F2-2188-4A4F-B601-48013F0B4292}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoxControl.Infrastructure", "MoxControl.Infrastructure\MoxControl.Infrastructure.csproj", "{68C746F2-2188-4A4F-B601-48013F0B4292}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoxControl.Connect.Factory", "MoxControl.Connect.Factory\MoxControl.Connect.Factory.csproj", "{213CB909-3485-4679-94E3-FD0B9AC132C0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{68C746F2-2188-4A4F-B601-48013F0B4292}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{68C746F2-2188-4A4F-B601-48013F0B4292}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{68C746F2-2188-4A4F-B601-48013F0B4292}.Release|Any CPU.Build.0 = Release|Any CPU
+		{213CB909-3485-4679-94E3-FD0B9AC132C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{213CB909-3485-4679-94E3-FD0B9AC132C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{213CB909-3485-4679-94E3-FD0B9AC132C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{213CB909-3485-4679-94E3-FD0B9AC132C0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

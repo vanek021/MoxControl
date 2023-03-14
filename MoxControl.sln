@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoxControl.Infrastructure",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoxControl.Connect.Factory", "MoxControl.Connect.Factory\MoxControl.Connect.Factory.csproj", "{213CB909-3485-4679-94E3-FD0B9AC132C0}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Connect", "Connect", "{DE484AFE-640D-467C-AAA8-01CA7156A52B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -60,6 +62,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3A20D6B3-3FC6-4B16-90DA-14B2352ECB1E} = {DE484AFE-640D-467C-AAA8-01CA7156A52B}
+		{45E88B87-C950-47D5-ADA6-D0EC52F682D8} = {DE484AFE-640D-467C-AAA8-01CA7156A52B}
+		{213CB909-3485-4679-94E3-FD0B9AC132C0} = {DE484AFE-640D-467C-AAA8-01CA7156A52B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {96601D7C-AEB1-49B1-AA5B-7354FDD82CC4}

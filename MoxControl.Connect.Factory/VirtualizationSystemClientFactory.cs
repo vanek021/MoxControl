@@ -1,12 +1,17 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using MoxControl.Connect.Enums;
 using MoxControl.Connect.Interfaces;
+using MoxControl.Connect.Proxmox;
+using System.Reflection;
 
 namespace MoxControl.Connect.Factory
 {
     public class VirtualizationSystemClientFactory
     {
         private readonly Dictionary<VirtualizationSystem, IVirtualizationSystemClient> _clients = new();
+
+        // Сюда добавлять сборки, реализующие клиент взаимодействия с системами виртуализации
+        private readonly List<Assembly> _assemblies = new() { typeof(ProxmoxVirtualizationClient).Assembly };
 
         public VirtualizationSystemClientFactory(IServiceScopeFactory serviceScopeFactory)
         {

@@ -172,10 +172,10 @@ namespace MoxControl.Infrastructure.Services
             {
                 return new[]
                 {
-                LDAPAttributeConstants.GivenName,
-                LDAPAttributeConstants.Sn,
-                LDAPAttributeConstants.UserName,
-                LDAPAttributeConstants.GidNumber
+                    LDAPAttributeConstants.GivenName,
+                    LDAPAttributeConstants.Sn,
+                    LDAPAttributeConstants.UserName,
+                    LDAPAttributeConstants.GidNumber
                 };
             }
         }

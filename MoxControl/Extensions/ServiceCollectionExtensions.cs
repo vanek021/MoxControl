@@ -11,6 +11,7 @@ namespace MoxControl.Extensions
         {
             serviceCollection.AddScoped<UserService>();
             serviceCollection.AddScoped<LdapService>();
+            serviceCollection.AddScoped<ServerService>();
             serviceCollection.AddScoped<MoxControlUserManager>();
 
             return serviceCollection;

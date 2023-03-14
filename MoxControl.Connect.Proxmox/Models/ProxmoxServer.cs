@@ -8,8 +8,10 @@ using System.Threading.Tasks;
 
 namespace MoxControl.Connect.Proxmox.Models
 {
-    public class BaseProxmoxServer : BaseServer
+    public class ProxmoxServer : BaseServer
     {
         public override VirtualizationSystem VirtualizationSystem { get; set; } = VirtualizationSystem.Proxmox;
+        public string Host { get; set; }
+        public int Port { get; set; }
     }
 }

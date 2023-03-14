@@ -23,6 +23,10 @@ builder.Services.AddConfigurations(builder.Configuration);
 
 builder.Services.AddAppServices();
 
+builder.Services.AddFileSystemBucketStorage(builder.Environment.WebRootPath, "default");
+
+builder.Services.AddDataProtection();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

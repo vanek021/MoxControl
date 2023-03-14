@@ -8,7 +8,6 @@ namespace MoxControl.Connect.Enums
 {
     public enum VirtualizationSystem
     {
-        Unknown = 0,
         Proxmox
     }
 }

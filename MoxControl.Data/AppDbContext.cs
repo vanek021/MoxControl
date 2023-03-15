@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MoxControl.Connect.Proxmox.Models;
 using MoxControl.Core.Data;
 using MoxControl.Core.Models;
 using MoxControl.Models.Entities;
@@ -23,6 +24,8 @@ namespace MoxControl.Data
         {
             base.OnModelCreating(builder);
         }
+
+        public DbSet<ProxmoxServer> ProxmoxServers { get; set; }
 
         public DbSet<NotificationReceiver> NotificationReceivers { get; set; }
         public DbSet<Notification> Notifications { get; set; }

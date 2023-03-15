@@ -10,6 +10,9 @@ namespace MoxControl.Connect.Models
 {
     public class BaseServer : BaseRecord
     {
+        /// <summary>
+        /// Используемая система виртуализации
+        /// </summary>
         public virtual VirtualizationSystem VirtualizationSystem { get; set; }
     }
 }

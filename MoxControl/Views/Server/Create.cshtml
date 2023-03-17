@@ -1,0 +1,37 @@
+﻿@using MoxControl.Connect.Enums;
+@using MoxControl.ViewModels.ServerViewModels;
+
+@model ServerViewModel
+
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+    <div class="container" id="kt_content_container">
+        <div class=" container-xxl " id="kt_content_container">
+            <!--begin::Basic info-->
+            <div class="card mb-5 mb-xl-10">
+                <!--begin::Card header-->
+                <div class="card-header border-0 cursor-pointer" role="button" data-bs-toggle="collapse" data-bs-target="#kt_account_profile_details" aria-expanded="true" aria-controls="kt_account_profile_details">
+                    <!--begin::Card title-->
+                    <div class="card-title m-0">
+                        <h3 class="fw-bold m-0">Добавить сервер</h3>
+                    </div>
+                    <!--end::Card title-->
+                </div>
+                <!--begin::Card header-->
+                <!--begin::Content-->
+                <div id="kt_account_settings_profile_details" class="collapse show">
+                    <!--begin::Form-->
+                    <form asp-controller="Server" asp-action="Create" method="post" class="form fv-plugins-bootstrap5 fv-plugins-framework">
+                        <partial name="_ServerCreateEditFormPartial" model="@Model" />
+                    </form>
+                    <!--end::Form-->
+                </div>
+                <!--end::Content-->
+            </div>
+            <!--end::Basic info-->
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/server/create-edit.js" asp-append-version="true"></script>
+}

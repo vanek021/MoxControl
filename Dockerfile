@@ -14,6 +14,7 @@ COPY MoxControl.Core/*.csproj ./MoxControl.Core/
 COPY MoxControl.Data/*.csproj ./MoxControl.Data/
 COPY MoxControl.Infrastructure/*.csproj ./MoxControl.Infrastructure/
 COPY MoxControl.Models/*.csproj ./MoxControl.Models/
+COPY MoxControl.Connect.Factory/*.csproj ./MoxControl.Connect.Factory/
 RUN dotnet restore
 
 # copy everything else and build app
@@ -24,6 +25,7 @@ COPY MoxControl.Core/. ./MoxControl.Core/
 COPY MoxControl.Data/. ./MoxControl.Data/
 COPY MoxControl.Infrastructure/. ./MoxControl.Infrastructure/
 COPY MoxControl.Models/. ./MoxControl.Models/
+COPY MoxControl.Connect.Factory/*.csproj ./MoxControl.Connect.Factory/
 WORKDIR /source/MoxControl
 RUN dotnet publish -c release -o /app --no-restore
 

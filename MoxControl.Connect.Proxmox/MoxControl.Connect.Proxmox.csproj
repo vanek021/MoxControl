@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Services\2dbywaxl.0f3~" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Corsinvest.ProxmoxVE.Api" Version="7.3.4" />
   </ItemGroup>
 

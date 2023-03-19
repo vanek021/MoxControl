@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MoxControl.Connect.Models;
+using MoxControl.Connect.Models.Entities;
 using MoxControl.Connect.Proxmox.Models;
 
 namespace MoxControl.ViewModels.ServerViewModels
@@ -8,8 +9,8 @@ namespace MoxControl.ViewModels.ServerViewModels
     {
         public ServerMapping()
         {
-            CreateMap<ServerViewModel, ProxmoxServer>();
-            CreateMap<ProxmoxServer, ServerViewModel>();
+            CreateMap<ServerViewModel, BaseServer>();
+            CreateMap<BaseServer, ServerViewModel>();
         }
     }
 }

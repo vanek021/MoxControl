@@ -11,7 +11,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MoxControl.Connect.Models\MoxControl.Connect.Models.csproj" />
+    <ProjectReference Include="..\MoxControl.Connect.Proxmox.Data\MoxControl.Connect.Proxmox.Data.csproj" />
+    <ProjectReference Include="..\MoxControl.Connect.Proxmox.Models\MoxControl.Connect.Proxmox.Models.csproj" />
     <ProjectReference Include="..\MoxControl.Connect\MoxControl.Connect.csproj" />
+    <ProjectReference Include="..\MoxControl.Data\MoxControl.Data.csproj" />
   </ItemGroup>
 
 </Project>

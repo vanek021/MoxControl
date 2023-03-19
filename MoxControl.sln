@@ -17,9 +17,21 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoxControl.Connect.Proxmox"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoxControl.Infrastructure", "MoxControl.Infrastructure\MoxControl.Infrastructure.csproj", "{68C746F2-2188-4A4F-B601-48013F0B4292}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoxControl.Connect.Factory", "MoxControl.Connect.Factory\MoxControl.Connect.Factory.csproj", "{213CB909-3485-4679-94E3-FD0B9AC132C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoxControl.Connect.Factory", "MoxControl.Connect.Factory\MoxControl.Connect.Factory.csproj", "{213CB909-3485-4679-94E3-FD0B9AC132C0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Connect", "Connect", "{DE484AFE-640D-467C-AAA8-01CA7156A52B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Proxmox", "Proxmox", "{5A469C89-934D-44D8-8D74-0365598FC696}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoxControl.Connect.Proxmox.Models", "MoxControl.Connect.Proxmox.Models\MoxControl.Connect.Proxmox.Models.csproj", "{572E21FD-B3E6-4B07-8D52-1B01380EA74D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoxControl.Connect.Models", "MoxControl.Connect.Models\MoxControl.Connect.Models.csproj", "{12FEE95E-04FE-4F28-AFC5-D1C1BAD53DC4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoxControl.Connect.Data", "MoxControl.Connect.Data\MoxControl.Connect.Data.csproj", "{85A9F2A0-4A72-4A4F-A0FB-23E36505E66E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoxControl.Connect.Proxmox.Data", "MoxControl.Connect.Proxmox.Data\MoxControl.Connect.Proxmox.Data.csproj", "{1CE563C3-0495-4520-865E-DD43D70FD948}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoxControl.Connect.DependencyInjection", "MoxControl.Connect.DependencyInjection\MoxControl.Connect.DependencyInjection.csproj", "{8EC05585-D99F-4D4D-9097-8383061771B9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,14 +71,40 @@ Global
 		{213CB909-3485-4679-94E3-FD0B9AC132C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{213CB909-3485-4679-94E3-FD0B9AC132C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{213CB909-3485-4679-94E3-FD0B9AC132C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{572E21FD-B3E6-4B07-8D52-1B01380EA74D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{572E21FD-B3E6-4B07-8D52-1B01380EA74D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{572E21FD-B3E6-4B07-8D52-1B01380EA74D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{572E21FD-B3E6-4B07-8D52-1B01380EA74D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12FEE95E-04FE-4F28-AFC5-D1C1BAD53DC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12FEE95E-04FE-4F28-AFC5-D1C1BAD53DC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12FEE95E-04FE-4F28-AFC5-D1C1BAD53DC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12FEE95E-04FE-4F28-AFC5-D1C1BAD53DC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{85A9F2A0-4A72-4A4F-A0FB-23E36505E66E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{85A9F2A0-4A72-4A4F-A0FB-23E36505E66E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{85A9F2A0-4A72-4A4F-A0FB-23E36505E66E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{85A9F2A0-4A72-4A4F-A0FB-23E36505E66E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1CE563C3-0495-4520-865E-DD43D70FD948}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CE563C3-0495-4520-865E-DD43D70FD948}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CE563C3-0495-4520-865E-DD43D70FD948}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CE563C3-0495-4520-865E-DD43D70FD948}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EC05585-D99F-4D4D-9097-8383061771B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EC05585-D99F-4D4D-9097-8383061771B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EC05585-D99F-4D4D-9097-8383061771B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EC05585-D99F-4D4D-9097-8383061771B9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{3A20D6B3-3FC6-4B16-90DA-14B2352ECB1E} = {DE484AFE-640D-467C-AAA8-01CA7156A52B}
-		{45E88B87-C950-47D5-ADA6-D0EC52F682D8} = {DE484AFE-640D-467C-AAA8-01CA7156A52B}
+		{45E88B87-C950-47D5-ADA6-D0EC52F682D8} = {5A469C89-934D-44D8-8D74-0365598FC696}
 		{213CB909-3485-4679-94E3-FD0B9AC132C0} = {DE484AFE-640D-467C-AAA8-01CA7156A52B}
+		{5A469C89-934D-44D8-8D74-0365598FC696} = {DE484AFE-640D-467C-AAA8-01CA7156A52B}
+		{572E21FD-B3E6-4B07-8D52-1B01380EA74D} = {5A469C89-934D-44D8-8D74-0365598FC696}
+		{12FEE95E-04FE-4F28-AFC5-D1C1BAD53DC4} = {DE484AFE-640D-467C-AAA8-01CA7156A52B}
+		{85A9F2A0-4A72-4A4F-A0FB-23E36505E66E} = {DE484AFE-640D-467C-AAA8-01CA7156A52B}
+		{1CE563C3-0495-4520-865E-DD43D70FD948} = {5A469C89-934D-44D8-8D74-0365598FC696}
+		{8EC05585-D99F-4D4D-9097-8383061771B9} = {DE484AFE-640D-467C-AAA8-01CA7156A52B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {96601D7C-AEB1-49B1-AA5B-7354FDD82CC4}

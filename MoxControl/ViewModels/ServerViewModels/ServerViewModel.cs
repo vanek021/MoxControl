@@ -1,4 +1,4 @@
-﻿using MoxControl.Connect.Enums;
+﻿using MoxControl.Connect.Models.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace MoxControl.ViewModels.ServerViewModels

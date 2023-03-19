@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using MoxControl.Connect.DependencyInjection;
+using MoxControl.Connect.Proxmox.Data;
 using MoxControl.Core.Extensions;
 using MoxControl.Data;
 using MoxControl.Extensions;
@@ -11,6 +13,9 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddBasePgsqlContext<AppDbContext>(connectionString);
+
+builder.Services.RegisterConnectContexts(connectionString);
+builder.Services.RegisterConnectServices();
 
 builder.Services.RegisterInjectableTypesFromAssemblies(typeof(Program), typeof(AppDbContext));
 

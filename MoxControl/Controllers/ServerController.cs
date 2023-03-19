@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MoxControl.Connect.Enums;
+using MoxControl.Connect.Models.Enums;
 using MoxControl.Services;
 using MoxControl.ViewModels.ServerViewModels;
 

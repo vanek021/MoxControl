@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MoxControl.Connect.Factory\MoxControl.Connect.Factory.csproj" />
+    <ProjectReference Include="..\MoxControl.Connect.Proxmox.Data\MoxControl.Connect.Proxmox.Data.csproj" />
+    <ProjectReference Include="..\MoxControl.Connect.Proxmox\MoxControl.Connect.Proxmox.csproj" />
+    <ProjectReference Include="..\MoxControl.Core\MoxControl.Core.csproj" />
+  </ItemGroup>
+
+</Project>

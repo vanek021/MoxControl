@@ -1,4 +1,4 @@
-﻿using MoxControl.Connect.Enums;
+﻿using MoxControl.Connect.Models.Enums;
 using MoxControl.Core.Models;
 using System;
 using System.Collections.Generic;
@@ -6,14 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MoxControl.Connect.Models
+namespace MoxControl.Connect.Models.Entities
 {
     public class BaseServer : BaseRecord
     {
         /// <summary>
         /// Используемая система виртуализации
         /// </summary>
-        public virtual VirtualizationSystem VirtualizationSystem { get; set; }
+        public VirtualizationSystem VirtualizationSystem { get; set; }
 
         /// <summary>
         /// Адрес виртуальной машины

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using MoxControl.Connect.Enums;
 using MoxControl.Connect.Interfaces;
+using MoxControl.Connect.Models.Enums;
 using MoxControl.Connect.Proxmox;
 using System.Reflection;
 

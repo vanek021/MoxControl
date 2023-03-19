@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MoxControl.Connect.Enums
+namespace MoxControl.Connect.Models.Enums
 {
-    public enum VirtualizationSystem
+    public enum AuthorizationType
     {
-        Proxmox
+        RootCredentials,
+        UserCredentials
     }
 }

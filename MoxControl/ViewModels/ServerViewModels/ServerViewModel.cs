@@ -9,7 +9,7 @@ namespace MoxControl.ViewModels.ServerViewModels
 
         [Display(Name = "Система виртуализации")]
         [Required]
-        public virtual VirtualizationSystem VirtualizationSystem { get; set; }
+        public VirtualizationSystem VirtualizationSystem { get; set; }
 
         [Display(Name = "Адрес")]
         [Required]

@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace MoxControl.Connect.Factory
 {
-    public class VirtualizationSystemClientFactory
+    public class VirtualizationSystemClientFactory : IVirtualizationSystemClientFactory
     {
         private readonly Dictionary<VirtualizationSystem, IVirtualizationSystemClient> _clients = new();
 

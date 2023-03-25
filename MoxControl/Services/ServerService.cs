@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MoxControl.Connect.Factory;
+using MoxControl.Connect.Interfaces;
 using MoxControl.Connect.Models;
 using MoxControl.Connect.Models.Enums;
 using MoxControl.Connect.Proxmox.Models;
@@ -13,10 +14,10 @@ namespace MoxControl.Services
 {
     public class ServerService
     {
-        private readonly ConnectServiceFactory _connectServiceFactory;
+        private readonly IConnectServiceFactory _connectServiceFactory;
         private readonly IMapper _mapper;
 
-        public ServerService(ConnectServiceFactory connectServiceFactory, IMapper mapper)
+        public ServerService(IConnectServiceFactory connectServiceFactory, IMapper mapper)
         {
             _connectServiceFactory = connectServiceFactory;
             _mapper = mapper;

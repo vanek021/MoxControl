@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MoxControl.Connect.Factory
 {
-    public class ConnectServiceFactory
+    public class ConnectServiceFactory : IConnectServiceFactory
     {
         private readonly Dictionary<VirtualizationSystem, IConnectService> _services = new();
 

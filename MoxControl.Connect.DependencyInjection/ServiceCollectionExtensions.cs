@@ -18,7 +18,8 @@ namespace MoxControl.Connect.DependencyInjection
 
         public static IServiceCollection RegisterConnectServices(this IServiceCollection serviceCollection)
         {
-            serviceCollection.AddScoped<ConnectServiceFactory>();
+            serviceCollection.AddScoped<IConnectServiceFactory, ConnectServiceFactory>();
+            serviceCollection.AddScoped<IVirtualizationSystemClientFactory, VirtualizationSystemClientFactory>();
 
             return serviceCollection;
         }

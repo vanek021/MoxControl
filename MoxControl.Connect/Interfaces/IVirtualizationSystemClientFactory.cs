@@ -9,6 +9,6 @@ namespace MoxControl.Connect.Interfaces
 {
     public interface IVirtualizationSystemClientFactory
     {
-        public IVirtualizationSystemClient GetClientByVirtualizationSystem(VirtualizationSystem type);
+        public Task<IVirtualizationSystemClient> GetClientByVirtualizationSystemAsync(VirtualizationSystem type, string host, int port, string login, string password);
     }
 }

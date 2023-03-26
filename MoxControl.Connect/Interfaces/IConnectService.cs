@@ -19,6 +19,8 @@ namespace MoxControl.Connect.Interfaces
         public Task<bool> UpdateServerAsync(long id, string host, int port, AuthorizationType authorizationType, string name,
             string description, string? rootLogin = null, string? rootPassword = null);
 
-        public Task<BaseServer?> GetServerAsync(long id); 
+        public Task<BaseServer?> GetServerAsync(long id);
+
+        public Task<List<BaseServer>> GetAllServersAsync();
     }
 }

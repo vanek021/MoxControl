@@ -1,4 +1,5 @@
-﻿using MoxControl.Infrastructure.Extensions;
+﻿using MoxControl.Connect.Models.Enums;
+using MoxControl.Infrastructure.Extensions;
 
 namespace MoxControl.Extensions
 {
@@ -20,6 +21,17 @@ namespace MoxControl.Extensions
                 return $"Добрый вечер, {username}!";
 
             return $"Доброй ночи, {username}!";
+        }
+
+        public static string GetServerStatusColor(this ServerStatus status)
+        {
+            return status switch
+            {
+                ServerStatus.Running => "badge badge-light-success",
+                ServerStatus.Stopped => "badge badge-light-danger",
+                ServerStatus.Unstable => "badge badge-light-warning",
+                _ => "badge badge-light",
+            };
         }
     }
 }

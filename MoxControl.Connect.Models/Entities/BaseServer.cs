@@ -49,5 +49,10 @@ namespace MoxControl.Connect.Models.Entities
         /// Описание сервера, заданное в сервисе
         /// </summary>
         public string Description { get; set; }
+
+        /// <summary>
+        /// Статус сервера
+        /// </summary>
+        public ServerStatus Status { get; set; }
     }
 }

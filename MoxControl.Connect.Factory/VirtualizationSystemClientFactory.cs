@@ -8,23 +8,24 @@ namespace MoxControl.Connect.Factory
 {
     public class VirtualizationSystemClientFactory : IVirtualizationSystemClientFactory
     {
-        private readonly Dictionary<VirtualizationSystem, IVirtualizationSystemClient> _clients = new();
-
-        // Сюда добавлять сборки, реализующие клиент взаимодействия с системами виртуализации
-        private readonly List<Assembly> _assemblies = new() { typeof(ProxmoxVirtualizationClient).Assembly };
+        private readonly IServiceScopeFactory _serviceScopeFactory;
 
         public VirtualizationSystemClientFactory(IServiceScopeFactory serviceScopeFactory)
         {
-            var baseType = typeof(IVirtualizationSystemClient);
+            _serviceScopeFactory = serviceScopeFactory;   
         }
 
-        public IVirtualizationSystemClient GetClientByVirtualizationSystem(VirtualizationSystem type)
+        public async Task<IVirtualizationSystemClient> GetClientByVirtualizationSystemAsync(VirtualizationSystem type, string host, int port, string login, string password)
         {
-            if (!_clients.ContainsKey(type))
-                throw new Exception("Tracker not exist");
-
-            var result = _clients[type];
-            return result is null ? throw new Exception() : result;
+            switch (type)
+            {
+                case VirtualizationSystem.Proxmox:
+                    var client = new ProxmoxVirtualizationClient();
+                    await client.Initialize(_serviceScopeFactory, host, port, login, password);
+                    return client;
+                default:
+                    throw new NotImplementedException("Unknown Virtualization System");
+            }
         }
     }
 }

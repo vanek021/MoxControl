@@ -16,9 +16,10 @@ namespace MoxControl.Controllers
             _serverService = serverService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var viewModel = await _serverService.GetServerIndexViewModelAsync();
+            return View(viewModel);
         }
 
         public IActionResult Create()
@@ -47,7 +48,7 @@ namespace MoxControl.Controllers
 
         public IActionResult Edit(long id, VirtualizationSystem virtualizationSystem)
         {
-            var serverViewModel = _serverService.GetServerViewModel(id, virtualizationSystem);
+            var serverViewModel = _serverService.GetServerViewModelAsync(id, virtualizationSystem);
 
             if (serverViewModel is null)
                 return NotFound();

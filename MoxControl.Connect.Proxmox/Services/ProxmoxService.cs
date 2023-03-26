@@ -5,11 +5,15 @@ using MoxControl.Connect.Models.Entities;
 using MoxControl.Connect.Models.Enums;
 using MoxControl.Connect.Proxmox.Data;
 using MoxControl.Connect.Proxmox.Models.Entities;
+using MoxControl.Infrastructure.Services;
+using Sakura.AspNetCore;
 
 namespace MoxControl.Connect.Proxmox.Services
 {
     public class ProxmoxService : IConnectService
     {
+        private MoxControlUserManager _moxControlUserManager;
+        private IVirtualizationSystemClientFactory _virtualizationSystemClientFactory;
         private ConnectProxmoxDbContext _context;
 
         public Task Initialize(IServiceScopeFactory serviceScopeFactory)
@@ -17,6 +21,8 @@ namespace MoxControl.Connect.Proxmox.Services
             var scope = serviceScopeFactory.CreateScope();
 
             _context = scope.ServiceProvider.GetRequiredService<ConnectProxmoxDbContext>();
+            _virtualizationSystemClientFactory = scope.ServiceProvider.GetRequiredService<IVirtualizationSystemClientFactory>();
+            _moxControlUserManager = scope.ServiceProvider.GetRequiredService<MoxControlUserManager>();
 
             return Task.CompletedTask;
         }
@@ -80,6 +86,54 @@ namespace MoxControl.Connect.Proxmox.Services
         public async Task<BaseServer?> GetServerAsync(long id)
         {
             return await _context.ProxmoxServers.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<List<BaseServer>> GetAllServersAsync()
+        {
+            return await _context.ProxmoxServers.Select(x => (BaseServer)x).ToListAsync();
+        }
+
+        public async Task HangfireSendHeartBeat(long serverId, string? initiatorUsername = null)
+        {
+            var server = await _context.ProxmoxServers.FirstOrDefaultAsync(x => x.Id == serverId);
+
+            if (server is null)
+                return;
+
+            string? userName = null; 
+            string? password = null;
+
+            if (!string.IsNullOrEmpty(initiatorUsername))
+            {
+                userName = initiatorUsername;
+                password = _moxControlUserManager.GetUserPasswordFromProtectedFile(initiatorUsername);
+            }
+            else
+            {
+                userName = server.RootLogin;
+                password = server.RootPassword;
+            }
+
+            if (userName is null || password is null)
+                throw new ArgumentException("Не удалось найти данные авторизации сервера");
+
+            try
+            {
+                var proxmoxVirtualizationSystem = _virtualizationSystemClientFactory.GetClientByVirtualizationSystemAsync(VirtualizationSystem.Proxmox,
+                server.Host, server.Port, userName, password);
+
+                server.Status = ServerStatus.Running;
+            }
+            catch
+            {
+                server.Status = ServerStatus.Unknown;
+            }
+            finally 
+            { 
+                _context.Update(server);  
+                await _context.SaveChangesAsync(); 
+            }
+            
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Hangfire;
 using MoxControl.Connect.Factory;
 using MoxControl.Connect.Interfaces;
 using MoxControl.Connect.Models;
@@ -27,19 +28,23 @@ namespace MoxControl.Services
         {
             var connectService = _connectServiceFactory.GetByVirtualizationSystem(viewModel.VirtualizationSystem);
 
-            return await connectService.CreateServerAsync(viewModel.Host, viewModel.Port, viewModel.AuthorizationType, viewModel.Name, 
+            var result = await connectService.CreateServerAsync(viewModel.Host, viewModel.Port, viewModel.AuthorizationType, viewModel.Name, 
                 viewModel.Description, viewModel.RootLogin, viewModel.RootPassword);
+            
+            return result;
         }
 
         public async Task<bool> UpdateAsync(ServerViewModel viewModel)
         {
             var connectService = _connectServiceFactory.GetByVirtualizationSystem(viewModel.VirtualizationSystem);
 
-            return await connectService.UpdateServerAsync(viewModel.Id, viewModel.Host, viewModel.Port, viewModel.AuthorizationType,
+            var result = await connectService.UpdateServerAsync(viewModel.Id, viewModel.Host, viewModel.Port, viewModel.AuthorizationType,
                 viewModel.Name, viewModel.Description, viewModel.RootLogin, viewModel.RootPassword);
+
+            return result;
         }
 
-        public async Task<ServerViewModel> GetServerViewModel(long id, VirtualizationSystem virtualizationSystem)
+        public async Task<ServerViewModel> GetServerViewModelAsync(long id, VirtualizationSystem virtualizationSystem)
         {
             var connectService = _connectServiceFactory.GetByVirtualizationSystem(virtualizationSystem);
 
@@ -47,6 +52,27 @@ namespace MoxControl.Services
             var serverVm = _mapper.Map<ServerViewModel>(server);
 
             return serverVm;
+        }
+
+        public async Task<ServerIndexViewModel> GetServerIndexViewModelAsync()
+        {
+            var serverIndexVm = new ServerIndexViewModel();
+
+            var connectServices = _connectServiceFactory.GetAll();
+
+            foreach(var connectService in connectServices)
+            {
+                var servers = await connectService.Item2.GetAllServersAsync();
+                var serversVm = _mapper.Map<List<ServerViewModel>>(servers);
+
+                serverIndexVm.ServerLists.Add(new ServerListViewModel()
+                {
+                    VirtualizationSystem = connectService.Item1,
+                    Servers = serversVm
+                });
+            }
+
+            return serverIndexVm;
         }
     }
 }

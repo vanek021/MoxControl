@@ -1,3 +1,5 @@
+using Hangfire;
+using Hangfire.PostgreSql;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using MoxControl.Connect.DependencyInjection;
@@ -5,6 +7,7 @@ using MoxControl.Connect.Proxmox.Data;
 using MoxControl.Core.Extensions;
 using MoxControl.Data;
 using MoxControl.Extensions;
+using MoxControl.Infrastructure.Extensions;
 using MoxControl.Models.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -32,6 +35,9 @@ builder.Services.AddFileSystemBucketStorage(builder.Environment.WebRootPath, "de
 
 builder.Services.AddDataProtection();
 
+builder.Services.AddHangfire(hangfire => hangfire.UsePostgreSqlStorage(builder.Configuration.GetConnectionString("HangfireConnection")));
+builder.Services.AddHangfireServer();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -58,6 +64,14 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapHangfireDashboard(options: new DashboardOptions
+{
+    Authorization = new[] { new HangfireDashboardAuthorizeFilter() },
+    IgnoreAntiforgeryToken = true
+});
+
+app.UseHangfireDashboard();
 
 app.Services.SeedData();
 

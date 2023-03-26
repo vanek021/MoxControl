@@ -57,5 +57,23 @@ namespace MoxControl.Infrastructure.Services
             var stream = new MemoryStream(Encoding.ASCII.GetBytes(protectedPassword));
             _bucket.WriteObject(passwordPath, stream);
         }
+
+        public string GetUserPasswordFromProtectedFile(string? userId)
+        {
+            var passwordPath = Path.Combine($"user-{userId}", "data", "password");
+
+            if (!_bucket.ContainsObject(passwordPath))
+                throw new FileNotFoundException("Не удалось найти защищенный файл с паролем пользователя");
+
+            var stream = new MemoryStream();
+
+            _bucket.ReadObject(passwordPath, stream);
+
+            var protectedPassword = Encoding.ASCII.GetString(stream.ToArray());
+
+            var password = _dataProtector.Unprotect(protectedPassword);
+
+            return password;
+        }
     }
 }

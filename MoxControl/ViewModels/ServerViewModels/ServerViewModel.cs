@@ -36,5 +36,7 @@ namespace MoxControl.ViewModels.ServerViewModels
         [Display(Name = "Описание")]
         [Required]
         public string Description { get; set; }
+
+        public ServerStatus Status { get; set; }
     }
 }

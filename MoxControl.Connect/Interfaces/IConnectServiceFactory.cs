@@ -10,5 +10,6 @@ namespace MoxControl.Connect.Interfaces
     public interface IConnectServiceFactory
     {
         public IConnectService GetByVirtualizationSystem(VirtualizationSystem virtualizationSystem);
+        public List<(VirtualizationSystem, IConnectService)> GetAll();
     }
 }

@@ -35,5 +35,10 @@ namespace MoxControl.Connect.Factory
 
             return result;
         }
+
+        public List<(VirtualizationSystem, IConnectService)> GetAll()
+        {
+            return _services.Select(x => (x.Key, x.Value)).ToList();
+        }
     }
 }

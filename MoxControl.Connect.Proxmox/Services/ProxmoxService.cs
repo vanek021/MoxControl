@@ -47,7 +47,7 @@ namespace MoxControl.Connect.Proxmox.Services
             try
             {
                 await _context.SaveChangesAsync();
-                BackgroundJob.Enqueue<HangfireConnectManager>(x => x.PerformBackgroundJob(VirtualizationSystem.Proxmox, x=> x.HangfireSendServerHeartBeat(server.Id, initiatorUsername)));
+                BackgroundJob.Enqueue<HangfireConnectManager>(x => x.HangfireSendServerHeartBeat(VirtualizationSystem.Proxmox, server.Id, initiatorUsername));
                 return true;
             }
             catch
@@ -77,7 +77,7 @@ namespace MoxControl.Connect.Proxmox.Services
             try
             {
                 await _context.SaveChangesAsync();
-                BackgroundJob.Enqueue<HangfireConnectManager>(x => x.PerformBackgroundJob(VirtualizationSystem.Proxmox, x => x.HangfireSendServerHeartBeat(server.Id, initiatorUsername)));
+                BackgroundJob.Enqueue<HangfireConnectManager>(x => x.HangfireSendServerHeartBeat(VirtualizationSystem.Proxmox, server.Id, initiatorUsername));
                 return true;
             }
             catch 
@@ -93,7 +93,8 @@ namespace MoxControl.Connect.Proxmox.Services
 
         public async Task<List<BaseServer>> GetAllServersAsync()
         {
-            return await _context.ProxmoxServers.Select(x => (BaseServer)x).ToListAsync();
+            var servers = await _context.ProxmoxServers.ToListAsync();
+            return servers.Select(x => (BaseServer)x).ToList();
         }
 
         public async Task HangfireSendServerHeartBeat(long serverId, string? initiatorUsername = null)
@@ -122,7 +123,7 @@ namespace MoxControl.Connect.Proxmox.Services
 
             try
             {
-                var proxmoxVirtualizationSystem = _virtualizationSystemClientFactory.GetClientByVirtualizationSystemAsync(VirtualizationSystem.Proxmox,
+                var proxmoxVirtualizationSystem = await _virtualizationSystemClientFactory.GetClientByVirtualizationSystemAsync(VirtualizationSystem.Proxmox,
                 server.Host, server.Port, userName, password);
 
                 server.Status = ServerStatus.Running;
@@ -136,7 +137,6 @@ namespace MoxControl.Connect.Proxmox.Services
                 _context.Update(server);  
                 await _context.SaveChangesAsync(); 
             }
-            
         }
     }
 }

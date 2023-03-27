@@ -28,5 +28,11 @@ namespace MoxControl.Connect
             var action = methodCall.Compile();
             action.Invoke(connectService);
         }
+
+        public async Task HangfireSendServerHeartBeat(VirtualizationSystem virtualizationSystem, long serverId, string? initiatorUsername = null)
+        {
+            var connectService = _connectServiceFactory.GetByVirtualizationSystem(virtualizationSystem);
+            await connectService.HangfireSendServerHeartBeat(serverId, initiatorUsername);
+        }
     }
 }

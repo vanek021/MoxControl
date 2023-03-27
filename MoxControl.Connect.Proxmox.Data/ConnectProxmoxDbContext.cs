@@ -18,5 +18,6 @@ namespace MoxControl.Connect.Proxmox.Data
         }
 
         public DbSet<ProxmoxServer> ProxmoxServers { get; set; }
+        public DbSet<ProxmoxMachine> ProxmoxMachines { get; set; }
     }
 }

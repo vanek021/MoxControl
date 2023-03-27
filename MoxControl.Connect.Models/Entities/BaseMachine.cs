@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MoxControl.Connect.Models.Entities
 {
-    public class BaseMachine : BaseRecord
+    public abstract class BaseMachine : BaseRecord
     {
         /// <summary>
         /// Название вирутальной машины

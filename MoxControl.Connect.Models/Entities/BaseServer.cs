@@ -2,13 +2,14 @@
 using MoxControl.Core.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace MoxControl.Connect.Models.Entities
 {
-    public class BaseServer : BaseRecord
+    public abstract class BaseServer : BaseRecord
     {
         /// <summary>
         /// Используемая система виртуализации

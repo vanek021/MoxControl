@@ -15,5 +15,7 @@ namespace MoxControl.Connect.Proxmox.Models.Entities
         {
             VirtualizationSystem = VirtualizationSystem.Proxmox;
         }
+
+        public new virtual List<ProxmoxMachine> Machines { get; set; } = new();
     }
 }

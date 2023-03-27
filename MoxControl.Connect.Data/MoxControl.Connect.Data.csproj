@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MoxControl.Connect.Models\MoxControl.Connect.Models.csproj" />
     <ProjectReference Include="..\MoxControl.Core\MoxControl.Core.csproj" />
   </ItemGroup>
 

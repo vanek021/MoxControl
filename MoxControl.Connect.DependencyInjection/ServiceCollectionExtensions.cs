@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using MoxControl.Connect.Data;
 using MoxControl.Connect.Factory;
 using MoxControl.Connect.Interfaces;
 using MoxControl.Connect.Proxmox.Data;
@@ -11,6 +12,8 @@ namespace MoxControl.Connect.DependencyInjection
     {
         public static IServiceCollection RegisterConnectContexts(this IServiceCollection serviceCollection, string connectionString)
         {
+            serviceCollection.AddDbContext<ConnectDbContext>(options => options.UseNpgsql(connectionString));
+
             serviceCollection.AddDbContext<ConnectProxmoxDbContext>(options => options.UseNpgsql(connectionString));
 
             return serviceCollection;

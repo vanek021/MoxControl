@@ -11,6 +11,6 @@ namespace MoxControl.Models.Enums
     public enum NotificationType
     {
         [Display(Name = "Общий")]
-        Common,
+        Common = 0,
     }
 }

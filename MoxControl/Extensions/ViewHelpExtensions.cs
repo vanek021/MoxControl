@@ -33,5 +33,15 @@ namespace MoxControl.Extensions
                 _ => "badge badge-light",
             };
         }
+
+        public static string GetMachineStatusColor(this MachineStatus status)
+        {
+            return status switch
+            {
+                MachineStatus.Running => "badge badge-light-success",
+                MachineStatus.Stopped => "badge badge-light-danger",
+                _ => "badge badge-light",
+            };
+        }
     }
 }

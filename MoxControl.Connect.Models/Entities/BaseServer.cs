@@ -16,12 +16,12 @@ namespace MoxControl.Connect.Models.Entities
         public VirtualizationSystem VirtualizationSystem { get; set; }
 
         /// <summary>
-        /// Адрес виртуальной машины
+        /// Адрес сервера
         /// </summary>
         public string Host { get; set; }
 
         /// <summary>
-        /// Порт виртуальной машины
+        /// Порт сервера
         /// </summary>
         public int Port { get; set; }
 
@@ -54,5 +54,10 @@ namespace MoxControl.Connect.Models.Entities
         /// Статус сервера
         /// </summary>
         public ServerStatus Status { get; set; }
+
+        /// <summary>
+        /// Виртуальные машины данного сервера
+        /// </summary>
+        public virtual List<BaseMachine> Machines { get; set; } = new();
     }
 }

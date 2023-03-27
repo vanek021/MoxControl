@@ -1,10 +1,18 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MoxControl.Services;
 
 namespace MoxControl.Controllers
 {
     public class MachineController : Controller
     {
+        private readonly MachineService _machineService;
+
+        public MachineController(MachineService machineService)
+        {
+            _machineService = machineService;
+        }
+
         public ActionResult Index()
         {
             return View();

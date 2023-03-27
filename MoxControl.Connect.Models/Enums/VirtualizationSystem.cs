@@ -10,6 +10,6 @@ namespace MoxControl.Connect.Models.Enums
     public enum VirtualizationSystem
     {
         [Display(Name = "Proxmox")]
-        Proxmox
+        Proxmox = 0
     }
 }

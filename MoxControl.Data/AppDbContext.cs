@@ -22,6 +22,8 @@ namespace MoxControl.Data
         public DbSet<NotificationReceiver> NotificationReceivers { get; set; }
         public DbSet<Notification> Notifications { get; set; }
 
+        public DbSet<GeneralNotification> GeneralNotifications { get; set; }
+
         public DbSet<GeneralSetting> GeneralSettings { get; set; }
     }
 }

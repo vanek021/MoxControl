@@ -4,7 +4,7 @@ using MoxControl.Connect.Proxmox.Models.Entities;
 
 namespace MoxControl.Connect.Proxmox.Data
 {
-    public class ConnectProxmoxDbContext : ConnectDbContext
+    public class ConnectProxmoxDbContext : DbContext
     {
         public ConnectProxmoxDbContext(DbContextOptions<ConnectProxmoxDbContext> options) : base(options)
         {

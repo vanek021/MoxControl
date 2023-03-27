@@ -20,6 +20,7 @@ namespace MoxControl.Connect.DependencyInjection
         {
             serviceCollection.AddScoped<IConnectServiceFactory, ConnectServiceFactory>();
             serviceCollection.AddScoped<IVirtualizationSystemClientFactory, VirtualizationSystemClientFactory>();
+            serviceCollection.AddScoped<HangfireConnectManager>();
 
             return serviceCollection;
         }

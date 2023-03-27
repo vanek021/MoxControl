@@ -22,6 +22,11 @@ namespace MoxControl.Controllers
             return View(viewModel);
         }
 
+        public ActionResult Details(long id)
+        {
+            return View();
+        }
+
         public IActionResult Create()
         {
             var viewModel = new ServerViewModel();

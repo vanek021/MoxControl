@@ -12,23 +12,25 @@ namespace MoxControl.Connect.Proxmox.Services
 {
     public class ProxmoxService : IConnectService
     {
-        private MoxControlUserManager _moxControlUserManager;
-        private IVirtualizationSystemClientFactory _virtualizationSystemClientFactory;
+        private MoxControlUserManager _moxControlUserManager;     
         private ConnectProxmoxDbContext _context;
+        private HangfireConnectManager _hangfireConnectManager;
+        private IVirtualizationSystemClientFactory _virtualizationSystemClientFactory;
 
         public Task Initialize(IServiceScopeFactory serviceScopeFactory)
         {
             var scope = serviceScopeFactory.CreateScope();
 
-            _context = scope.ServiceProvider.GetRequiredService<ConnectProxmoxDbContext>();
-            _virtualizationSystemClientFactory = scope.ServiceProvider.GetRequiredService<IVirtualizationSystemClientFactory>();
+            _context = scope.ServiceProvider.GetRequiredService<ConnectProxmoxDbContext>();          
             _moxControlUserManager = scope.ServiceProvider.GetRequiredService<MoxControlUserManager>();
+            _hangfireConnectManager = scope.ServiceProvider.GetRequiredService<HangfireConnectManager>();
+            _virtualizationSystemClientFactory = scope.ServiceProvider.GetRequiredService<IVirtualizationSystemClientFactory>();
 
             return Task.CompletedTask;
         }
 
         public async Task<bool> CreateServerAsync(string host, int port, AuthorizationType authorizationType, string name,
-            string description, string? rootLogin = null, string? rootPassword = null)
+            string description, string? rootLogin = null, string? rootPassword = null, string? initiatorUsername = null)
         {
             var server = new ProxmoxServer()
             {
@@ -46,6 +48,7 @@ namespace MoxControl.Connect.Proxmox.Services
             try
             {
                 await _context.SaveChangesAsync();
+                //_hangfireConnectManager.PerformBackgroundJob(VirtualizationSystem.Proxmox, x => x.HangfireSendServerHeartBeat(server.Id, initiatorUsername));
                 return true;
             }
             catch
@@ -55,7 +58,7 @@ namespace MoxControl.Connect.Proxmox.Services
         }
 
         public async Task<bool> UpdateServerAsync(long id, string host, int port, AuthorizationType authorizationType, string name, 
-            string description, string? rootLogin = null, string? rootPassword = null)
+            string description, string? rootLogin = null, string? rootPassword = null, string? initiatorUsername = null)
         {
             var server = await _context.ProxmoxServers.FirstOrDefaultAsync(x => x.Id == id);
 
@@ -75,6 +78,7 @@ namespace MoxControl.Connect.Proxmox.Services
             try
             {
                 await _context.SaveChangesAsync();
+                //_hangfireConnectManager.PerformBackgroundJob(VirtualizationSystem.Proxmox, x => x.HangfireSendServerHeartBeat(server.Id, initiatorUsername));
                 return true;
             }
             catch 
@@ -93,7 +97,7 @@ namespace MoxControl.Connect.Proxmox.Services
             return await _context.ProxmoxServers.Select(x => (BaseServer)x).ToListAsync();
         }
 
-        public async Task HangfireSendHeartBeat(long serverId, string? initiatorUsername = null)
+        public async Task HangfireSendServerHeartBeat(long serverId, string? initiatorUsername = null)
         {
             var server = await _context.ProxmoxServers.FirstOrDefaultAsync(x => x.Id == serverId);
 

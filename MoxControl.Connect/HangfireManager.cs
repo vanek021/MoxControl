@@ -12,21 +12,21 @@ namespace MoxControl.Connect
 {
     public class HangfireConnectManager
     {
-        //private readonly IVirtualizationSystemClientFactory _virtualizationSystemClientFactory;
-        //private readonly IConnectServiceFactory _connectServiceFactory;
+        private readonly IVirtualizationSystemClientFactory _virtualizationSystemClientFactory;
+        private readonly IConnectServiceFactory _connectServiceFactory;
 
-       // public HangfireConnectManager(IVirtualizationSystemClientFactory virtualizationSystemClientFactory, IConnectServiceFactory connectServiceFactory)
-        public HangfireConnectManager()
+        public HangfireConnectManager(IVirtualizationSystemClientFactory virtualizationSystemClientFactory, IConnectServiceFactory connectServiceFactory)
+        //public HangfireConnectManager()
         {
-            //_virtualizationSystemClientFactory = virtualizationSystemClientFactory;
-            //_connectServiceFactory = connectServiceFactory;
+            _virtualizationSystemClientFactory = virtualizationSystemClientFactory;
+            _connectServiceFactory = connectServiceFactory;
         }
 
         public void PerformBackgroundJob(VirtualizationSystem virtualizationSystem, Expression<Action<IConnectService>> methodCall)
         {
-            //var connectService = _connectServiceFactory.GetByVirtualizationSystem(virtualizationSystem);
-            //var action = methodCall.Compile();
-            //action.Invoke(connectService);
+            var connectService = _connectServiceFactory.GetByVirtualizationSystem(virtualizationSystem);
+            var action = methodCall.Compile();
+            action.Invoke(connectService);
         }
     }
 }

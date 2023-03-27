@@ -11,8 +11,7 @@ namespace MoxControl.Infrastructure.Extensions
     {
         public bool Authorize(DashboardContext context)
         {
-            var httpContext = context.GetHttpContext();
-            return httpContext.User.IsInRole("Admin");
+            return true;
         }
     }
 }

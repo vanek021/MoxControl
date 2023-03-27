@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Hangfire;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MoxControl.Connect.Interfaces;
 using MoxControl.Connect.Models.Entities;
@@ -14,7 +15,6 @@ namespace MoxControl.Connect.Proxmox.Services
     {
         private MoxControlUserManager _moxControlUserManager;     
         private ConnectProxmoxDbContext _context;
-        private HangfireConnectManager _hangfireConnectManager;
         private IVirtualizationSystemClientFactory _virtualizationSystemClientFactory;
 
         public Task Initialize(IServiceScopeFactory serviceScopeFactory)
@@ -23,7 +23,6 @@ namespace MoxControl.Connect.Proxmox.Services
 
             _context = scope.ServiceProvider.GetRequiredService<ConnectProxmoxDbContext>();          
             _moxControlUserManager = scope.ServiceProvider.GetRequiredService<MoxControlUserManager>();
-            _hangfireConnectManager = scope.ServiceProvider.GetRequiredService<HangfireConnectManager>();
             _virtualizationSystemClientFactory = scope.ServiceProvider.GetRequiredService<IVirtualizationSystemClientFactory>();
 
             return Task.CompletedTask;
@@ -48,7 +47,7 @@ namespace MoxControl.Connect.Proxmox.Services
             try
             {
                 await _context.SaveChangesAsync();
-                //_hangfireConnectManager.PerformBackgroundJob(VirtualizationSystem.Proxmox, x => x.HangfireSendServerHeartBeat(server.Id, initiatorUsername));
+                BackgroundJob.Enqueue<HangfireConnectManager>(x => x.PerformBackgroundJob(VirtualizationSystem.Proxmox, x=> x.HangfireSendServerHeartBeat(server.Id, initiatorUsername)));
                 return true;
             }
             catch
@@ -78,7 +77,7 @@ namespace MoxControl.Connect.Proxmox.Services
             try
             {
                 await _context.SaveChangesAsync();
-                //_hangfireConnectManager.PerformBackgroundJob(VirtualizationSystem.Proxmox, x => x.HangfireSendServerHeartBeat(server.Id, initiatorUsername));
+                BackgroundJob.Enqueue<HangfireConnectManager>(x => x.PerformBackgroundJob(VirtualizationSystem.Proxmox, x => x.HangfireSendServerHeartBeat(server.Id, initiatorUsername)));
                 return true;
             }
             catch 

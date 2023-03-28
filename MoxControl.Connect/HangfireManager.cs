@@ -33,7 +33,7 @@ namespace MoxControl.Connect
         public async Task HangfireSendServerHeartBeat(VirtualizationSystem virtualizationSystem, long serverId, string? initiatorUsername = null)
         {
             var connectService = _connectServiceFactory.GetByVirtualizationSystem(virtualizationSystem);
-            await connectService.HangfireSendServerHeartBeat(serverId, initiatorUsername);
+            await connectService.Servers.HangfireSendHeartBeat(serverId, initiatorUsername);
         }
     }
 }

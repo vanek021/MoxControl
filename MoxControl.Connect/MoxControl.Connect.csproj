@@ -11,8 +11,4 @@
     <ProjectReference Include="..\MoxControl.Core\MoxControl.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Interfaces\Connect\" />
-  </ItemGroup>
-
 </Project>

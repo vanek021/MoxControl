@@ -30,7 +30,7 @@ namespace MoxControl.Services
         {
             var connectService = _connectServiceFactory.GetByVirtualizationSystem(viewModel.VirtualizationSystem);
 
-            var result = await connectService.CreateServerAsync(viewModel.Host, viewModel.Port, viewModel.AuthorizationType, viewModel.Name, 
+            var result = await connectService.Servers.CreateAsync(viewModel.Host, viewModel.Port, viewModel.AuthorizationType, viewModel.Name, 
                 viewModel.Description, viewModel.RootLogin, viewModel.RootPassword/*, _httpContextAccessor?.HttpContext?.User?.Identity?.Name*/);
             
             return result;
@@ -40,7 +40,7 @@ namespace MoxControl.Services
         {
             var connectService = _connectServiceFactory.GetByVirtualizationSystem(viewModel.VirtualizationSystem);
 
-            var result = await connectService.UpdateServerAsync(viewModel.Id, viewModel.Host, viewModel.Port, viewModel.AuthorizationType,
+            var result = await connectService.Servers.UpdateAsync(viewModel.Id, viewModel.Host, viewModel.Port, viewModel.AuthorizationType,
                 viewModel.Name, viewModel.Description, viewModel.RootLogin, viewModel.RootPassword/*, _httpContextAccessor?.HttpContext?.User?.Identity?.Name*/);
 
             return result;
@@ -50,7 +50,7 @@ namespace MoxControl.Services
         {
             var connectService = _connectServiceFactory.GetByVirtualizationSystem(virtualizationSystem);
 
-            var server = await connectService.GetServerAsync(id);
+            var server = await connectService.Servers.GetAsync(id);
             var serverVm = _mapper.Map<ServerViewModel>(server);
 
             return serverVm;
@@ -64,7 +64,7 @@ namespace MoxControl.Services
 
             foreach(var connectService in connectServices)
             {
-                var servers = await connectService.Item2.GetAllServersAsync();
+                var servers = await connectService.Item2.Servers.GetAllAsync();
                 var serversVm = _mapper.Map<List<ServerViewModel>>(servers);
 
                 serverIndexVm.ServerLists.Add(new ServerListViewModel()

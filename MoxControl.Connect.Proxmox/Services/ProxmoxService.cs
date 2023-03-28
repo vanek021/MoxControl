@@ -16,11 +16,12 @@ namespace MoxControl.Connect.Proxmox.Services
     public class ProxmoxService : IConnectService
     {
         public IServerService Servers { get; set; }
+        public IMachineService Machines { get; set; }
 
         public Task Initialize(IServiceScopeFactory serviceScopeFactory)
         {
             Servers = new ServerService(serviceScopeFactory);
-
+            Machines = new MachineService(serviceScopeFactory);
             return Task.CompletedTask;
         }
     }

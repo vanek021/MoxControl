@@ -16,12 +16,12 @@ namespace MoxControl.Services
     public class ServerService
     {
         private readonly IConnectServiceFactory _connectServiceFactory;
-        //private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMapper _mapper;
 
-        public ServerService(IConnectServiceFactory connectServiceFactory, /*IHttpContextAccessor httpContextAccessor,*/ IMapper mapper)
+        public ServerService(IConnectServiceFactory connectServiceFactory, IHttpContextAccessor httpContextAccessor, IMapper mapper)
         {
-            //httpContextAccessor = httpContextAccessor;
+            _httpContextAccessor = httpContextAccessor;
             _connectServiceFactory = connectServiceFactory;
             _mapper = mapper;
         }
@@ -31,7 +31,7 @@ namespace MoxControl.Services
             var connectService = _connectServiceFactory.GetByVirtualizationSystem(viewModel.VirtualizationSystem);
 
             var result = await connectService.Servers.CreateAsync(viewModel.Host, viewModel.Port, viewModel.AuthorizationType, viewModel.Name, 
-                viewModel.Description, viewModel.RootLogin, viewModel.RootPassword/*, _httpContextAccessor?.HttpContext?.User?.Identity?.Name*/);
+                viewModel.Description, viewModel.RootLogin, viewModel.RootPassword, _httpContextAccessor?.HttpContext?.User?.Identity?.Name);
             
             return result;
         }
@@ -41,7 +41,7 @@ namespace MoxControl.Services
             var connectService = _connectServiceFactory.GetByVirtualizationSystem(viewModel.VirtualizationSystem);
 
             var result = await connectService.Servers.UpdateAsync(viewModel.Id, viewModel.Host, viewModel.Port, viewModel.AuthorizationType,
-                viewModel.Name, viewModel.Description, viewModel.RootLogin, viewModel.RootPassword/*, _httpContextAccessor?.HttpContext?.User?.Identity?.Name*/);
+                viewModel.Name, viewModel.Description, viewModel.RootLogin, viewModel.RootPassword, _httpContextAccessor?.HttpContext?.User?.Identity?.Name);
 
             return result;
         }

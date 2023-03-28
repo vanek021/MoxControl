@@ -17,7 +17,6 @@ namespace MoxControl.Connect
         private readonly IConnectServiceFactory _connectServiceFactory;
 
         public HangfireConnectManager(IVirtualizationSystemClientFactory virtualizationSystemClientFactory, IConnectServiceFactory connectServiceFactory)
-        //public HangfireConnectManager()
         {
             _virtualizationSystemClientFactory = virtualizationSystemClientFactory;
             _connectServiceFactory = connectServiceFactory;
@@ -34,6 +33,11 @@ namespace MoxControl.Connect
         {
             var connectService = _connectServiceFactory.GetByVirtualizationSystem(virtualizationSystem);
             await connectService.Servers.HangfireSendHeartBeat(serverId, initiatorUsername);
+        }
+
+        public async Task HangfireSyncMachines()
+        {
+
         }
     }
 }

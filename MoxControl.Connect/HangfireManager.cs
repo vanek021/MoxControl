@@ -1,5 +1,6 @@
 ﻿using Hangfire;
 using MoxControl.Connect.Interfaces;
+using MoxControl.Connect.Interfaces.Factories;
 using MoxControl.Connect.Models.Enums;
 using System;
 using System.Collections.Generic;

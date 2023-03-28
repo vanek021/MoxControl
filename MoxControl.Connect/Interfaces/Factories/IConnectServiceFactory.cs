@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MoxControl.Connect.Interfaces
+namespace MoxControl.Connect.Interfaces.Factories
 {
     public interface IConnectServiceFactory
     {

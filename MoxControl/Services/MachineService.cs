@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using MoxControl.Connect.Interfaces;
+using MoxControl.Connect.Interfaces.Factories;
 using MoxControl.ViewModels.MachineViewModels;
 
 namespace MoxControl.Services

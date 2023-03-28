@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Hangfire;
 using MoxControl.Connect.Factory;
-using MoxControl.Connect.Interfaces;
+using MoxControl.Connect.Interfaces.Factories;
 using MoxControl.Connect.Models;
 using MoxControl.Connect.Models.Enums;
 using MoxControl.Connect.Proxmox.Models;

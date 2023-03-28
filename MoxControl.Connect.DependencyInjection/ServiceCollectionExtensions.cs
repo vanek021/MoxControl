@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using MoxControl.Connect.Data;
 using MoxControl.Connect.Factory;
-using MoxControl.Connect.Interfaces;
+using MoxControl.Connect.Interfaces.Factories;
 using MoxControl.Connect.Proxmox.Data;
 using MoxControl.Connect.Proxmox.Services;
 

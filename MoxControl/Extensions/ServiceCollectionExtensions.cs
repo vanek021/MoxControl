@@ -13,6 +13,7 @@ namespace MoxControl.Extensions
             serviceCollection.AddScoped<LdapService>();
             serviceCollection.AddScoped<ServerService>();
             serviceCollection.AddScoped<MachineService>();
+            serviceCollection.AddScoped<TemplateService>();
             serviceCollection.AddScoped<GeneralNotificationService>();
             serviceCollection.AddScoped<MoxControlUserManager>();
 

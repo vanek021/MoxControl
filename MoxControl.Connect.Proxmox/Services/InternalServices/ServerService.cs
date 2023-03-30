@@ -14,7 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MoxControl.Connect.Proxmox.Services
+namespace MoxControl.Connect.Proxmox.Services.InternalServices
 {
     public class ServerService : IServerService
     {

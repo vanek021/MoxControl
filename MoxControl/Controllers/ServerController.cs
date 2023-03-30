@@ -22,9 +22,10 @@ namespace MoxControl.Controllers
             return View(viewModel);
         }
 
-        public ActionResult Details(VirtualizationSystem virtualizationSystem, long id)
+        public async Task<IActionResult> Details(VirtualizationSystem virtualizationSystem, long id)
         {
-            return View();
+            var viewModel = await _serverService.GetServerDetailsViewModelAsync(virtualizationSystem, id);
+            return View(viewModel);
         }
 
         public IActionResult Create()
@@ -51,7 +52,7 @@ namespace MoxControl.Controllers
             return View(viewModel);
         }
 
-        public IActionResult Edit(long id, VirtualizationSystem virtualizationSystem)
+        public IActionResult Edit(VirtualizationSystem virtualizationSystem, long id)
         {
             var serverViewModel = _serverService.GetServerViewModelAsync(id, virtualizationSystem);
 

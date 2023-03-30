@@ -65,7 +65,7 @@ $(document).ready(function () {
         },
         fill: {
             type: 'gradient',
-            colors: ['#1A73E8'],
+            colors: ['#00B2FF'],
             gradient: {
                 shade: 'light',
                 shadeIntensity: 0,
@@ -83,13 +83,13 @@ $(document).ready(function () {
     var chart1 = new ApexCharts(document.querySelector("#chart1"), options);
     chart1.render();
 
-    options.fill.colors = ['#8C559E'];
+    options.fill.colors = ['#FFC700'];
     options.labels = ['Загрузка RAM'];
 
     var chart2 = new ApexCharts(document.querySelector("#chart2"), options);
     chart2.render();
 
-    options.fill.colors = ['#93D56E'];
+    options.fill.colors = ['#7239EA'];
     options.labels = ['Загрузка HDD'];
 
     var chart3 = new ApexCharts(document.querySelector("#chart3"), options);

@@ -8,6 +8,7 @@ using MoxControl.Connect.Proxmox.Models;
 using MoxControl.Data;
 using MoxControl.Services.Abtractions;
 using MoxControl.Services.Models;
+using MoxControl.ViewModels.MachineViewModels;
 using MoxControl.ViewModels.ServerViewModels;
 using System.Drawing;
 
@@ -84,6 +85,19 @@ namespace MoxControl.Services
             }
 
             return serverIndexVm;
+        }
+
+        public async Task<ServerDetailsViewModel> GetServerDetailsViewModelAsync(VirtualizationSystem virtualizationSystem, long id)
+        {
+            var connectService = _connectServiceFactory.GetByVirtualizationSystem(virtualizationSystem);
+
+            var server = await connectService.Servers.GetAsync(id);
+            var machines = await connectService.Machines.GetAllByServer(id);
+
+            var serverDetailsVm = _mapper.Map<ServerDetailsViewModel>(server);
+            serverDetailsVm.Machines = _mapper.Map<List<MachineViewModel>>(machines);
+
+            return serverDetailsVm;
         }
     }
 }

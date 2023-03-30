@@ -22,7 +22,7 @@ namespace MoxControl.Controllers
             return View(viewModel);
         }
 
-        public ActionResult Details(long id)
+        public ActionResult Details(VirtualizationSystem virtualizationSystem, long id)
         {
             return View();
         }

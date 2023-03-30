@@ -41,7 +41,7 @@ $(document).ready(function () {
                         fontSize: '16px',
                         fontFamily: undefined,
                         fontWeight: 600,
-                        color: undefined,
+                        color: '#000000',
                         offsetY: -10
                     },
                     value: {

@@ -46,6 +46,15 @@ namespace MoxControl.Services
             return result;
         }
 
+        public async Task<bool> DeleteAsync(VirtualizationSystem virtualizationSystem, long id)
+        {
+            var connectService = _connectServiceFactory.GetByVirtualizationSystem(virtualizationSystem);
+
+            var result = await connectService.Servers.DeleteAsync(id);
+
+            return result;
+        }
+
         public async Task<ServerViewModel> GetServerViewModelAsync(long id, VirtualizationSystem virtualizationSystem)
         {
             var connectService = _connectServiceFactory.GetByVirtualizationSystem(virtualizationSystem);

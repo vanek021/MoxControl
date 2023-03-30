@@ -16,6 +16,8 @@ namespace MoxControl.Connect.Interfaces.Connect
         public Task<bool> UpdateAsync(long id, string host, int port, AuthorizationType authorizationType, string name,
             string description, string? rootLogin = null, string? rootPassword = null, string? initiatorUsername = null);
 
+        public Task<bool> DeleteAsync(long id);
+
         public Task<BaseServer?> GetAsync(long id);
 
         public Task<List<BaseServer>> GetAllAsync();

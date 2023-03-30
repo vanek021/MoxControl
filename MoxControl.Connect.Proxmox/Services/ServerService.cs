@@ -62,7 +62,7 @@ namespace MoxControl.Connect.Proxmox.Services
         public async Task<bool> UpdateAsync(long id, string host, int port, AuthorizationType authorizationType, string name,
             string description, string? rootLogin = null, string? rootPassword = null, string? initiatorUsername = null)
         {
-            var server = await _context.ProxmoxServers.FirstOrDefaultAsync(x => x.Id == id);
+            var server = await _context.ProxmoxServers.FirstOrDefaultAsync(x => x.Id == id && !x.IsDeleted);
 
             if (server is null)
                 return false;
@@ -89,14 +89,27 @@ namespace MoxControl.Connect.Proxmox.Services
             }
         }
 
+        public async Task<bool> DeleteAsync(long id)
+        {
+            var server = await _context.ProxmoxServers.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (server is null)
+                return false;
+
+            server.IsDeleted = true;
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+
         public async Task<BaseServer?> GetAsync(long id)
         {
-            return await _context.ProxmoxServers.FirstOrDefaultAsync(x => x.Id == id);
+            return await _context.ProxmoxServers.FirstOrDefaultAsync(x => x.Id == id && !x.IsDeleted);
         }
 
         public async Task<List<BaseServer>> GetAllAsync()
         {
-            var servers = await _context.ProxmoxServers.ToListAsync();
+            var servers = await _context.ProxmoxServers.Where(x => !x.IsDeleted).ToListAsync();
             return servers.Select(x => (BaseServer)x).ToList();
         }
 

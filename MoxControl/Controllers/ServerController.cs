@@ -78,5 +78,12 @@ namespace MoxControl.Controllers
             ModelState.AddModelError(string.Empty, "Что-то пошло не так, проверьте правильность введенных данных");
             return View(viewModel);
         }
+
+        public async Task<IActionResult> Delete(VirtualizationSystem virtualizationSystem, long id)
+        {
+            await _serverService.DeleteAsync(virtualizationSystem, id);
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

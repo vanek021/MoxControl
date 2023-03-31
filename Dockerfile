@@ -6,11 +6,8 @@ EXPOSE 80
 EXPOSE 443
 
 # copy csproj and restore as distinct layers
-COPY restore-dir .
-RUN find . -name '*.csproj' -exec dotnet restore {} \;
-
-# copies the rest of your code
 COPY . .
+RUN find . -name '*.csproj' -exec dotnet restore {} \;
 
 WORKDIR /source/MoxControl
 RUN dotnet publish -c release -o /app --no-restore

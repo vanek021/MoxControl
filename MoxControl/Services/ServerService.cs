@@ -99,5 +99,12 @@ namespace MoxControl.Services
 
             return serverDetailsVm;
         }
+
+        public async Task Test()
+        {
+            var connectService = _connectServiceFactory.GetByVirtualizationSystem(VirtualizationSystem.Proxmox);
+
+            await connectService.Servers.Test();
+        }
     }
 }

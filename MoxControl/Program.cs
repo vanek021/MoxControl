@@ -38,6 +38,8 @@ builder.Services.AddDataProtection();
 builder.Services.AddHangfire(hangfire => hangfire.UsePostgreSqlStorage(builder.Configuration.GetConnectionString("HangfireConnection")));
 builder.Services.AddHangfireServer();
 
+builder.Services.AddSignalR();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

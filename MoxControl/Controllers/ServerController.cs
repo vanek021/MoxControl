@@ -18,6 +18,7 @@ namespace MoxControl.Controllers
 
         public async Task<IActionResult> Index()
         {
+            await _serverService.Test();
             var viewModel = await _serverService.GetServerIndexViewModelAsync();
             return View(viewModel);
         }
@@ -83,7 +84,6 @@ namespace MoxControl.Controllers
         public async Task<IActionResult> Delete(VirtualizationSystem virtualizationSystem, long id)
         {
             await _serverService.DeleteAsync(virtualizationSystem, id);
-
             return RedirectToAction(nameof(Index));
         }
     }

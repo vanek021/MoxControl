@@ -153,5 +153,11 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
                 await _context.SaveChangesAsync();
             }
         }
+
+        public async Task Test()
+        {
+            var client = await _virtualizationSystemClientFactory.GetClientByVirtualizationSystemAsync(VirtualizationSystem.Proxmox, "192.168.0.103", 8006, "root", "polkmn021");
+
+        }
     }
 }

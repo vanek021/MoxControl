@@ -14,5 +14,10 @@ namespace MoxControl.Connect.Proxmox
                
             await _pveClient.Login(login, password);
         }
+
+        public async Task GetServerRrdata()
+        {
+            
+        }
     }
 }

@@ -17,6 +17,7 @@ namespace MoxControl.Connect.Data
             base.OnModelCreating(builder);
         }
 
+        public DbSet<MachineTemplate> MachineTemplates { get; set; }
         public DbSet<ISOImage> ISOImages { get; set; }
     }
 }

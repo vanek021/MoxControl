@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MoxControl.Connect.Interfaces.Factories;
 using MoxControl.ViewModels.MachineViewModels;
+using MoxControl.ViewModels.ServerViewModels;
 
 namespace MoxControl.Services
 {
@@ -23,7 +24,18 @@ namespace MoxControl.Services
 
             foreach (var connectService in connectServices)
             {
+                var servers = await connectService.Item2.Servers.GetAllAsync();
 
+                foreach (var server in servers)
+                {
+                    var machineListVm = new MachineListViewModel();
+                    machineListVm.Server = _mapper.Map<ServerViewModel>(server);
+
+                    var machines = await connectService.Item2.Machines.GetAllByServer(server.Id);
+                    machineListVm.Machines = _mapper.Map<List<MachineViewModel>>(machines);
+
+                    machineIndexVm.MachineLists.Add(machineListVm);
+                }
             }
 
             return machineIndexVm;

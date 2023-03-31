@@ -18,7 +18,7 @@ namespace MoxControl.Controllers
 
         public async Task<IActionResult> Index()
         {
-            await _serverService.Test();
+            //await _serverService.Test();
             var viewModel = await _serverService.GetServerIndexViewModelAsync();
             return View(viewModel);
         }

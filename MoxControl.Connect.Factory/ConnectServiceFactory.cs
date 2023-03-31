@@ -3,6 +3,7 @@ using MoxControl.Connect.Interfaces;
 using MoxControl.Connect.Interfaces.Factories;
 using MoxControl.Connect.Models.Enums;
 using MoxControl.Connect.Proxmox.Services;
+using MoxControl.Connect.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,9 +19,7 @@ namespace MoxControl.Connect.Factory
         public ConnectServiceFactory(IServiceScopeFactory serviceScopeFactory) 
         {
             var proxmoxService = new ProxmoxService();
-
-            proxmoxService.Initialize(serviceScopeFactory);
-
+            proxmoxService.Initialize(serviceScopeFactory).GetAwaiter().GetResult();
             _services.Add(VirtualizationSystem.Proxmox, proxmoxService);
         }
 

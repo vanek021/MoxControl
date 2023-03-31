@@ -5,92 +5,126 @@
 
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
     <div class=" container-xxl " id="kt_content_container">
-        @foreach (var machineList in Model.MachineLists)
+        @if (!Model.MachineLists.Any())
         {
             <div class="card mb-5 mb-xl-10 card-flush">
-                <!--begin::Header-->
-                <div class="card-header align-items-center py-5 gap-2 gap-md-5">
+                <!--begin::Card header-->
+                <div class="card-header">
                     <!--begin::Card title-->
-                    <h3 class="card-title align-items-start flex-column">
-                        <span class="card-label fw-bolder fs-3 mb-1">Список активных виртуальных машин: @machineList.Server.Name, Система виртуализации: @machineList.Server.VirtualizationSystem.GetDisplayName()</span>
-                    </h3>
+                    <div class="card-title align-items-start flex-column">
+                        <span class="card-label fw-bolder fs-3 mb-1">Виртуальные машины</span>
+                    </div>
                     <!--end::Card title-->
-                    <!--begin::Card toolbar-->
-                    <div class="card-toolbar flex-row-fluid justify-content-end gap-5">
-                        <!--begin::Add product-->
-                        <a asp-controller="Machine" asp-action="Create" class="btn btn-primary">
-                            Добавить виртуальную машину
-                        </a>
-                        <!--end::Add product-->
-                    </div>
-                    <!--end::Card toolbar-->
                 </div>
-                <!--end::Header-->
+                <!--begin::Card header-->
                 <!--begin::Body-->
-                <div class="card-body pt-0">
-                    <!--begin::Table container-->
-                    <div id="kt_ecommerce_products_table_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
-                        <div class="table-responsive">
-                            <!--begin::Table-->
-                            <table class="table table-row-dashed table-row-gray-200 align-middle gs-0 gy-4">
-                                <!--begin::Table head-->
-                                <thead>
-                                    <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
-                                        <th class="min-w-100px sorting_disabled">Название</th>
-                                        <th class="w-200px sorting_disabled">Загрузка ЦП</th>
-                                        <th class="w-200px sorting_disabled">Загрузка ОЗУ</th>
-                                        <th class="w-200px sorting_disabled">Загрузка диска</th>
-                                        <th class="text-end min-w-100px sorting_disabled">Статус</th>
-                                    </tr>
-                                </thead>
-                                <!--end::Table head-->
-                                <!--begin::Table body-->
-                                <tbody>
-                                    @foreach (var machine in machineList.Machines)
-                                    {
-                                        <tr>
-                                            <td>
-                                                <a href="#" class="text-dark fw-bolder text-hover-primary mb-1 fs-6">@machine.Name</a>
-                                                <span class="text-muted fw-bold d-block">@machine.Description</span>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex flex-column w-100 me-2 mt-2">
-                                                    <span class="text-gray-400 me-2 fw-boldest mb-2">CPU: -%</span>
-                                                    <div class="progress bg-light-primary w-100 h-5px">
-                                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 0%"></div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex flex-column w-100 me-2 mt-2">
-                                                    <span class="text-gray-400 me-2 fw-boldest mb-2">RAM: -%</span>
-                                                    <div class="progress bg-light-warning w-100 h-5px">
-                                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 0%"></div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex flex-column w-100 me-2 mt-2">
-                                                    <span class="text-gray-400 me-2 fw-boldest mb-2">HDD: -%</span>
-                                                    <div class="progress bg-light-info w-100 h-5px">
-                                                        <div class="progress-bar bg-info" role="progressbar" style="width: 0%"></div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="text-end pe-0">
-                                                <span class="@machine.Status.GetMachineStatusColor()">@machine.Status.GetDisplayName()</span>
-                                            </td>
-                                        </tr>
-                                    }
-                                </tbody>
-                                <!--end::Table body-->
-                            </table>
-                        </div>
+                <div class="card-body p-9">
+                    <div class="card-px text-center py-2 my-2">
+                        <h2 class="text-gray-400 fw-bold fs-3 fw-bold">Добавьте сервер, чтобы увидеть список виртуальных машин</h2>
                     </div>
-                    <!--end::Table-->
                 </div>
                 <!--end::Body-->
             </div>
+        }
+        else
+        {
+            @foreach (var machineList in Model.MachineLists)
+            {
+                <div class="card mb-5 mb-xl-10">
+                    <!--begin::Header-->
+                    <div class="card-header align-items-center py-5 gap-2 gap-md-5">
+                        <!--begin::Card title-->
+                        <h3 class="card-title align-items-start flex-column">
+                            <span class="card-label fw-bolder fs-3 mb-1">Список активных ВМ: @machineList.Server.Name</span>
+                            <span class="card-label fw-boldest text-gray-400 fs-3 mb-1">Система виртуализации: @machineList.Server.VirtualizationSystem.GetDisplayName()</span>
+                        </h3>
+                        <!--end::Card title-->
+                        <!--begin::Card toolbar-->
+                        <div class="card-toolbar flex-row-fluid justify-content-end gap-5">
+                            <!--begin::Add product-->
+                            <a asp-controller="Machine" asp-action="Create" class="btn btn-primary">
+                                Добавить виртуальную машину
+                            </a>
+                            <!--end::Add product-->
+                        </div>
+                        <!--end::Card toolbar-->
+                    </div>
+                    <!--end::Header-->
+                    <!--begin::Body-->
+                    <div class="card-body">
+                        @if (!machineList.Machines.Any())
+                        {
+                            <div class="card-px text-center py-5 my-5">
+                                <h2 class="text-gray-400 fw-bold fs-3 fw-bold">Виртуальные машины не найдены</h2>
+                            </div>
+                        }
+                        else
+                        {
+                            <!--begin::Table container-->
+                            <div id="kt_ecommerce_products_table_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                                <div class="table-responsive">
+                                    <!--begin::Table-->
+                                    <table class="table table-row-dashed table-row-gray-200 align-middle gs-0 gy-4">
+                                        <!--begin::Table head-->
+                                        <thead>
+                                            <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                                                <th class="min-w-100px sorting_disabled">Название</th>
+                                                <th class="w-200px sorting_disabled">Загрузка ЦП</th>
+                                                <th class="w-200px sorting_disabled">Загрузка ОЗУ</th>
+                                                <th class="w-200px sorting_disabled">Загрузка диска</th>
+                                                <th class="text-end min-w-100px sorting_disabled">Статус</th>
+                                            </tr>
+                                        </thead>
+                                        <!--end::Table head-->
+                                        <!--begin::Table body-->
+                                        <tbody>
+                                            @foreach (var machine in machineList.Machines)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        <a href="#" class="text-dark fw-bolder text-hover-primary mb-1 fs-6">@machine.Name</a>
+                                                        <span class="text-muted fw-bold d-block">@machine.Description</span>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex flex-column w-100 me-2 mt-2">
+                                                            <span class="text-gray-400 me-2 fw-boldest mb-2">CPU: -%</span>
+                                                            <div class="progress bg-light-primary w-100 h-5px">
+                                                                <div class="progress-bar bg-primary" role="progressbar" style="width: 0%"></div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex flex-column w-100 me-2 mt-2">
+                                                            <span class="text-gray-400 me-2 fw-boldest mb-2">RAM: -%</span>
+                                                            <div class="progress bg-light-warning w-100 h-5px">
+                                                                <div class="progress-bar bg-warning" role="progressbar" style="width: 0%"></div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex flex-column w-100 me-2 mt-2">
+                                                            <span class="text-gray-400 me-2 fw-boldest mb-2">HDD: -%</span>
+                                                            <div class="progress bg-light-info w-100 h-5px">
+                                                                <div class="progress-bar bg-info" role="progressbar" style="width: 0%"></div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-end pe-0">
+                                                        <span class="@machine.Status.GetMachineStatusColor()">@machine.Status.GetDisplayName()</span>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                        <!--end::Table body-->
+                                    </table>
+                                </div>
+                            </div>
+                            <!--end::Table-->
+                        }
+                    </div>
+                    <!--end::Body-->
+                </div>
+            }
         }
     </div>
 </div>

@@ -2,6 +2,6 @@
 {
     public class MachineIndexViewModel
     {
-        public List<MachineListViewModel> MachineLists { get; set; }
+        public List<MachineListViewModel> MachineLists { get; set; } = new();
     }
 }

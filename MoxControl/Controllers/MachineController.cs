@@ -13,9 +13,10 @@ namespace MoxControl.Controllers
             _machineService = machineService;
         }
 
-        public ActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var machineIndexViewModel = await _machineService.GetMachineIndexViewModelAsync();
+            return View(machineIndexViewModel);
         }
 
         public ActionResult Details(long id)

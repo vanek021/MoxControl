@@ -9,6 +9,6 @@ namespace MoxControl.Connect.Interfaces
 {
     public interface IVirtualizationSystemClient
     {
-        public Task Initialize(IServiceScopeFactory scopeFactory, string host, int port, string login, string password);
+
     }
 }

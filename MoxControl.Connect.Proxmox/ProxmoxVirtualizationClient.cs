@@ -6,13 +6,12 @@ namespace MoxControl.Connect.Proxmox
 {
     public class ProxmoxVirtualizationClient : IVirtualizationSystemClient
     {
-        private PveClient _pveClient;
+        private readonly PveClient _pveClient;
 
-        public async Task Initialize(IServiceScopeFactory scopeFactory, string host, int port, string login, string password)
+        public ProxmoxVirtualizationClient(IServiceScopeFactory scopeFactory, string host, int port, string login, string password)
         {
             _pveClient = new PveClient(host, port);
-               
-            await _pveClient.Login(login, password);
+            _pveClient.Login(login, password).GetAwaiter().GetResult();
         }
 
         public async Task GetServerRrdata()

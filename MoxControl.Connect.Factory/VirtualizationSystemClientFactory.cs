@@ -21,8 +21,7 @@ namespace MoxControl.Connect.Factory
             switch (type)
             {
                 case VirtualizationSystem.Proxmox:
-                    var client = new ProxmoxVirtualizationClient();
-                    await client.Initialize(_serviceScopeFactory, host, port, login, password);
+                    var client = new ProxmoxVirtualizationClient(_serviceScopeFactory, host, port, login, password);
                     return client;
                 default:
                     throw new NotImplementedException("Unknown Virtualization System");

@@ -2,6 +2,7 @@ using Hangfire;
 using Hangfire.PostgreSql;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using MoxControl.Connect;
 using MoxControl.Connect.DependencyInjection;
 using MoxControl.Connect.Proxmox.Data;
 using MoxControl.Core.Extensions;
@@ -76,5 +77,7 @@ app.MapHangfireDashboard(options: new DashboardOptions
 app.UseHangfireDashboard();
 
 app.Services.SeedData();
+
+HangfireConnectManager.RegisterJobs();
 
 app.Run();

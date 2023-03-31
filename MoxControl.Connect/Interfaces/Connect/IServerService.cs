@@ -22,7 +22,9 @@ namespace MoxControl.Connect.Interfaces.Connect
 
         public Task<List<BaseServer>> GetAllAsync();
 
-        public Task HangfireSendHeartBeat(long serverId, string? initiatorUsername = null);
+        public Task SendHeartBeat(long serverId, string? initiatorUsername = null);
+
+        public Task SendHeartBeatToAll();
 
         public Task Test();
     }

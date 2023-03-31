@@ -91,7 +91,7 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
 
         public async Task<bool> DeleteAsync(long id)
         {
-            var server = await _context.ProxmoxServers.FirstOrDefaultAsync(x => x.Id == id);
+            var server = await _context.ProxmoxServers.FirstOrDefaultAsync(x => x.Id == id && !x.IsDeleted);
 
             if (server is null)
                 return false;
@@ -113,9 +113,9 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
             return servers.Select(x => (BaseServer)x).ToList();
         }
 
-        public async Task HangfireSendHeartBeat(long serverId, string? initiatorUsername = null)
+        public async Task SendHeartBeat(long serverId, string? initiatorUsername = null)
         {
-            var server = await _context.ProxmoxServers.FirstOrDefaultAsync(x => x.Id == serverId);
+            var server = await _context.ProxmoxServers.FirstOrDefaultAsync(x => x.Id == serverId && !x.IsDeleted);
 
             if (server is null)
                 return;
@@ -151,6 +151,16 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
             {
                 _context.Update(server);
                 await _context.SaveChangesAsync();
+            }
+        }
+
+        public async Task SendHeartBeatToAll()
+        {
+            var serverIds = await _context.ProxmoxServers.Where(x => !x.IsDeleted).Select(x => x.Id).ToListAsync();
+            
+            foreach (var serverId in serverIds)
+            {
+                await SendHeartBeat(serverId);
             }
         }
 

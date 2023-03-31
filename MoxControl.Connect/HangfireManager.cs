@@ -32,12 +32,22 @@ namespace MoxControl.Connect
         public async Task HangfireSendServerHeartBeat(VirtualizationSystem virtualizationSystem, long serverId, string? initiatorUsername = null)
         {
             var connectService = _connectServiceFactory.GetByVirtualizationSystem(virtualizationSystem);
-            await connectService.Servers.HangfireSendHeartBeat(serverId, initiatorUsername);
+            await connectService.Servers.SendHeartBeat(serverId, initiatorUsername);
         }
 
-        public async Task HangfireSyncMachines()
+        public async Task HangfireSendHeartBeatToAll()
         {
+            var connectServices = _connectServiceFactory.GetAll();
 
+            foreach (var connectService in connectServices)
+            {
+                await connectService.Item2.Servers.SendHeartBeatToAll();
+            }
+        }
+
+        public static void RegisterJobs()
+        {
+            RecurringJob.AddOrUpdate<HangfireConnectManager>(x => x.HangfireSendHeartBeatToAll(), Cron.Hourly());
         }
     }
 }

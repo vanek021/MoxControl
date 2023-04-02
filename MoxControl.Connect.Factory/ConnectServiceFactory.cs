@@ -18,7 +18,7 @@ namespace MoxControl.Connect.Factory
 
         public ConnectServiceFactory(IServiceScopeFactory serviceScopeFactory) 
         {
-            var proxmoxService = new ProxmoxService();
+            var proxmoxService = new ProxmoxConnectService();
             proxmoxService.Initialize(serviceScopeFactory).GetAwaiter().GetResult();
             _services.Add(VirtualizationSystem.Proxmox, proxmoxService);
         }

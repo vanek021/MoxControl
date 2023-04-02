@@ -20,18 +20,21 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoxControl.Connect.Factory", "MoxControl.Connect.Factory\MoxControl.Connect.Factory.csproj", "{213CB909-3485-4679-94E3-FD0B9AC132C0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Connect", "Connect", "{DE484AFE-640D-467C-AAA8-01CA7156A52B}"
+	ProjectSection(SolutionItems) = preProject
+		Readme.md = Readme.md
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Proxmox", "Proxmox", "{5A469C89-934D-44D8-8D74-0365598FC696}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoxControl.Connect.Proxmox.Models", "MoxControl.Connect.Proxmox.Models\MoxControl.Connect.Proxmox.Models.csproj", "{572E21FD-B3E6-4B07-8D52-1B01380EA74D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoxControl.Connect.Proxmox.Models", "MoxControl.Connect.Proxmox.Models\MoxControl.Connect.Proxmox.Models.csproj", "{572E21FD-B3E6-4B07-8D52-1B01380EA74D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoxControl.Connect.Models", "MoxControl.Connect.Models\MoxControl.Connect.Models.csproj", "{12FEE95E-04FE-4F28-AFC5-D1C1BAD53DC4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoxControl.Connect.Models", "MoxControl.Connect.Models\MoxControl.Connect.Models.csproj", "{12FEE95E-04FE-4F28-AFC5-D1C1BAD53DC4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoxControl.Connect.Data", "MoxControl.Connect.Data\MoxControl.Connect.Data.csproj", "{85A9F2A0-4A72-4A4F-A0FB-23E36505E66E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoxControl.Connect.Data", "MoxControl.Connect.Data\MoxControl.Connect.Data.csproj", "{85A9F2A0-4A72-4A4F-A0FB-23E36505E66E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoxControl.Connect.Proxmox.Data", "MoxControl.Connect.Proxmox.Data\MoxControl.Connect.Proxmox.Data.csproj", "{1CE563C3-0495-4520-865E-DD43D70FD948}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoxControl.Connect.Proxmox.Data", "MoxControl.Connect.Proxmox.Data\MoxControl.Connect.Proxmox.Data.csproj", "{1CE563C3-0495-4520-865E-DD43D70FD948}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoxControl.Connect.DependencyInjection", "MoxControl.Connect.DependencyInjection\MoxControl.Connect.DependencyInjection.csproj", "{8EC05585-D99F-4D4D-9097-8383061771B9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoxControl.Connect.DependencyInjection", "MoxControl.Connect.DependencyInjection\MoxControl.Connect.DependencyInjection.csproj", "{8EC05585-D99F-4D4D-9097-8383061771B9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

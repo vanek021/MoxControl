@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MoxControl.Connect.Models;
 using MoxControl.Connect.Models.Enums;
 using MoxControl.Services;
 using MoxControl.ViewModels.ServerViewModels;
@@ -18,7 +19,6 @@ namespace MoxControl.Controllers
 
         public async Task<IActionResult> Index()
         {
-            //await _serverService.Test();
             var viewModel = await _serverService.GetServerIndexViewModelAsync();
             return View(viewModel);
         }
@@ -85,6 +85,18 @@ namespace MoxControl.Controllers
         {
             await _serverService.DeleteAsync(virtualizationSystem, id);
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<ActionResult<ServerHealthModel>> GetServerHealth(VirtualizationSystem virtualizationSystem, long id)
+        {
+            var serverHealthModel = await _serverService.GetServerHealthModelAsync(virtualizationSystem, id);
+
+            if (serverHealthModel is null) 
+                return NotFound();
+
+            return serverHealthModel;
         }
     }
 }

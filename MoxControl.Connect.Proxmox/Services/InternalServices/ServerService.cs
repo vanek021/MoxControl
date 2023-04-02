@@ -3,36 +3,37 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MoxControl.Connect.Interfaces.Connect;
 using MoxControl.Connect.Interfaces.Factories;
+using MoxControl.Connect.Models;
 using MoxControl.Connect.Models.Entities;
 using MoxControl.Connect.Models.Enums;
 using MoxControl.Connect.Proxmox.Data;
 using MoxControl.Connect.Proxmox.Models.Entities;
+using MoxControl.Connect.Services.InternalServices;
 using MoxControl.Infrastructure.Services;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace MoxControl.Connect.Proxmox.Services.InternalServices
 {
-    public class ServerService : IServerService
+    public class ServerService : BaseServerService, IServerService
     {
         private readonly MoxControlUserManager _moxControlUserManager;
         private readonly ConnectProxmoxDbContext _context;
-        private readonly IVirtualizationSystemClientFactory _virtualizationSystemClientFactory;
 
-        public ServerService(IServiceScopeFactory serviceScopeFactory)
+        public ServerService(IServiceScopeFactory serviceScopeFactory) : base(serviceScopeFactory)
         {
             var scope = serviceScopeFactory.CreateScope();
 
             _context = scope.ServiceProvider.GetRequiredService<ConnectProxmoxDbContext>();
             _moxControlUserManager = scope.ServiceProvider.GetRequiredService<MoxControlUserManager>();
-            _virtualizationSystemClientFactory = scope.ServiceProvider.GetRequiredService<IVirtualizationSystemClientFactory>();
         }
 
         public async Task<bool> CreateAsync(string host, int port, AuthorizationType authorizationType, string name,
-    string description, string? rootLogin = null, string? rootPassword = null, string? initiatorUsername = null)
+            string description, string? rootLogin = null, string? rootPassword = null, string? initiatorUsername = null)
         {
             var server = new ProxmoxServer()
             {
@@ -119,27 +120,12 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
 
             if (server is null)
                 return;
-            string? userName = null;
-            string? password = null;
 
-            if (!string.IsNullOrEmpty(initiatorUsername))
-            {
-                userName = initiatorUsername;
-                password = _moxControlUserManager.GetUserPasswordFromProtectedFile(initiatorUsername);
-            }
-            else
-            {
-                userName = server.RootLogin;
-                password = server.RootPassword;
-            }
-
-            if (userName is null || password is null)
-                throw new ArgumentException("Не удалось найти данные авторизации сервера");
+            var credentials = GetServerCredentials(server, initiatorUsername);
 
             try
             {
-                var proxmoxVirtualizationSystem = await _virtualizationSystemClientFactory.GetClientByVirtualizationSystemAsync(VirtualizationSystem.Proxmox,
-                server.Host, server.Port, userName, password);
+                var proxmoxVirtualizationSystem = new ProxmoxVirtualizationClient(server.Host, server.Port, credentials.Login, credentials.Password);
 
                 server.Status = ServerStatus.Running;
             }
@@ -164,10 +150,28 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
             }
         }
 
-        public async Task Test()
+        public async Task<ServerHealthModel?> GetHealthModel(long serverId, string? initiatorUsername = null)
         {
-            var client = await _virtualizationSystemClientFactory.GetClientByVirtualizationSystemAsync(VirtualizationSystem.Proxmox, "192.168.0.103", 8006, "root", "polkmn021");
+            var server = await _context.ProxmoxServers.FirstOrDefaultAsync(x => x.Id == serverId && !x.IsDeleted);
 
+            if (server is null)
+                return null;
+
+            var credentials = GetServerCredentials(server, initiatorUsername);
+
+            var client = new ProxmoxVirtualizationClient(server.Host, server.Port, credentials.Login, credentials.Password);
+
+            var rrddataItems = await client.GetServerRrdata();
+            var lastData = rrddataItems.LastOrDefault();
+
+            if (lastData is null)
+                return null;
+
+            var serverHealthModel = new ServerHealthModel(long.Parse(lastData.MemoryTotal!), 
+                double.Parse(lastData.MemoryUsed!, CultureInfo.InvariantCulture), long.Parse(lastData.HDDTotal!), 
+                double.Parse(lastData.HDDUsed!, CultureInfo.InvariantCulture), double.Parse(lastData.CPUUsed!, CultureInfo.InvariantCulture));
+
+            return serverHealthModel;
         }
     }
 }

@@ -76,6 +76,8 @@ app.MapHangfireDashboard(options: new DashboardOptions
 
 app.UseHangfireDashboard();
 
+app.UseConnect();
+
 app.Services.SeedData();
 
 HangfireConnectManager.RegisterJobs();

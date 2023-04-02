@@ -1,4 +1,5 @@
-﻿using MoxControl.Connect.Models.Entities;
+﻿using MoxControl.Connect.Models;
+using MoxControl.Connect.Models.Entities;
 using MoxControl.Connect.Models.Enums;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,6 @@ namespace MoxControl.Connect.Interfaces.Connect
 
         public Task SendHeartBeatToAll();
 
-        public Task Test();
+        public Task<ServerHealthModel?> GetHealthModel(long serverId, string? initiatorUsername = null);
     }
 }

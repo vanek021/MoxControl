@@ -9,6 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="..\MoxControl.Connect.Models\MoxControl.Connect.Models.csproj" />
     <ProjectReference Include="..\MoxControl.Core\MoxControl.Core.csproj" />
+    <ProjectReference Include="..\MoxControl.Infrastructure\MoxControl.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

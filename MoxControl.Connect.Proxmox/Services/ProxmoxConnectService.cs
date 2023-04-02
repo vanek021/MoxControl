@@ -14,7 +14,7 @@ using Sakura.AspNetCore;
 
 namespace MoxControl.Connect.Proxmox.Services
 {
-    public class ProxmoxService : IConnectService
+    public class ProxmoxConnectService : IConnectService
     {
         public IServerService Servers { get; set; }
         public IMachineService Machines { get; set; }

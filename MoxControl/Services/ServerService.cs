@@ -100,11 +100,13 @@ namespace MoxControl.Services
             return serverDetailsVm;
         }
 
-        public async Task Test()
+        public async Task<ServerHealthModel?> GetServerHealthModelAsync(VirtualizationSystem virtualizationSystem, long serverId)
         {
-            var connectService = _connectServiceFactory.GetByVirtualizationSystem(VirtualizationSystem.Proxmox);
+            var connectService = _connectServiceFactory.GetByVirtualizationSystem(virtualizationSystem);
 
-            await connectService.Servers.Test();
+            var healthModel = await connectService.Servers.GetHealthModel(serverId, _httpContextAccessor?.HttpContext?.User?.Identity?.Name);
+
+            return healthModel;
         }
     }
 }

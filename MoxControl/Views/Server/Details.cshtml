@@ -229,5 +229,115 @@
 </div>
 
 @section Scripts {
-    <script src="~/js/server/details.js" charset="UTF-8" asp-append-version="true"></script>
+    <script type="text/javascript">
+        $(document).ready(async function () {
+            var serverHealth = await getServerHealth();
+
+            var options = {
+                series: [0],
+                chart: {
+                    type: 'radialBar',
+                    offsetY: -20,
+                    sparkline: {
+                        enabled: true
+                    }
+                },
+                plotOptions: {
+                    radialBar: {
+                        inverseOrder: false,
+                        startAngle: 0,
+                        endAngle: 360,
+                        offsetX: 0,
+                        offsetY: 0,
+                        hollow: {
+                            margin: 5,
+                            size: '50%',
+                            background: 'transparent',
+                            image: undefined,
+                            imageWidth: 150,
+                            imageHeight: 150,
+                            imageOffsetX: 0,
+                            imageOffsetY: 0,
+                            imageClipped: true,
+                            position: 'front',
+                            dropShadow: {
+                                enabled: false,
+                                top: 0,
+                                left: 0,
+                                blur: 3,
+                                opacity: 0.5
+                            }
+                        },
+                        dataLabels: {
+                            name: {
+                                show: true,
+                                fontSize: '16px',
+                                fontFamily: undefined,
+                                fontWeight: 600,
+                                color: '#000000',
+                                offsetY: -10
+                            },
+                            value: {
+                                show: true,
+                                fontSize: '14px',
+                                fontFamily: undefined,
+                                fontWeight: 400,
+                                color: undefined,
+                                offsetY: 16,
+                                formatter: function (val) {
+                                    return val + '%'
+                                }
+                            },
+                        }
+                    }
+                },
+                grid: {
+                    padding: {
+                        top: -10
+                    }
+                },
+                fill: {
+                    type: 'gradient',
+                    colors: ['#00B2FF'],
+                    gradient: {
+                        shade: 'light',
+                        shadeIntensity: 0,
+                        inverseColors: false,
+                        opacityFrom: 1,
+                        opacityTo: 1,
+                        stops: [0, 50, 53, 91]
+                    },
+                },
+                labels: ['Average Results'],
+            };
+
+            options.series = [serverHealth.cpuUsedPercent];
+            options.labels = ['Загрузка CPU'];
+
+            var chart1 = new ApexCharts(document.querySelector("#chart1"), options);
+            chart1.render();
+
+            options.series = [serverHealth.memoryUsedPercent];
+            options.fill.colors = ['#FFC700'];
+            options.labels = ['Загрузка RAM'];
+
+            var chart2 = new ApexCharts(document.querySelector("#chart2"), options);
+            chart2.render();
+
+            options.series = [serverHealth.hddUsedPercent];
+            options.fill.colors = ['#7239EA'];
+            options.labels = ['Загрузка HDD'];
+
+            var chart3 = new ApexCharts(document.querySelector("#chart3"), options);
+            chart3.render();
+        });
+
+        async function getServerHealth() {
+            const response = await fetch("/Server/GetServerHealth/@Html.Raw(Model.Id)?virtualizationSystem=${@Html.Raw(Model.VirtualizationSystem.ToString())}");
+            const jsonData = await response.json();
+            console.log(jsonData);
+
+            return jsonData;
+        }
+    </script>
 }

@@ -1,6 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MoxControl.Connect.Data;
+using MoxControl.Connect.Data.Seeds;
 using MoxControl.Connect.Factory;
 using MoxControl.Connect.Interfaces.Factories;
 using MoxControl.Connect.Proxmox.Data;
@@ -31,6 +33,13 @@ namespace MoxControl.Connect.DependencyInjection
             serviceCollection.AddScoped<TemplateManager>();
 
             return serviceCollection;
+        }
+
+        public static IApplicationBuilder UseConnect(this IApplicationBuilder app)
+        {
+            ConnectSettingSeeds.Seed(app.ApplicationServices);
+
+            return app;
         }
     }
 }

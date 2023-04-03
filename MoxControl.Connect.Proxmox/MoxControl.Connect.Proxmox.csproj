@@ -1,19 +1,20 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
+    <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Services\2dbywaxl.0f3~" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Corsinvest.ProxmoxVE.Api" Version="7.3.4" />
   </ItemGroup>
-
+  
+  <ItemGroup>
+    <EmbeddedResource Include="Views\ProxmoxSetting\Index.cshtml" />
+  </ItemGroup>
+  
   <ItemGroup>
     <ProjectReference Include="..\MoxControl.Connect.Models\MoxControl.Connect.Models.csproj" />
     <ProjectReference Include="..\MoxControl.Connect.Proxmox.Data\MoxControl.Connect.Proxmox.Data.csproj" />
@@ -21,6 +22,10 @@
     <ProjectReference Include="..\MoxControl.Connect\MoxControl.Connect.csproj" />
     <ProjectReference Include="..\MoxControl.Data\MoxControl.Data.csproj" />
     <ProjectReference Include="..\MoxControl.Infrastructure\MoxControl.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="7.0.4" />
   </ItemGroup>
 
 </Project>

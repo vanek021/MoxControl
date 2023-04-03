@@ -1,15 +1,20 @@
 using Hangfire;
 using Hangfire.PostgreSql;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using MoxControl.Connect;
 using MoxControl.Connect.DependencyInjection;
+using MoxControl.Connect.Proxmox;
 using MoxControl.Connect.Proxmox.Data;
 using MoxControl.Core.Extensions;
 using MoxControl.Data;
 using MoxControl.Extensions;
 using MoxControl.Infrastructure.Extensions;
 using MoxControl.Models.Entities;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,7 +29,8 @@ builder.Services.RegisterConnectServices();
 builder.Services.RegisterInjectableTypesFromAssemblies(typeof(Program), typeof(AppDbContext));
 
 builder.Services.AddApplicationIdentity<AppDbContext>();
-//builder.Services.AddControllersWithViews();
+
+builder.Services.AddControllersWithViews();
 
 builder.Services.AddAutoMapper(typeof(Program), typeof(MoxControl.Core.Interfaces.IEntity), typeof(AppDbContext), typeof(User));
 
@@ -56,7 +62,7 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
-//app.UseRouting();
+app.UseRouting();
 
 app.UseAuthorization();
 
@@ -72,18 +78,6 @@ app.MapHangfireDashboard(options: new DashboardOptions
 {
     Authorization = new[] { new HangfireDashboardAuthorizeFilter() },
     IgnoreAntiforgeryToken = true
-});
-
-
-
-app.UseMvc(routes =>
-{
-    routes.MapRoute(
-        name: "areaRoute",
-        template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
-    routes.MapRoute(
-        name: "default",
-        template: "{controller=Home}/{action=Index}/{id?}");
 });
 
 app.UseHangfireDashboard();

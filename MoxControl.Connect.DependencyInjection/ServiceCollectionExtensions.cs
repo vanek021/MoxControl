@@ -10,6 +10,7 @@ using MoxControl.Connect.Data;
 using MoxControl.Connect.Data.Seeds;
 using MoxControl.Connect.Factory;
 using MoxControl.Connect.Interfaces.Factories;
+using MoxControl.Connect.Proxmox;
 using MoxControl.Connect.Proxmox.Controllers;
 using MoxControl.Connect.Proxmox.Data;
 using MoxControl.Connect.Proxmox.Services;
@@ -24,7 +25,8 @@ namespace MoxControl.Connect.DependencyInjection
         public static IServiceCollection RegisterConnectContexts(this IServiceCollection serviceCollection, string connectionString)
         {
             serviceCollection.AddDbContext<ConnectDbContext>(options => options.UseNpgsql(connectionString));
-            serviceCollection.AddDbContext<ConnectProxmoxDbContext>(options => options.UseNpgsql(connectionString));
+
+            serviceCollection.RegisterConnectProxmoxContext(connectionString);
 
             return serviceCollection;
         }
@@ -39,10 +41,7 @@ namespace MoxControl.Connect.DependencyInjection
             serviceCollection.AddScoped<ImageManager>();
             serviceCollection.AddScoped<TemplateManager>();
 
-            var assembly = typeof(ProxmoxSettingController).GetTypeInfo().Assembly;
-            serviceCollection.AddMvc(x => x.EnableEndpointRouting = false)
-                .AddApplicationPart(assembly)
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            serviceCollection.RegisterConnectProxmoxServices();
 
             return serviceCollection;
         }

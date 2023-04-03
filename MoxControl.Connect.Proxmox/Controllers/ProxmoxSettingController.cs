@@ -9,5 +9,9 @@ namespace MoxControl.Connect.Proxmox.Controllers
 {
     public class ProxmoxSettingController : Controller
     {
+        public async Task<IActionResult> Index()
+        {
+            return View();
+        }
     }
 }

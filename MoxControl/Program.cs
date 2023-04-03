@@ -24,7 +24,7 @@ builder.Services.RegisterConnectServices();
 builder.Services.RegisterInjectableTypesFromAssemblies(typeof(Program), typeof(AppDbContext));
 
 builder.Services.AddApplicationIdentity<AppDbContext>();
-builder.Services.AddControllersWithViews();
+//builder.Services.AddControllersWithViews();
 
 builder.Services.AddAutoMapper(typeof(Program), typeof(MoxControl.Core.Interfaces.IEntity), typeof(AppDbContext), typeof(User));
 
@@ -56,7 +56,7 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
-app.UseRouting();
+//app.UseRouting();
 
 app.UseAuthorization();
 
@@ -72,6 +72,18 @@ app.MapHangfireDashboard(options: new DashboardOptions
 {
     Authorization = new[] { new HangfireDashboardAuthorizeFilter() },
     IgnoreAntiforgeryToken = true
+});
+
+
+
+app.UseMvc(routes =>
+{
+    routes.MapRoute(
+        name: "areaRoute",
+        template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+    routes.MapRoute(
+        name: "default",
+        template: "{controller=Home}/{action=Index}/{id?}");
 });
 
 app.UseHangfireDashboard();

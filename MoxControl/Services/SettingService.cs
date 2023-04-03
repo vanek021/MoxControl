@@ -42,5 +42,11 @@ namespace MoxControl.Services
                 return false;
             }
         }
+
+        public async Task<bool> IsVirtualizationSystemHasSettingsAsync(VirtualizationSystem virtualizationSystem)
+        {
+            var setting = await _connectDatabase.ConnectSettings.GetByVirtualizationSystemAsync(virtualizationSystem);
+            return setting.IsShowSettingsSection;
+        }
     }
 }

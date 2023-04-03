@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MoxControl.Services;
 
 namespace MoxControl.Controllers
 {
+    [Authorize]
     public class UserController : Controller
     {
         private readonly UserService _userService;
@@ -18,6 +20,11 @@ namespace MoxControl.Controllers
         {
             var userVms = await _userService.GetUserViewModelsAsync(page, pageSize);
             return View(userVms);
+        }
+
+        public async Task<IActionResult> Settings()
+        {
+            return View();
         }
     }
 }

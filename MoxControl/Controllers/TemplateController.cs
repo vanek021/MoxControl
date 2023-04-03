@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MoxControl.Services;
 
 namespace MoxControl.Controllers
 {
+    [Authorize]
     public class TemplateController : Controller
     {
         private readonly TemplateService _templateService;

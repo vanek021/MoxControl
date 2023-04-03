@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MoxControl.Connect.Models.Enums;
 using MoxControl.Services;
 using MoxControl.ViewModels.SettingViewModels;
 
 namespace MoxControl.Controllers
 {
+    [Authorize]
     public class SettingController : Controller
     {
         private readonly SettingService _settingService;

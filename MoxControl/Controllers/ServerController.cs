@@ -53,9 +53,9 @@ namespace MoxControl.Controllers
             return View(viewModel);
         }
 
-        public IActionResult Edit(VirtualizationSystem virtualizationSystem, long id)
+        public async Task<IActionResult> Edit(VirtualizationSystem virtualizationSystem, long id)
         {
-            var serverViewModel = _serverService.GetServerViewModelAsync(id, virtualizationSystem);
+            var serverViewModel = await _serverService.GetServerViewModelAsync(id, virtualizationSystem);
 
             if (serverViewModel is null)
                 return NotFound();

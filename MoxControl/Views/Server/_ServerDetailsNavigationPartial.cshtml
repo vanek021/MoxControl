@@ -1,0 +1,39 @@
+﻿@using Microsoft.AspNetCore.Http.Features;
+@using MoxControl.Connect.Models.Enums;
+@using MoxControl.Services;
+
+@inject SettingService settingService
+
+@model (VirtualizationSystem, long)
+
+@{
+    var hasServerSettings = await settingService.IsVirtualizationSystemHasSettingsAsync(Model.Item1);
+    var requestFeature = Context.Features.Get<IHttpRequestFeature>();
+    var toLowerPath = requestFeature?.RawTarget.ToLower();
+}
+
+<div class="card mb-5 mb-xl-10">
+    <div class="card-body pt-0 pb-0">
+        <!--begin::Navs-->
+        <ul class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bold">
+            <!--begin::Nav item-->
+            <li class="nav-item mt-2">
+                <a asp-controller="Server" asp-action="Details" asp-route-virtualizationSystem="@Model.Item1" asp-route-id="@Model.Item2" class="nav-link text-active-primary ms-0 me-10 py-5 @(toLowerPath!.Contains("/server/details") ? "active" : "")">
+                    Основная информация
+                </a>
+            </li>
+            <!--end::Nav item-->
+            @if (hasServerSettings)
+            {
+                <!--begin::Nav item-->
+                <li class="nav-item mt-2">
+                    <a asp-controller="@($"{Model.Item1.ToString()}Setting")" asp-action="Index" asp-route-id="@Model.Item2" class="nav-link text-active-primary ms-0 me-10 py-5 @(toLowerPath!.Contains($"{Model.Item1.ToString().ToLower()}setting") ? "active" : "")">
+                        Настройки сервера
+                    </a>
+                </li>
+                <!--end::Nav item-->
+            }
+        </ul>
+        <!--end::Navs-->
+    </div>
+</div>

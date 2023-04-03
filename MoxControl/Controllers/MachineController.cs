@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MoxControl.Services;
 
 namespace MoxControl.Controllers
 {
+    [Authorize]
     public class MachineController : Controller
     {
         private readonly MachineService _machineService;

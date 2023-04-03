@@ -16,7 +16,7 @@ namespace MoxControl.Connect.Models.Entities
         public VirtualizationSystem VirtualizationSystem { get; set; }
 
         /// <summary>
-        /// Флаг, который означает, имеет ли система виртуализации дополнительные настройки
+        /// Флаг, который означает, имеет ли система виртуализации дополнительные настройки сервера
         /// </summary>
         public bool IsShowSettingsSection { get; set; }
     }

@@ -17,6 +17,7 @@ namespace MoxControl.Extensions
             serviceCollection.AddScoped<GeneralNotificationService>();
             serviceCollection.AddScoped<TemplateService>();
             serviceCollection.AddScoped<ImageService>();
+            serviceCollection.AddScoped<SettingService>();
             serviceCollection.AddScoped<MoxControlUserManager>();
 
             return serviceCollection;

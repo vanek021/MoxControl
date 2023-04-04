@@ -1,9 +1,15 @@
-﻿using MoxControl.Connect.Data;
+﻿using Hangfire;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting.Internal;
+using MoxControl.Connect.Data;
 using MoxControl.Connect.Models.Entities;
+using MoxControl.Connect.Models.Enums;
 using MoxControl.Core.Services.BucketStorage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,11 +18,13 @@ namespace MoxControl.Connect.Services
     public class ImageManager
     {
         private readonly IBucket _bucket;
+        private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly ConnectDatabase _connectDatabase;
 
-        public ImageManager(ConnectDatabase connectDatabase, IBucketStorageService bucketStorageService) 
+        public ImageManager(ConnectDatabase connectDatabase, IBucketStorageService bucketStorageService, IWebHostEnvironment webHostEnvironment) 
         {
             _connectDatabase = connectDatabase;
+            _webHostEnvironment = webHostEnvironment;
             _bucket = bucketStorageService.GetBucket("isoimages");
         }
 
@@ -37,6 +45,10 @@ namespace MoxControl.Connect.Services
             try
             {
                 await _connectDatabase.SaveChangesAsync();
+                
+                if (image.StorageMethod == ImageStorageMethod.Local)
+                    BackgroundJob.Enqueue<ImageManager>(x => x.HangfireDownloadImage(image.Id));
+
                 return true;
             }
             catch
@@ -47,11 +59,22 @@ namespace MoxControl.Connect.Services
 
         public async Task<bool> UpdateAsync(ISOImage image)
         {
+            var oldPath = await _connectDatabase.ISOImages.GetImagePath(image.Id);
+
+            var isNeedToDownload = IsNeedToDownload(image, oldPath);
+
+            if (isNeedToDownload)
+                image.DownloadSuccess = false;
+
             _connectDatabase.ISOImages.Update(image);
 
             try
             {
                 await _connectDatabase.SaveChangesAsync();
+
+                if (isNeedToDownload)
+                    BackgroundJob.Enqueue<ImageManager>(x => x.HangfireDownloadImage(image.Id));
+
                 return true;
             }
             catch
@@ -78,6 +101,38 @@ namespace MoxControl.Connect.Services
             {
                 return false;
             }
+        }
+
+        public async Task HangfireDownloadImage(long imageId)
+        {
+            var image = await _connectDatabase.ISOImages.GetByIdAsync(imageId);
+            var path = Path.Combine($"image{image.Id}", "image.iso");
+            if (!string.IsNullOrEmpty(image.ImagePath))
+            {
+                if (_bucket.ContainsObject(path))
+                    _bucket.DeleteObject(path);
+
+                using var client = new HttpClient();
+
+                var response = await client.GetAsync(image.ImagePath);
+
+                var fullPath = Path.Combine(_webHostEnvironment.WebRootPath, "uploads", path);
+
+                using var fs = new FileStream(fullPath, FileMode.CreateNew);
+
+                await response.Content.CopyToAsync(fs);
+
+                image.DownloadSuccess = true;
+                image.ImagePath = _bucket.GetPublicURL(path);
+
+                _connectDatabase.ISOImages.Update(image);
+                await _connectDatabase.SaveChangesAsync();
+            }
+        }
+
+        private static bool IsNeedToDownload(ISOImage image, string? oldPath)
+        {
+            return oldPath != image.ImagePath && image.StorageMethod == ImageStorageMethod.Local;
         }
     }
 }

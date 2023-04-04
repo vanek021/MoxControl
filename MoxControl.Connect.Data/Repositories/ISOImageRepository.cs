@@ -24,5 +24,13 @@ namespace MoxControl.Connect.Data.Repositories
         {
             return Table().ToListAsync();
         }
+
+        public Task<string?> GetImagePath(long id)
+        {
+            return Table()
+                .Where(x => x.Id == id)
+                .Select(x => x.ImagePath)
+                .FirstOrDefaultAsync();
+        }
     }
 }

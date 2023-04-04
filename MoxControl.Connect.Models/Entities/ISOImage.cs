@@ -14,5 +14,6 @@ namespace MoxControl.Connect.Models.Entities
         public string? Description { get; set; }
         public ImageStorageMethod StorageMethod { get; set; }
         public string ImagePath { get; set; }
+        public bool DownloadSuccess { get; set; }
     }
 }

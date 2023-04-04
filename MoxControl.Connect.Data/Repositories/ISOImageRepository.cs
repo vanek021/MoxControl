@@ -15,9 +15,14 @@ namespace MoxControl.Connect.Data.Repositories
     [Injectable(typeof(IReadableRepository<ISOImage>))]
     public class ISOImageRepository : WriteableRepository<ISOImage>
     {
-        public ISOImageRepository(DbContext context) : base(context)
+        public ISOImageRepository(ConnectDbContext context) : base(context)
         {
 
+        }
+
+        public Task<List<ISOImage>> GetAll()
+        {
+            return Table().ToListAsync();
         }
     }
 }

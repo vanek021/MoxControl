@@ -1,14 +1,8 @@
 ﻿using MoxControl.Connect.Models.Enums;
-using MoxControl.Core.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace MoxControl.Connect.Models.Entities
+namespace MoxControl.ViewModels.ImageViewModels
 {
-    public class ISOImage : BaseRecord
+    public class ImageViewModel
     {
         public string Name { get; set; }
         public string? Description { get; set; }

@@ -21,5 +21,8 @@ namespace MoxControl.ViewModels.ImageViewModels
         [Display(Name = "Ссылка на загрузку")]
         [Required]
         public string ImagePath { get; set; }
+
+        [Display(Name = "Файл образа")]
+        public IFormFile? ImageFile { get; set; }
     }
 }

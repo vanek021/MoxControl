@@ -1,5 +1,6 @@
 ﻿using MoxControl.Connect.Data;
 using MoxControl.Connect.Models.Entities;
+using MoxControl.Core.Services.BucketStorage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +11,13 @@ namespace MoxControl.Connect.Services
 {
     public class ImageManager
     {
+        private readonly IBucket _bucket;
         private readonly ConnectDatabase _connectDatabase;
 
-        public ImageManager(ConnectDatabase connectDatabase) 
+        public ImageManager(ConnectDatabase connectDatabase, IBucketStorageService bucketStorageService) 
         {
             _connectDatabase = connectDatabase;
+            _bucket = bucketStorageService.GetBucket("isoimages");
         }
 
         public async Task<List<ISOImage>> GetAllAsync()

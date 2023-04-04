@@ -23,5 +23,5 @@ function processAuthorizationType(str) {
 }
 
 function getAuthorizationSelectorValue() {
-    return $('#authorizationSelect').find(":selected")[0].label;
+    return $('#authorizationSelect').find(":selected").data("enumvalue");
 }

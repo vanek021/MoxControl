@@ -78,7 +78,12 @@
         <!--end::Label-->
         <!--begin::Col-->
         <div class="col-lg-8 fv-row">
-            <select id="authorizationSelect" asp-for="AuthorizationType" asp-items="@Html.GetEnumSelectList<AuthorizationType>()" class="form-control form-control-lg form-control-solid form-select"></select>
+            <select id="authorizationSelect" asp-for="AuthorizationType" class="form-control form-control-lg form-control-solid form-select">
+                @foreach (var item in Html.GetEnumSelectList<AuthorizationType>())
+                {
+                    <option value="@item.Value" selected="@item.Selected" data-enumValue="@(((AuthorizationType)int.Parse(item.Value)).ToString())" >@item.Text</option>
+                }
+            </select>
             <span asp-validation-for="AuthorizationType" class="text-danger"></span>
         </div>
         <!--end::Col-->

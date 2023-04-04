@@ -72,7 +72,7 @@ namespace MoxControl.Controllers
                 var result = await _serverService.UpdateAsync(viewModel);
 
                 if (result)
-                    RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Index));
                 else
                     return BadRequest();
             }

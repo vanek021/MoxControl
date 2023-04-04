@@ -1,4 +1,5 @@
 ﻿using MoxControl.Connect.Data;
+using MoxControl.Connect.Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,66 @@ namespace MoxControl.Connect.Services
         public ImageManager(ConnectDatabase connectDatabase) 
         {
             _connectDatabase = connectDatabase;
+        }
+
+        public async Task<List<ISOImage>> GetAllAsync()
+        {
+            return await _connectDatabase.ISOImages.GetAll();
+        }
+
+        public async Task<ISOImage> GetByIdAsync(long id)
+        {
+            return await _connectDatabase.ISOImages.GetByIdAsync(id);
+        }
+
+        public async Task<bool> CreateAsync(ISOImage image)
+        {
+            _connectDatabase.ISOImages.Insert(image);
+
+            try
+            {
+                await _connectDatabase.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> UpdateAsync(ISOImage image)
+        {
+            _connectDatabase.ISOImages.Update(image);
+
+            try
+            {
+                await _connectDatabase.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> DeleteAsync(long id)
+        {
+            var image = await _connectDatabase.ISOImages.GetByIdAsync(id);
+
+            if (image is null)
+                return false;
+
+            _connectDatabase.ISOImages.Delete(image);
+
+            try
+            {
+                await _connectDatabase.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

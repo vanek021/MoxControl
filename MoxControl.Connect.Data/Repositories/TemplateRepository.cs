@@ -12,12 +12,17 @@ using System.Threading.Tasks;
 namespace MoxControl.Connect.Data.Repositories
 {
     [Injectable]
-    [Injectable(typeof(IReadableRepository<MachineTemplate>))]
-    public class MachineTemplateRepository : WriteableRepository<MachineTemplate>
+    [Injectable(typeof(IReadableRepository<Template>))]
+    public class TemplateRepository : WriteableRepository<Template>
     {
-        public MachineTemplateRepository(DbContext context) : base(context)
+        public TemplateRepository(ConnectDbContext context) : base(context)
         {
 
+        }
+
+        public Task<List<Template>> GetAllAsync()
+        {
+            return Table().ToListAsync();
         }
     }
 }

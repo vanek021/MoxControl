@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MoxControl.Connect.Models.Entities
 {
-    public class MachineTemplate : BaseRecord
+    public class Template : BaseRecord
     {
         /// <summary>
         /// Название шаблона

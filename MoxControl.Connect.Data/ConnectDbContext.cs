@@ -18,7 +18,7 @@ namespace MoxControl.Connect.Data
         }
 
         public DbSet<ConnectSetting> ConnectSettings { get; set; }
-        public DbSet<MachineTemplate> MachineTemplates { get; set; }
+        public DbSet<Template> Templates { get; set; }
         public DbSet<ISOImage> ISOImages { get; set; }
     }
 }

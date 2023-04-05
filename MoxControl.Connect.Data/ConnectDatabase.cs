@@ -15,15 +15,15 @@ namespace MoxControl.Connect.Data
     [Injectable, Injectable(typeof(IDatabase))]
     public class ConnectDatabase : AbstractDatabase
     {
-        public ConnectDatabase(ConnectDbContext context, MachineTemplateRepository machineTemplatesRepo, ISOImageRepository isoImagesRepo,
+        public ConnectDatabase(ConnectDbContext context, TemplateRepository templatesRepo, ISOImageRepository isoImagesRepo,
             ConnectSettingRepository connectSettingRepo) : base(context)
         {
-            MachineTemplates = machineTemplatesRepo;
+            Templates = templatesRepo;
             ISOImages = isoImagesRepo;
             ConnectSettings = connectSettingRepo;
         }
 
-        public MachineTemplateRepository MachineTemplates { get; private set; }
+        public TemplateRepository Templates { get; private set; }
         public ISOImageRepository ISOImages { get; private set; }
         public ConnectSettingRepository ConnectSettings { get; private set; }
     }

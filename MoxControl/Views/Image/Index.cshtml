@@ -56,10 +56,10 @@
                                     {
                                         <tr>
                                             <td>
-                                                <a asp-controller="Server"
-                                           asp-action="Details"
-                                           asp-route-id="@image.Id" class="text-dark fw-bolder mb-1 fs-6">
-                                                    @image.Name
+                                                <a asp-controller="Image"
+                                                        asp-action="Details"
+                                                        asp-route-id="@image.Id" class="text-dark fw-bolder mb-1 fs-6">
+                                                        @image.Name
                                                 </a>
                                             </td>
                                             <td>
@@ -104,7 +104,7 @@
                                                     <!--end::Menu item-->
                                                     <!--begin::Menu item-->
                                                     <div class="menu-item px-3">
-                                                        <a asp-controller="Server"
+                                                        <a asp-controller="Image"
                                                    asp-action="Delete"
                                                    asp-route-id="@image.Id"
                                                            class="menu-link px-3">

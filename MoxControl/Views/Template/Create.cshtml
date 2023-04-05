@@ -1,6 +1,6 @@
-﻿@using MoxControl.ViewModels.ImageViewModels;
+﻿@using MoxControl.ViewModels.TemplateViewModels;
 
-@model ImageViewModel
+@model TemplateCreateEditViewModel
 
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
     <div class="container" id="kt_content_container">
@@ -18,8 +18,8 @@
             <!--begin::Content-->
             <div id="kt_account_settings_profile_details" class="collapse show">
                 <!--begin::Form-->
-                <form asp-controller="Image" asp-action="Create" method="post" class="form fv-plugins-bootstrap5 fv-plugins-framework">
-                    <partial name="_ImageCreateEditFormPartial" model="@Model" />
+                <form asp-controller="Template" asp-action="Create" method="post" class="form fv-plugins-bootstrap5 fv-plugins-framework">
+                    <partial name="_TemplateCreateEditFormPartial" model="@Model" />
                 </form>
                 <!--end::Form-->
             </div>

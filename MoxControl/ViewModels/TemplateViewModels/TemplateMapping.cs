@@ -7,8 +7,11 @@ namespace MoxControl.ViewModels.TemplateViewModels
     {
         public TemplateMapping()
         {
-            CreateMap<MachineTemplate, TemplateViewModel>();
-            CreateMap<TemplateViewModel, MachineTemplate>();
+            CreateMap<Template, TemplateViewModel>();
+            CreateMap<TemplateViewModel, Template>();
+
+            CreateMap<Template, TemplateCreateEditViewModel>();
+            CreateMap<TemplateCreateEditViewModel, Template>();
         }
     }
 }

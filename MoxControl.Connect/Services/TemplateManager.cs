@@ -1,9 +1,8 @@
-﻿using MoxControl.Connect.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Hangfire;
+using MoxControl.Connect.Data;
+using MoxControl.Connect.Models.Entities;
+using MoxControl.Connect.Models.Enums;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace MoxControl.Connect.Services
 {
@@ -14,6 +13,66 @@ namespace MoxControl.Connect.Services
         public TemplateManager(ConnectDatabase connectDatabase)
         {
             _connectDatabase = connectDatabase;
+        }
+
+        public async Task<List<Template>> GetAllAsync()
+        {
+            return await _connectDatabase.Templates.GetAllAsync();
+        }
+
+        public async Task<Template> GetByIdAsync(long id)
+        {
+            return await _connectDatabase.Templates.GetByIdAsync(id);
+        }
+
+        public async Task<bool> CreateAsync(Template template)
+        {
+            _connectDatabase.Templates.Insert(template);
+
+            try
+            {
+                await _connectDatabase.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> UpdateAsync(Template template)
+        {
+            _connectDatabase.Templates.Update(template);
+
+            try
+            {
+                await _connectDatabase.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> DeleteAsync(long id)
+        {
+            var template = await _connectDatabase.Templates.GetByIdAsync(id);
+
+            if (template is null)
+                return false;
+
+            _connectDatabase.Templates.Delete(template);
+
+            try
+            {
+                await _connectDatabase.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

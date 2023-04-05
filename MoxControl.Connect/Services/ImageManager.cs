@@ -118,6 +118,11 @@ namespace MoxControl.Connect.Services
 
                 var fullPath = Path.Combine(_webHostEnvironment.WebRootPath, "uploads", path);
 
+                var directoryPath = Path.GetDirectoryName(fullPath);
+
+                if (!Directory.Exists(directoryPath))
+                    Directory.CreateDirectory(directoryPath);
+
                 using var fs = new FileStream(fullPath, FileMode.CreateNew);
 
                 await response.Content.CopyToAsync(fs);

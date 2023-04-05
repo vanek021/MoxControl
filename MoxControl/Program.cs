@@ -66,6 +66,12 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+app.MapHangfireDashboard(options: new DashboardOptions
+{
+    Authorization = new[] { new HangfireDashboardAuthorizeFilter() },
+    IgnoreAntiforgeryToken = true
+});
+
 app.MapControllerRoute(
     name: "areaRoute",
     pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
@@ -73,12 +79,6 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-
-app.MapHangfireDashboard(options: new DashboardOptions
-{
-    Authorization = new[] { new HangfireDashboardAuthorizeFilter() },
-    IgnoreAntiforgeryToken = true
-});
 
 app.UseHangfireDashboard();
 

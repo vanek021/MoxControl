@@ -3,208 +3,308 @@
 }
 
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
-    <div class="container" id="kt_content_container">
-        <div class="card card-xxl-stretch mb-5 mb-xl-10">
-            <!--begin::Header-->
-            <div class="card-header border-0 pt-5">
-                <h3 class="card-title align-items-start flex-column">
-                    <span class="card-label fw-bolder fs-3 mb-1">Список активных серверов</span>
-                </h3>
-            </div>
-            <!--end::Header-->
-            <!--begin::Body-->
-            <div class="card-body py-3">
-                <div class="tab-content">
-                    <!--begin::Table container-->
-                    <div class="table-responsive">
-                        <!--begin::Table-->
-                        <table class="table table-row-dashed table-row-gray-200 align-middle gs-0 gy-4">
-                            <!--begin::Table head-->
-                            <thead>
-                                <tr class="border-0">
-                                    <th class="p-0 min-w-150px"></th>
-                                    <th class="p-0 min-w-140px"></th>
-                                    <th class="p-0 min-w-140px"></th>
-                                    <th class="p-0 min-w-140px"></th>
-                                    <th class="p-0 min-w-110px"></th>
-                                </tr>
-                            </thead>
-                            <!--end::Table head-->
-                            <!--begin::Table body-->
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <a href="#" class="text-dark fw-bolder text-hover-primary mb-1 fs-6">Сервер 1</a>
-                                        <span class="text-muted fw-bold d-block">Сервер для размещения виртуальных машин</span>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex flex-column w-100 me-2 mt-2">
-                                            <span class="text-gray-400 me-2 fw-boldest mb-2">CPU: 65%</span>
-                                            <div class="progress bg-light-primary w-100 h-5px">
-                                                <div class="progress-bar bg-primary" role="progressbar" style="width: 65%"></div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex flex-column w-100 me-2 mt-2">
-                                            <span class="text-gray-400 me-2 fw-boldest mb-2">RAM: 30%</span>
-                                            <div class="progress bg-light-warning w-100 h-5px">
-                                                <div class="progress-bar bg-warning" role="progressbar" style="width: 30%"></div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex flex-column w-100 me-2 mt-2">
-                                            <span class="text-gray-400 me-2 fw-boldest mb-2">HDD: 20%</span>
-                                            <div class="progress bg-light-info w-100 h-5px">
-                                                <div class="progress-bar bg-info" role="progressbar" style="width: 20%"></div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="text-end">
-                                        <span class="badge badge-light-success">Running</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <a href="#" class="text-dark fw-bolder text-hover-primary mb-1 fs-6">Сервер 2</a>
-                                        <span class="text-muted fw-bold d-block">Сервер для размещения баз данных</span>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex flex-column w-100 me-2 mt-2">
-                                            <span class="text-gray-400 me-2 fw-boldest mb-2">CPU: 45%</span>
-                                            <div class="progress bg-light-primary w-100 h-5px">
-                                                <div class="progress-bar bg-primary" role="progressbar" style="width: 45%"></div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex flex-column w-100 me-2 mt-2">
-                                            <span class="text-gray-400 me-2 fw-boldest mb-2">RAM: 75%</span>
-                                            <div class="progress bg-light-warning w-100 h-5px">
-                                                <div class="progress-bar bg-warning" role="progressbar" style="width: 75%"></div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex flex-column w-100 me-2 mt-2">
-                                            <span class="text-gray-400 me-2 fw-boldest mb-2">HDD: 34%</span>
-                                            <div class="progress bg-light-info w-100 h-5px">
-                                                <div class="progress-bar bg-info" role="progressbar" style="width: 34%"></div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="text-end">
-                                        <span class="badge badge-light-warning">Unstable</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <a href="#" class="text-dark fw-bolder text-hover-primary mb-1 fs-6">Сервер 3</a>
-                                        <span class="text-muted fw-bold d-block">Сервер для бэкапов</span>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex flex-column w-100 me-2 mt-2">
-                                            <span class="text-gray-400 me-2 fw-boldest mb-2">CPU: 0%</span>
-                                            <div class="progress bg-light-primary w-100 h-5px">
-                                                <div class="progress-bar bg-primary" role="progressbar" style="width: 0%"></div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex flex-column w-100 me-2 mt-2">
-                                            <span class="text-gray-400 me-2 fw-boldest mb-2">RAM: 10%</span>
-                                            <div class="progress bg-light-warning w-100 h-5px">
-                                                <div class="progress-bar bg-warning" role="progressbar" style="width: 10%"></div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex flex-column w-100 me-2 mt-2">
-                                            <span class="text-gray-400 me-2 fw-boldest mb-2">HDD: 90%</span>
-                                            <div class="progress bg-light-info w-100 h-5px">
-                                                <div class="progress-bar bg-info" role="progressbar" style="width: 90%"></div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="text-end">
-                                        <span class="badge badge-light-success">Running</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <a href="#" class="text-dark fw-bolder text-hover-primary mb-1 fs-6">Сервер 4</a>
-                                        <span class="text-muted fw-bold d-block">Сервер для размещения виртуальных машин</span>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex flex-column w-100 me-2 mt-2">
-                                            <span class="text-gray-400 me-2 fw-boldest mb-2">CPU: 5%</span>
-                                            <div class="progress bg-light-primary w-100 h-5px">
-                                                <div class="progress-bar bg-primary" role="progressbar" style="width: 5%"></div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex flex-column w-100 me-2 mt-2">
-                                            <span class="text-gray-400 me-2 fw-boldest mb-2">RAM: 65%</span>
-                                            <div class="progress bg-light-warning w-100 h-5px">
-                                                <div class="progress-bar bg-warning" role="progressbar" style="width: 65%"></div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex flex-column w-100 me-2 mt-2">
-                                            <span class="text-gray-400 me-2 fw-boldest mb-2">HDD: 50%</span>
-                                            <div class="progress bg-light-info w-100 h-5px">
-                                                <div class="progress-bar bg-info" role="progressbar" style="width: 50%"></div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="text-end">
-                                        <span class="badge badge-light-danger">Stopped</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <a href="#" class="text-dark fw-bolder text-hover-primary mb-1 fs-6">Сервер 6</a>
-                                        <span class="text-muted fw-bold d-block">Сервер для размещения виртуальных машин</span>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex flex-column w-100 me-2 mt-2">
-                                            <span class="text-gray-400 me-2 fw-boldest mb-2">CPU: 65%</span>
-                                            <div class="progress bg-light-primary w-100 h-5px">
-                                                <div class="progress-bar bg-primary" role="progressbar" style="width: 65%"></div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex flex-column w-100 me-2 mt-2">
-                                            <span class="text-gray-400 me-2 fw-boldest mb-2">RAM: 65%</span>
-                                            <div class="progress bg-light-warning w-100 h-5px">
-                                                <div class="progress-bar bg-warning" role="progressbar" style="width: 65%"></div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex flex-column w-100 me-2 mt-2">
-                                            <span class="text-gray-400 me-2 fw-boldest mb-2">HDD: 65%</span>
-                                            <div class="progress bg-light-info w-100 h-5px">
-                                                <div class="progress-bar bg-info" role="progressbar" style="width: 65%"></div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="text-end">
-                                        <span class="badge badge-light-success">Running</span>
-                                    </td>
-                                </tr>
-                            </tbody>
-                            <!--end::Table body-->
-                        </table>
+    <div class=" container-xxl " id="kt_content_container">
+        <!--begin::Order details page-->
+        <div class="d-flex flex-column gap-7 gap-lg-10">
+            <!--begin::Order summary-->
+            <div class="d-flex flex-column flex-xl-row gap-7 gap-lg-10">
+                <!--begin::Order details-->
+                <div class="card card-flush py-4 flex-row-fluid">
+                    <!--begin::Card header-->
+                    <div class="card-header">
+                        <div class="card-title">
+                            <h2>Системы виртуализации</h2>
+                        </div>
                     </div>
-                    <!--end::Table-->
+                    <!--end::Card header-->
+                    <!--begin::Card body-->
+                    <div class="card-body pt-0">
+                        <div class="table-responsive">
+                            <!--begin::Table-->
+                            <table class="table align-middle table-row-bordered mb-0 fs-6 gy-5 min-w-300px">
+                                <!--begin::Table body-->
+                                <tbody class="fw-semibold text-gray-600">
+                                    <!--begin::Date-->
+                                    <tr>
+                                        <td class="text-muted">
+                                            <div class="d-flex align-items-center">
+                                                Доступные системы
+                                            </div>
+                                        </td>
+
+                                        <td class="fw-bold text-end">1</td>
+                                    </tr>
+                                    <!--end::Date-->
+                                    <!--begin::Payment method-->
+                                    <tr>
+                                        <td class="text-muted">
+                                            <div class="d-flex align-items-center">
+                                                Используемые системы
+                                            </div>
+                                        </td>
+
+                                        <td class="fw-bold text-end">
+                                            1
+                                        </td>
+                                    </tr>
+                                    <!--end::Payment method-->
+                                    <!--begin::Date-->
+                                    <tr>
+                                        <td class="text-muted">
+                                            <div class="d-flex align-items-center">
+                                                Самая популярная
+                                            </div>
+                                        </td>
+
+                                        <td class="fw-bold text-end">Proxmox</td>
+                                    </tr>
+                                    <!--end::Date-->
+                                </tbody>
+                                <!--end::Table body-->
+                            </table>
+                            <!--end::Table-->
+                        </div>
+                    </div>
+                    <!--end::Card body-->
+                    <div class="card-footer d-flex justify-content-end py-6 px-9">
+                        <a asp-controller="Server" asp-action="Index" class="btn btn-primary">К списку серверов</a>
+                    </div>
                 </div>
+                <!--end::Order details-->
+                <!--begin::Customer details-->
+                <div class="card card-flush py-4 flex-row-fluid">
+                    <!--begin::Card header-->
+                    <div class="card-header">
+                        <div class="card-title">
+                            <h2>Образы</h2>
+                        </div>
+                    </div>
+                    <!--end::Card header-->
+                    <!--begin::Card body-->
+                    <div class="card-body pt-0">
+                        <div class="table-responsive">
+                            <!--begin::Table-->
+                            <table class="table align-middle table-row-bordered mb-0 fs-6 gy-5 min-w-300px">
+                                <!--begin::Table body-->
+                                <tbody class="fw-semibold text-gray-600">
+                                    <!--begin::Customer name-->
+                                    <tr>
+                                        <td class="text-muted">
+                                            <div class="d-flex align-items-center">
+                                                Всего образов
+                                            </div>
+                                        </td>
+
+                                        <td class="fw-bold text-end">
+                                            1
+                                        </td>
+                                    </tr>
+                                    <!--end::Customer name-->
+                                    <!--begin::Customer email-->
+                                    <tr>
+                                        <td class="text-muted">
+                                            <div class="d-flex align-items-center">
+                                                Используемые образы
+                                            </div>
+                                        </td>
+                                        <td class="fw-bold text-end">
+                                            <a href="/jet-html-pro/?page=apps/user-management/users/view" class="text-gray-600 text-hover-primary">
+                                                1
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <!--end::Payment method-->
+                                    <!--begin::Date-->
+                                    <tr>
+                                        <td class="text-muted">
+                                            <div class="d-flex align-items-center">
+                                                Самый популярный
+                                            </div>
+                                        </td>
+
+                                        <td class="fw-bold text-end">Ubuntu</td>
+                                    </tr>
+                                    <!--end::Date-->
+                                </tbody>
+                                <!--end::Table body-->
+                            </table>
+                            <!--end::Table-->
+                        </div>
+                    </div>
+                    <!--end::Card body-->
+                    <div class="card-footer d-flex justify-content-end py-6 px-9">
+                        <a asp-controller="Image" asp-action="Index" class="btn btn-primary">К списку образов</a>
+                    </div>
+                </div>
+                <!--end::Customer details-->
+                <!--begin::Documents-->
+                <div class="card card-flush py-4  flex-row-fluid">
+                    <!--begin::Card header-->
+                    <div class="card-header">
+                        <div class="card-title">
+                            <h2>Шаблоны</h2>
+                        </div>
+                    </div>
+                    <!--end::Card header-->
+                    <!--begin::Card body-->
+                    <div class="card-body pt-0">
+                        <div class="table-responsive">
+                            <!--begin::Table-->
+                            <table class="table align-middle table-row-bordered mb-0 fs-6 gy-5 min-w-300px">
+                                <!--begin::Table body-->
+                                <tbody class="fw-semibold text-gray-600">
+                                    <!--begin::Invoice-->
+                                    <tr>
+                                        <td class="text-muted">
+                                            <div class="d-flex align-items-center">
+                                                Всего шаблонов
+                                            </div>
+                                        </td>
+                                        <td class="fw-bold text-end">
+                                            1
+                                        </td>
+                                    </tr>
+                                    <!--end::Invoice-->
+                                    <!--begin::Shipping-->
+                                    <tr>
+                                        <td class="text-muted">
+                                            <div class="d-flex align-items-center">
+                                                Используемые шаблоны
+                                            </div>
+                                        </td>
+                                        <td class="fw-bold text-end"><a href="#" class="text-gray-600 text-hover-primary">1</a></td>
+                                    </tr>
+                                    <!--end::Shipping-->
+                                    <!--begin::Rewards-->
+                                    <tr>
+                                        <td class="text-muted">
+                                            <div class="d-flex align-items-center">
+                                                Самый популярный
+                                            </div>
+                                        </td>
+                                        <td class="fw-bold text-end">Ubuntu with Docker</td>
+                                    </tr>
+                                    <!--end::Rewards-->
+                                </tbody>
+                                <!--end::Table body-->
+                            </table>
+                            <!--end::Table-->
+                        </div>
+                    </div>
+                    <!--end::Card body-->
+                    <div class="card-footer d-flex justify-content-end py-6 px-9">
+                        <a asp-controller="Template" asp-action="Index" class="btn btn-primary">К списку шаблонов</a>
+                    </div>
+                </div>
+                <!--end::Documents-->
             </div>
-            <!--end::Body-->
+            <!--end::Order summary-->
+            <!--begin::Tab content-->
+            <div class="tab-content">
+
+                <!--begin::Orders-->
+                <div class="d-flex flex-column gap-7 gap-lg-10">
+                    <div class="d-flex flex-column flex-xl-row gap-7 gap-lg-10">
+                        <!--begin::Payment address-->
+                        <div class="card card-flush py-4 flex-row-fluid overflow-hidden">
+                            <!--begin::Background-->
+                            <div class="position-absolute top-0 end-0 opacity-10 pe-none text-end">
+                                <img src="/jet-html-pro/assets/media/icons/duotune/ecommerce/ecm001.svg" class="w-175px">
+                            </div>
+                            <!--end::Background-->
+                            <!--begin::Card header-->
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <h2>Proxmox</h2>
+                                </div>
+                            </div>
+                            <!--end::Card header-->
+                            <!--begin::Card body-->
+                            <div class="card-body pt-0">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        Сервера работают: 1/1<br>
+                                        ВМ запущены: 1/1<br>
+                                    </div>
+                                    <div>
+                                        <div class="d-flex flex-column">
+                                            <a asp-controller="Server" asp-action="Index" class="btn btn-primary mb-3">К списку серверов</a>
+                                            <a asp-controller="Setting" asp-action="VirtualizationSystem" asp-route-virtualizationSystem="Proxmox" class="btn btn-primary mb-3">К настройкам системы</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--end::Card body-->
+                        </div>
+                        <!--end::Payment address-->
+                        <!--begin::Shipping address-->
+                        <div class="card card-flush py-4 flex-row-fluid overflow-hidden">
+                            <!--begin::Background-->
+                            <div class="position-absolute top-0 end-0 opacity-10 pe-none text-end">
+                                <img src="/jet-html-pro/assets/media/icons/duotune/ecommerce/ecm006.svg" class="w-175px">
+                            </div>
+                            <!--end::Background-->
+                            <!--begin::Card header-->
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <h2>Proxmox - Статистика</h2>
+                                </div>
+                            </div>
+                            <!--end::Card header-->
+                            <!--begin::Card body-->
+                            <div class="card-body pt-0">
+                                <div class="table-responsive">
+                                    <!--begin::Table-->
+                                    <table class="table align-middle table-row-bordered mb-0 fs-6 gy-5 min-w-300px">
+                                        <!--begin::Table body-->
+                                        <tbody class="fw-semibold text-gray-600">
+                                            <!--begin::Invoice-->
+                                            <tr>
+                                                <td class="text-muted">
+                                                    <div class="d-flex align-items-center">
+                                                        Всего серверов
+                                                    </div>
+                                                </td>
+                                                <td class="fw-bold text-end">
+                                                    1
+                                                </td>
+                                            </tr>
+                                            <!--end::Invoice-->
+                                            <!--begin::Shipping-->
+                                            <tr>
+                                                <td class="text-muted">
+                                                    <div class="d-flex align-items-center">
+                                                        Всего виртуальных машин
+                                                    </div>
+                                                </td>
+                                                <td class="fw-bold text-end"><a href="#" class="text-gray-600 text-hover-primary">1</a></td>
+                                            </tr>
+                                            <!--end::Shipping-->
+                                            <!--begin::Rewards-->
+                                            <tr>
+                                                <td class="text-muted">
+                                                    <div class="d-flex align-items-center">
+                                                        Последняя проверка серверов
+                                                    </div>
+                                                </td>
+                                                <td class="fw-bold text-end">06.04.2023 15:48</td>
+                                            </tr>
+                                            <!--end::Rewards-->
+                                        </tbody>
+                                        <!--end::Table body-->
+                                    </table>
+                                    <!--end::Table-->
+                                </div>
+                            </div>
+                            <!--end::Card body-->
+                        </div>
+                        <!--end::Shipping address-->
+                    </div>
+                </div>
+                <!--end::Orders-->
+            </div>
+            <!--end::Tab content-->
         </div>
+        <!--end::Order details page-->
     </div>
 </div>

@@ -10,5 +10,6 @@ namespace MoxControl.Connect.Interfaces.Connect
     public interface IMachineService
     {
         public Task<List<BaseMachine>> GetAllByServer(long serverId);
+        public Task<List<BaseMachine>> GetAllWithTemplate();
     }
 }

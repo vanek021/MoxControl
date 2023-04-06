@@ -33,7 +33,7 @@ namespace MoxControl.Connect.Services
             return await _connectDatabase.ISOImages.GetAll();
         }
 
-        public async Task<ISOImage> GetByIdAsync(long id)
+        public async Task<ISOImage?> GetByIdAsync(long id)
         {
             return await _connectDatabase.ISOImages.GetByIdAsync(id);
         }

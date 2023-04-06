@@ -33,5 +33,12 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
         {
 
         }
+
+        public async Task<List<BaseMachine>> GetAllWithTemplate()
+        {
+            var machines = await _context.ProxmoxMachines.Where(x => x.TemplateId.HasValue).Select(x => (BaseMachine)x).ToListAsync();
+
+            return machines;
+        }
     }
 }

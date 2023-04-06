@@ -18,6 +18,7 @@ namespace MoxControl.Extensions
             serviceCollection.AddScoped<TemplateService>();
             serviceCollection.AddScoped<ImageService>();
             serviceCollection.AddScoped<SettingService>();
+            serviceCollection.AddScoped<HomeService>();
             serviceCollection.AddScoped<MoxControlUserManager>();
 
             return serviceCollection;

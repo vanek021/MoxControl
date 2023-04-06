@@ -24,5 +24,10 @@ namespace MoxControl.Connect.Data.Repositories
         {
             return Table().ToListAsync();
         }
+
+        public Task<int> GetTotalCount()
+        {
+            return Table().CountAsync();
+        }
     }
 }

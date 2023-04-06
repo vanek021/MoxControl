@@ -1,8 +1,6 @@
 ﻿using Hangfire;
 using MoxControl.Connect.Data;
 using MoxControl.Connect.Models.Entities;
-using MoxControl.Connect.Models.Enums;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace MoxControl.Connect.Services
 {
@@ -15,12 +13,17 @@ namespace MoxControl.Connect.Services
             _connectDatabase = connectDatabase;
         }
 
+        public async Task<int> GetTotalCount()
+        {
+            return await _connectDatabase.Templates.GetTotalCount();
+        }
+
         public async Task<List<Template>> GetAllAsync()
         {
             return await _connectDatabase.Templates.GetAllAsync();
         }
 
-        public async Task<Template> GetByIdAsync(long id)
+        public async Task<Template?> GetByIdAsync(long id)
         {
             return await _connectDatabase.Templates.GetByIdAsync(id);
         }

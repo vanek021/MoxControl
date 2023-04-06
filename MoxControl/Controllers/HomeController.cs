@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using MoxControl.Models;
+using MoxControl.Services;
 using System.Diagnostics;
 
 namespace MoxControl.Controllers
@@ -9,16 +10,19 @@ namespace MoxControl.Controllers
     [Authorize]
     public class HomeController : Controller
     {
+        private readonly HomeService _homeService;
         private readonly ILogger<HomeController> _logger;
         
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, HomeService homeService)
         {
+            _homeService = homeService;
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var homeIndexVm = await _homeService.GetHomeIndexViewModelAsync();
+            return View(homeIndexVm);
         }
 
         [AllowAnonymous]

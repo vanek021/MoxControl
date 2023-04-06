@@ -29,6 +29,11 @@ namespace MoxControl.Connect.Models.Entities
         public long ServerId { get; set; }
 
         /// <summary>
+        /// Шаблон, использованный при создании виртуальной машины
+        /// </summary>
+        public long? TemplateId { get; set; }
+
+        /// <summary>
         /// Оперативная память, в Мб
         /// </summary>
         public int RAMSize { get; set; }

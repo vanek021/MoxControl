@@ -40,5 +40,7 @@ namespace MoxControl.Services
 
             return machineIndexVm;
         }
+
+
     }
 }

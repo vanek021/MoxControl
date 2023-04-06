@@ -28,5 +28,10 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
 
             return machines;
         }
+
+        public async Task CreateAsync(BaseMachine machine, long templateId)
+        {
+
+        }
     }
 }

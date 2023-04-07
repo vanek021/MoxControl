@@ -1,5 +1,135 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@using MoxControl.ViewModels.MachineViewModels;
+
+@model MachineCreateEditViewModel
+
+<div class="card-body border-top p-9">
+    <div class="pt-2">
+        <h4 class="mb-6 text-gray-900">
+            Общие настройки
+        </h4>
+        <!--begin::Input group-->
+        <div class="row mb-6" id="serverRootPassword">
+            <!--begin::Label-->
+            <label asp-for="Name" class="col-lg-4 col-form-label required fw-semibold fs-6"></label>
+            <!--end::Label-->
+            <!--begin::Col-->
+            <div class="col-lg-8 fv-row fv-plugins-icon-container">
+                <input asp-for="Name" class="form-control form-control-lg form-control-solid" placeholder="название">
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <!--end::Col-->
+        </div>
+        <!--end::Input group-->
+        <!--begin::Input group-->
+        <div class="row mb-6" id="serverRootPassword">
+            <!--begin::Label-->
+            <label asp-for="Description" class="col-lg-4 col-form-label fw-semibold fs-6"></label>
+            <!--end::Label-->
+            <!--begin::Col-->
+            <div class="col-lg-8 fv-row fv-plugins-icon-container">
+                <input asp-for="Description" class="form-control form-control-lg form-control-solid" placeholder="описание">
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <!--end::Col-->
+        </div>
+        <!--end::Input group-->
+        <!--begin::Input group-->
+        <div class="row mb-6">
+            <!--begin::Label-->
+            <label asp-for="TemplateId" class="col-lg-4 col-form-label  fw-semibold fs-6"></label>
+            <!--end::Label-->
+            <!--begin::Col-->
+            <div class="col-lg-8 fv-row">
+                <select id="authorizationSelect" asp-for="TemplateId" asp-items="Model.Templates" class="form-control form-control-lg form-control-solid form-select"></select>
+                <span asp-validation-for="TemplateId" class="text-danger"></span>
+            </div>
+            <!--end::Col-->
+        </div>
+        <!--end::Input group-->
+    </div>
+    <div class="pt-2">
+        <h4 class="mb-6 text-gray-900">
+            Настройки CPU
+        </h4>
+        <!--begin::Input group-->
+        <div class="row mb-6" id="serverRootPassword">
+            <!--begin::Label-->
+            <label asp-for="Name" class="col-lg-4 col-form-label required fw-semibold fs-6"></label>
+            <!--end::Label-->
+            <!--begin::Col-->
+            <div class="col-lg-8 fv-row fv-plugins-icon-container">
+                <input asp-for="Name" class="form-control form-control-lg form-control-solid" placeholder="название">
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <!--end::Col-->
+        </div>
+        <!--end::Input group-->
+        <!--begin::Input group-->
+        <div class="row mb-6" id="serverRootPassword">
+            <!--begin::Label-->
+            <label asp-for="Description" class="col-lg-4 col-form-label fw-semibold fs-6"></label>
+            <!--end::Label-->
+            <!--begin::Col-->
+            <div class="col-lg-8 fv-row fv-plugins-icon-container">
+                <input asp-for="Description" class="form-control form-control-lg form-control-solid" placeholder="описание">
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <!--end::Col-->
+        </div>
+        <!--end::Input group-->
+    </div>
+    <div class="pt-2">
+        <h4 class="mb-6 text-gray-900">
+            Настройки HDD
+        </h4>
+        <!--begin::Input group-->
+        <div class="row mb-6" id="serverRootPassword">
+            <!--begin::Label-->
+            <label asp-for="Name" class="col-lg-4 col-form-label required fw-semibold fs-6"></label>
+            <!--end::Label-->
+            <!--begin::Col-->
+            <div class="col-lg-8 fv-row fv-plugins-icon-container">
+                <input asp-for="Name" class="form-control form-control-lg form-control-solid" placeholder="название">
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <!--end::Col-->
+        </div>
+        <!--end::Input group-->
+        <!--begin::Input group-->
+        <div class="row mb-6" id="serverRootPassword">
+            <!--begin::Label-->
+            <label asp-for="Description" class="col-lg-4 col-form-label fw-semibold fs-6"></label>
+            <!--end::Label-->
+            <!--begin::Col-->
+            <div class="col-lg-8 fv-row fv-plugins-icon-container">
+                <input asp-for="Description" class="form-control form-control-lg form-control-solid" placeholder="описание">
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <!--end::Col-->
+        </div>
+        <!--end::Input group-->
+    </div>
+    <div class="pt-2">
+        <h4 class="mb-6 text-gray-900">
+            Настройки RAM
+        </h4>
+        <!--begin::Input group-->
+        <div class="row mb-6" id="serverRootPassword">
+            <!--begin::Label-->
+            <label asp-for="Name" class="col-lg-4 col-form-label required fw-semibold fs-6"></label>
+            <!--end::Label-->
+            <!--begin::Col-->
+            <div class="col-lg-8 fv-row fv-plugins-icon-container">
+                <input type="range" class="form-range" id="customRange1" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <!--end::Col-->
+        </div>
+        <!--end::Input group-->
+    </div>
+</div>
+<!--begin::Actions-->
+<div class="card-footer d-flex justify-content-end py-6 px-9">
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+</div>
+<!--end::Actions-->

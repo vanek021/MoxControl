@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using MoxControl.Connect.Interfaces.Factories;
+using MoxControl.Connect.Services;
 using MoxControl.ViewModels.MachineViewModels;
 using MoxControl.ViewModels.ServerViewModels;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace MoxControl.Services
 {
@@ -9,11 +12,13 @@ namespace MoxControl.Services
     {
         private readonly IConnectServiceFactory _connectServiceFactory;
         private readonly IMapper _mapper;
+        private readonly TemplateManager _templateManager;
 
-        public MachineService(IConnectServiceFactory connectServiceFactory, IMapper mapper)
+        public MachineService(IConnectServiceFactory connectServiceFactory, IMapper mapper, TemplateManager templateManager)
         {
             _connectServiceFactory = connectServiceFactory;
             _mapper = mapper;
+            _templateManager = templateManager;
         }
 
         public async Task<MachineIndexViewModel> GetMachineIndexViewModelAsync()
@@ -28,8 +33,10 @@ namespace MoxControl.Services
 
                 foreach (var server in servers)
                 {
-                    var machineListVm = new MachineListViewModel();
-                    machineListVm.Server = _mapper.Map<ServerViewModel>(server);
+                    var machineListVm = new MachineListViewModel
+                    {
+                        Server = _mapper.Map<ServerViewModel>(server)
+                    };
 
                     var machines = await connectService.Item2.Machines.GetAllByServer(server.Id);
                     machineListVm.Machines = _mapper.Map<List<MachineViewModel>>(machines);
@@ -41,6 +48,21 @@ namespace MoxControl.Services
             return machineIndexVm;
         }
 
+        public async Task<MachineCreateEditViewModel> GetMachineViewModelForCreateAsync()
+        {
+            var machineCreateEditVm = new MachineCreateEditViewModel
+            {
+                Templates = await GetTemplatesSelectListAsync()
+            };
 
+            return machineCreateEditVm;
+        }
+
+        public async Task<SelectList> GetTemplatesSelectListAsync()
+        {
+            var templates = await _templateManager.GetAllAsync();
+            var selectItems = templates.Select(x => new { Name = x.Name, Value = x.Id });
+            return new SelectList(selectItems, "Value", "Name");
+        }
     }
 }

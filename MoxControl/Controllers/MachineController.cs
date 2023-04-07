@@ -26,9 +26,10 @@ namespace MoxControl.Controllers
             return View();
         }
 
-        public ActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View();
+            var machineCreateEditViewModel = await _machineService.GetMachineViewModelForCreateAsync();
+            return View(machineCreateEditViewModel);
         }
 
         [HttpPost]

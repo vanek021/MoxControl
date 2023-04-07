@@ -13,5 +13,7 @@ namespace MoxControl.Connect.Proxmox.Models.Entities
         [ForeignKey(nameof(ServerId))]
         public new ProxmoxServer Server { get; set; }
         public new long ServerId { get; set; }
+
+        public string? ProxmoxName { get; set; }
     }
 }

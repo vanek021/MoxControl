@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MoxControl.Connect.Proxmox.Data;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MoxControl.Connect.Proxmox.Data.Migrations
 {
     [DbContext(typeof(ConnectProxmoxDbContext))]
-    partial class ConnectProxmoxDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230407034737_AddMachineStageFieldToMachinesTable")]
+    partial class AddMachineStageFieldToMachinesTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,12 +34,6 @@ namespace MoxControl.Connect.Proxmox.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<int>("CPUCores")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("CPUSockets")
-                        .HasColumnType("integer");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -49,9 +46,6 @@ namespace MoxControl.Connect.Proxmox.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("ProxmoxName")
                         .HasColumnType("text");
 
                     b.Property<int>("RAMSize")

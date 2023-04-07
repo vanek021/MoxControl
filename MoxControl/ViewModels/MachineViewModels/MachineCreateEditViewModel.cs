@@ -18,9 +18,9 @@ namespace MoxControl.ViewModels.MachineViewModels
 
         [Display(Name = "Образ")]
         [Required]
-        public long ISOImageId { get; set; }
+        public long TemplateId { get; set; }
 
         [ValidateNever]
-        public SelectList Images { get; set; }
+        public SelectList Templates { get; set; }
     }
 }

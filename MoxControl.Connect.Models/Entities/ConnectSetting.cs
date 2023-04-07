@@ -21,6 +21,11 @@ namespace MoxControl.Connect.Models.Entities
         public bool IsShowSettingsSection { get; set; }
 
         /// <summary>
+        /// Включена ли синхронизация виртуальных машин с теми, которые расположены непосредственно на сервере
+        /// </summary>
+        public bool IsMachinesSyncEnabled { get; set; }
+
+        /// <summary>
         /// Дата последней проверки состояния серверов
         /// </summary>
         public DateTime? LastServersCheck { get; set; }

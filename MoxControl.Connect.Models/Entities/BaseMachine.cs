@@ -43,6 +43,24 @@ namespace MoxControl.Connect.Models.Entities
         /// </summary>
         public int HDDSize { get; set; }
 
+        /// <summary>
+        /// Количество сокетов
+        /// </summary>
+        public int CPUSockets { get; set; }
+
+        /// <summary>
+        /// Количество ядер
+        /// </summary>
+        public int CPUCores { get; set; }
+
+        /// <summary>
+        /// Статус виртуальной машины
+        /// </summary>
         public MachineStatus Status { get; set; }
+
+        /// <summary>
+        /// Этап в момент создания виртуальной машины
+        /// </summary>
+        public MachineStage Stage { get; set; }
     }
 }

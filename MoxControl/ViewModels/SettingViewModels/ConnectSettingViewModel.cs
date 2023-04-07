@@ -7,6 +7,10 @@ namespace MoxControl.ViewModels.SettingViewModels
     {
         [Display(Name = "Показывать секцию настроек сервера")]
         public bool IsShowSettingsSection { get; set; }
+
+        [Display(Name = "Синхронизация с ВМ на сервере")]
+        public bool IsMachinesSyncEnabled { get; set; }
+
         public VirtualizationSystem VirtualizationSystem { get; set; }
     }
 }

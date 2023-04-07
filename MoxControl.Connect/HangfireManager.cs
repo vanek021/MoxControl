@@ -32,7 +32,8 @@ namespace MoxControl.Connect
 
             foreach (var connectService in connectServices)
             {
-                await connectService.Item2.Servers.SendHeartBeatToAll();
+                var servers = await connectService.Item2.Servers.GetAllAsync();
+                servers.ForEach(s => BackgroundJob.Enqueue<HangfireConnectManager>(h => h.HangfireSendServerHeartBeat(connectService.Item1, s.Id, null)));
             }
         }
 

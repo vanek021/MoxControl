@@ -32,6 +32,22 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
             _moxControlUserManager = scope.ServiceProvider.GetRequiredService<MoxControlUserManager>();
         }
 
+        #region lambdas
+
+        public async Task<BaseServer?> GetAsync(long id)
+            => await _context.ProxmoxServers.FirstOrDefaultAsync(x => x.Id == id && !x.IsDeleted);
+
+        public async Task<List<BaseServer>> GetAllAsync()
+            => await _context.ProxmoxServers.Where(x => !x.IsDeleted).Select(x => (BaseServer)x).ToListAsync();
+
+        public async Task<int> GetTotalCountAsync()
+            => await _context.ProxmoxServers.Where(x => !x.IsDeleted).CountAsync();
+
+        public async Task<int> GetAliveCountAsync()
+            => await _context.ProxmoxServers.Where(x => x.Status == ServerStatus.Running).CountAsync();
+
+        #endregion
+
         public async Task<bool> CreateAsync(string host, int port, AuthorizationType authorizationType, string name,
             string description, string? rootLogin = null, string? rootPassword = null, string? initiatorUsername = null)
         {
@@ -101,17 +117,6 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
             await _context.SaveChangesAsync();
 
             return true;
-        }
-
-        public async Task<BaseServer?> GetAsync(long id)
-        {
-            return await _context.ProxmoxServers.FirstOrDefaultAsync(x => x.Id == id && !x.IsDeleted);
-        }
-
-        public async Task<List<BaseServer>> GetAllAsync()
-        {
-            var servers = await _context.ProxmoxServers.Where(x => !x.IsDeleted).ToListAsync();
-            return servers.Select(x => (BaseServer)x).ToList();
         }
 
         public async Task SendHeartBeat(long serverId, string? initiatorUsername = null)

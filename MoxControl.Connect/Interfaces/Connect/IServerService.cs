@@ -28,5 +28,9 @@ namespace MoxControl.Connect.Interfaces.Connect
         public Task SendHeartBeatToAll();
 
         public Task<ServerHealthModel?> GetHealthModel(long serverId, string? initiatorUsername = null);
+
+        public Task<int> GetTotalCountAsync();
+
+        public Task<int> GetAliveCountAsync();
     }
 }

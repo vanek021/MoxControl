@@ -39,17 +39,22 @@ namespace MoxControl.ViewModels.HomeViewModels
 
     public class SystemSummaryViewModel
     {
-        public SystemSummaryViewModel(VirtualizationSystem virtualizationSystem, int totalServers, int totalMachines, DateTime lastServersCheck)
+        public SystemSummaryViewModel(VirtualizationSystem virtualizationSystem,  int totalServers, int totalMachines, 
+            int serversAlive, int machinesAlive, DateTime? lastServersCheck)
         {
             VirtualizationSystem = virtualizationSystem;
             TotalServers = totalServers;
             TotalMachines = totalMachines;
             LastServersCheck = lastServersCheck;
+            ServersAlive = serversAlive;
+            MachinesAlive = machinesAlive;
         }
 
+        public int ServersAlive { get; set; }
+        public int MachinesAlive { get; set; }
         public VirtualizationSystem VirtualizationSystem { get; set; }
         public int TotalServers { get; set; }
         public int TotalMachines { get; set; }
-        public DateTime LastServersCheck { get; set; }
+        public DateTime? LastServersCheck { get; set; }
     }
 }

@@ -19,5 +19,10 @@ namespace MoxControl.Connect.Models.Entities
         /// Флаг, который означает, имеет ли система виртуализации дополнительные настройки сервера
         /// </summary>
         public bool IsShowSettingsSection { get; set; }
+
+        /// <summary>
+        /// Дата последней проверки состояния серверов
+        /// </summary>
+        public DateTime? LastServersCheck { get; set; }
     }
 }

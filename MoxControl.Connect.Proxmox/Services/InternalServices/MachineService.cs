@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using MoxControl.Connect.Interfaces.Connect;
 using MoxControl.Connect.Models.Entities;
+using MoxControl.Connect.Models.Enums;
 using MoxControl.Connect.Proxmox.Data;
 using System;
 using System.Collections.Generic;
@@ -22,23 +23,25 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
             _context = scope.ServiceProvider.GetRequiredService<ConnectProxmoxDbContext>();
         }
 
-        public async Task<List<BaseMachine>> GetAllByServer(long id)
-        {
-            var machines = await _context.ProxmoxMachines.Where(x => x.ServerId == id).Select(x => (BaseMachine)x).ToListAsync();
+        #region lambdas
 
-            return machines;
-        }
+        public async Task<int> GetTotalCountAsync()
+            => await _context.ProxmoxMachines.CountAsync();
+
+        public async Task<List<BaseMachine>> GetAllByServer(long id)
+            => await _context.ProxmoxMachines.Where(x => x.ServerId == id).Select(x => (BaseMachine)x).ToListAsync();
+
+        public async Task<List<BaseMachine>> GetAllWithTemplate()
+            => await _context.ProxmoxMachines.Where(x => x.TemplateId.HasValue).Select(x => (BaseMachine)x).ToListAsync();
+
+        public async Task<int> GetAliveCountAsync()
+            => await _context.ProxmoxMachines.Where(x => x.Status == MachineStatus.Running).CountAsync();
+
+        #endregion
 
         public async Task CreateAsync(BaseMachine machine, long templateId)
         {
 
-        }
-
-        public async Task<List<BaseMachine>> GetAllWithTemplate()
-        {
-            var machines = await _context.ProxmoxMachines.Where(x => x.TemplateId.HasValue).Select(x => (BaseMachine)x).ToListAsync();
-
-            return machines;
         }
     }
 }

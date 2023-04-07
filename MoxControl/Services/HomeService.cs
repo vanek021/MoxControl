@@ -1,4 +1,5 @@
-﻿using MoxControl.Connect.Interfaces.Factories;
+﻿using MoxControl.Connect.Data;
+using MoxControl.Connect.Interfaces.Factories;
 using MoxControl.Connect.Models.Enums;
 using MoxControl.Connect.Services;
 using MoxControl.ViewModels.HomeViewModels;
@@ -10,12 +11,14 @@ namespace MoxControl.Services
         private readonly IConnectServiceFactory _connectServiceFactory;
         private readonly ImageManager _imageManager;
         private readonly TemplateManager _templateManager;
+        private readonly ConnectDatabase _connectDatabase;
 
-        public HomeService(IConnectServiceFactory connectServiceFactory, TemplateManager templateManager, ImageManager imageManager)
+        public HomeService(IConnectServiceFactory connectServiceFactory, TemplateManager templateManager, ImageManager imageManager, ConnectDatabase connectDatabase)
         {
             _connectServiceFactory = connectServiceFactory;
             _templateManager = templateManager;
             _imageManager = imageManager;
+            _connectDatabase = connectDatabase;
         }
 
         public async Task<HomeIndexViewModel> GetHomeIndexViewModelAsync()
@@ -23,8 +26,29 @@ namespace MoxControl.Services
             var summaryTemplate = await GetTemplateSummaryCardViewModelAsync();
             var summaryImage = await GetImageSummaryCardViewModelAsync();
             var summaryServers = await GetServerSummaryCardViewModelAsync();
+            var systemSummaries = await GetSystemSummaryViewModelsAsync();
 
-            return new HomeIndexViewModel(summaryServers, summaryImage, summaryTemplate, new());
+            return new HomeIndexViewModel(summaryServers, summaryImage, summaryTemplate, systemSummaries);
+        }
+
+        private async Task<List<SystemSummaryViewModel>> GetSystemSummaryViewModelsAsync()
+        {
+            var connectServices = _connectServiceFactory.GetAll();
+            var result = new List<SystemSummaryViewModel>();
+
+            foreach (var connectService in connectServices)
+            {
+                var totalServers = await connectService.Item2.Servers.GetTotalCountAsync();
+                var totalMachines = await connectService.Item2.Machines.GetTotalCountAsync();
+                var aliveServers = await connectService.Item2.Servers.GetAliveCountAsync();
+                var aliveMachines = await connectService.Item2.Machines.GetAliveCountAsync();
+                var connectSetting = await _connectDatabase.ConnectSettings.GetByVirtualizationSystemAsync(connectService.Item1);
+                var lastServersCheck = connectSetting.LastServersCheck;
+
+                result.Add(new SystemSummaryViewModel(connectService.Item1, totalServers, totalMachines, aliveServers, aliveMachines, lastServersCheck));
+            }
+
+            return result;
         }
 
         private async Task<SummaryCardViewModel> GetTemplateSummaryCardViewModelAsync()

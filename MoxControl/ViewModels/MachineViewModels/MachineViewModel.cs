@@ -5,6 +5,8 @@ namespace MoxControl.ViewModels.MachineViewModels
 {
     public class MachineViewModel
     {
+        public long Id { get; set; }
+
         [Display(Name = "Имя")]
         [Required]
         public string Name { get; set; }

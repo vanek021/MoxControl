@@ -16,5 +16,13 @@ namespace MoxControl.Connect.Interfaces.Connect
         public Task<int> GetTotalCountAsync();
 
         public Task<int> GetAliveCountAsync();
+
+        public Task<bool> CreateAsync(BaseMachine machine, long serverId, long? templateId = null);
+
+        public Task<bool> UpdateAsync(BaseMachine machine);
+
+        public Task<bool> DeleteAsync(long id);
+
+        public Task<BaseMachine?> GetAsync(long id);
     }
 }

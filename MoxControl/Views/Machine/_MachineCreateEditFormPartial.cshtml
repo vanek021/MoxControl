@@ -8,7 +8,7 @@
             Общие настройки
         </h4>
         <!--begin::Input group-->
-        <div class="row mb-6" id="serverRootPassword">
+        <div class="row mb-6">
             <!--begin::Label-->
             <label asp-for="Name" class="col-lg-4 col-form-label required fw-semibold fs-6"></label>
             <!--end::Label-->
@@ -21,9 +21,9 @@
         </div>
         <!--end::Input group-->
         <!--begin::Input group-->
-        <div class="row mb-6" id="serverRootPassword">
+        <div class="row mb-6">
             <!--begin::Label-->
-            <label asp-for="Description" class="col-lg-4 col-form-label fw-semibold fs-6"></label>
+            <label asp-for="Description" class="col-lg-4 col-form-label required fw-semibold fs-6"></label>
             <!--end::Label-->
             <!--begin::Col-->
             <div class="col-lg-8 fv-row fv-plugins-icon-container">
@@ -36,7 +36,7 @@
         <!--begin::Input group-->
         <div class="row mb-6">
             <!--begin::Label-->
-            <label asp-for="TemplateId" class="col-lg-4 col-form-label  fw-semibold fs-6"></label>
+            <label asp-for="TemplateId" class="col-lg-4 col-form-label required fw-semibold fs-6"></label>
             <!--end::Label-->
             <!--begin::Col-->
             <div class="col-lg-8 fv-row">
@@ -52,27 +52,27 @@
             Настройки CPU
         </h4>
         <!--begin::Input group-->
-        <div class="row mb-6" id="serverRootPassword">
+        <div class="row mb-6">
             <!--begin::Label-->
-            <label asp-for="Name" class="col-lg-4 col-form-label required fw-semibold fs-6"></label>
+            <label asp-for="CPUSockets" class="col-lg-4 col-form-label required fw-semibold fs-6"></label>
             <!--end::Label-->
             <!--begin::Col-->
             <div class="col-lg-8 fv-row fv-plugins-icon-container">
-                <input asp-for="Name" class="form-control form-control-lg form-control-solid" placeholder="название">
-                <span asp-validation-for="Name" class="text-danger"></span>
+                <input asp-for="CPUSockets" class="form-control form-control-lg form-control-solid" placeholder="кол-во CPU сокетов">
+                <span asp-validation-for="CPUSockets" class="text-danger"></span>
             </div>
             <!--end::Col-->
         </div>
         <!--end::Input group-->
         <!--begin::Input group-->
-        <div class="row mb-6" id="serverRootPassword">
+        <div class="row mb-6">
             <!--begin::Label-->
-            <label asp-for="Description" class="col-lg-4 col-form-label fw-semibold fs-6"></label>
+            <label asp-for="CPUCores" class="col-lg-4 col-form-label required fw-semibold fs-6"></label>
             <!--end::Label-->
             <!--begin::Col-->
             <div class="col-lg-8 fv-row fv-plugins-icon-container">
-                <input asp-for="Description" class="form-control form-control-lg form-control-solid" placeholder="описание">
-                <span asp-validation-for="Description" class="text-danger"></span>
+                <input asp-for="CPUCores" class="form-control form-control-lg form-control-solid" placeholder="кол-во CPU ядер">
+                <span asp-validation-for="CPUCores" class="text-danger"></span>
             </div>
             <!--end::Col-->
         </div>
@@ -83,27 +83,14 @@
             Настройки HDD
         </h4>
         <!--begin::Input group-->
-        <div class="row mb-6" id="serverRootPassword">
+        <div class="row mb-6">
             <!--begin::Label-->
-            <label asp-for="Name" class="col-lg-4 col-form-label required fw-semibold fs-6"></label>
+            <label asp-for="HDDSize" class="col-lg-4 col-form-label required fw-semibold fs-6"></label>
             <!--end::Label-->
             <!--begin::Col-->
             <div class="col-lg-8 fv-row fv-plugins-icon-container">
-                <input asp-for="Name" class="form-control form-control-lg form-control-solid" placeholder="название">
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <!--end::Col-->
-        </div>
-        <!--end::Input group-->
-        <!--begin::Input group-->
-        <div class="row mb-6" id="serverRootPassword">
-            <!--begin::Label-->
-            <label asp-for="Description" class="col-lg-4 col-form-label fw-semibold fs-6"></label>
-            <!--end::Label-->
-            <!--begin::Col-->
-            <div class="col-lg-8 fv-row fv-plugins-icon-container">
-                <input asp-for="Description" class="form-control form-control-lg form-control-solid" placeholder="описание">
-                <span asp-validation-for="Description" class="text-danger"></span>
+                <input asp-for="HDDSize" class="form-control form-control-lg form-control-solid" placeholder="объем HDD">
+                <span asp-validation-for="HDDSize" class="text-danger"></span>
             </div>
             <!--end::Col-->
         </div>
@@ -114,18 +101,20 @@
             Настройки RAM
         </h4>
         <!--begin::Input group-->
-        <div class="row mb-6" id="serverRootPassword">
+        <div class="row mb-6">
             <!--begin::Label-->
-            <label asp-for="Name" class="col-lg-4 col-form-label required fw-semibold fs-6"></label>
+            <label asp-for="RAMSize" class="col-lg-4 col-form-label required fw-semibold fs-6"></label>
             <!--end::Label-->
             <!--begin::Col-->
             <div class="col-lg-8 fv-row fv-plugins-icon-container">
-                <input type="range" class="form-range" id="customRange1" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                <input asp-for="RAMSize" class="form-control form-control-lg form-control-solid" placeholder="объем RAM">
+                <span asp-validation-for="RAMSize" class="text-danger"></span>
             </div>
             <!--end::Col-->
         </div>
         <!--end::Input group-->
+        <input asp-for="ServerId" value="@Model.ServerId" type="hidden" />
+        <input asp-for="VirtualizationSystem" value="@Model.VirtualizationSystem" type="hidden" />
     </div>
 </div>
 <!--begin::Actions-->

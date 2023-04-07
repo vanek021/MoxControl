@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MoxControl.Connect.Models.Enums;
 using MoxControl.Services;
+using MoxControl.ViewModels.MachineViewModels;
 
 namespace MoxControl.Controllers
 {
@@ -26,43 +28,58 @@ namespace MoxControl.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Create()
+        public async Task<IActionResult> Create(VirtualizationSystem virtualizationSystem, long serverId)
         {
-            var machineCreateEditViewModel = await _machineService.GetMachineViewModelForCreateAsync();
+            var machineCreateEditViewModel = await _machineService.GetMachineViewModelForCreateAsync(virtualizationSystem, serverId);
             return View(machineCreateEditViewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<IActionResult> Create(MachineCreateEditViewModel viewModel)
         {
-            try
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                var result = await _machineService.CreateAsync(viewModel);
+
+                if (result)
+                    return RedirectToAction(nameof(Index));
+                else
+                    return BadRequest();
             }
-            catch
-            {
-                return View();
-            }
+
+            viewModel.Templates = await _machineService.GetTemplatesSelectListAsync();
+            ModelState.AddModelError(string.Empty, "Что-то пошло не так, проверьте правильность введенных данных");
+            return View(viewModel);
         }
 
-        public ActionResult Edit(int id)
+        public async Task<IActionResult> Edit(VirtualizationSystem virtualizationSystem, long id)
         {
-            return View();
+            var viewModel = await _machineService.GetMachineViewModelForEditAsync(virtualizationSystem, id);
+
+            if (viewModel is null)
+                return NotFound();
+
+            return View(viewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<IActionResult> Edit(MachineCreateEditViewModel viewModel)
         {
-            try
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                var result = await _machineService.UpdateAsync(viewModel);
+
+                if (result)
+                    return RedirectToAction(nameof(Index));
+                else
+                    return BadRequest();
             }
-            catch
-            {
-                return View();
-            }
+
+            viewModel.Templates = await _machineService.GetTemplatesSelectListAsync();
+            ModelState.AddModelError(string.Empty, "Что-то пошло не так, проверьте правильность введенных данных");
+            return View(viewModel);
         }
     }
 }

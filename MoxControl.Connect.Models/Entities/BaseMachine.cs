@@ -1,4 +1,5 @@
 ﻿using MoxControl.Connect.Models.Enums;
+using MoxControl.Core.Interfaces;
 using MoxControl.Core.Models;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MoxControl.Connect.Models.Entities
 {
-    public abstract class BaseMachine : BaseRecord
+    public class BaseMachine : BaseRecord, ISoftDeletable
     {
         /// <summary>
         /// Название вирутальной машины
@@ -62,5 +63,10 @@ namespace MoxControl.Connect.Models.Entities
         /// Этап в момент создания виртуальной машины
         /// </summary>
         public MachineStage Stage { get; set; }
+
+        /// <summary>
+        /// Флаг, обозначающий, удалена ли виртуальная машина
+        /// </summary>
+        public bool IsDeleted { get; set; }
     }
 }

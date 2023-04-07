@@ -9,6 +9,9 @@ namespace MoxControl.ViewModels.MachineViewModels
         {
             CreateMap<BaseMachine, MachineViewModel>();
             CreateMap<MachineViewModel, BaseMachine>();
+
+            CreateMap<MachineCreateEditViewModel, BaseMachine>();
+            CreateMap<BaseMachine, MachineCreateEditViewModel>();
         }
     }
 }

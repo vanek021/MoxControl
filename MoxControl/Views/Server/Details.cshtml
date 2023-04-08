@@ -128,6 +128,11 @@
             <!--end::Header-->
             <!--begin::Body-->
             <div class="card-body pt-5">
+                <div class="d-flex justify-content-center" id="chartSpinner">
+                    <div class="flex-column spinner-border text-primary">
+
+                    </div>
+                </div>
                 <div class="row min-h-auto" style="min-height: 365px;">
                     <div class="col-lg-4" id="chart1">
                     </div>
@@ -233,6 +238,9 @@
     <script type="text/javascript">
         $(document).ready(async function () {
             var serverHealth = await getServerHealth();
+            console.log(serverHealth);
+
+            const chartSpinner = $("#chartSpinner");
 
             var options = {
                 series: [0],
@@ -331,14 +339,26 @@
 
             var chart3 = new ApexCharts(document.querySelector("#chart3"), options);
             chart3.render();
+
+            chartSpinner.attr("style", "display: none !important");
         });
 
         async function getServerHealth() {
             const response = await fetch("/Server/GetServerHealth/@Html.Raw(Model.Id)?virtualizationSystem=${@Html.Raw(Model.VirtualizationSystem.ToString())}");
-            const jsonData = await response.json();
-            console.log(jsonData);
+            
+            if (response.ok) {
+                const jsonData = await response.json();
+                jsonData.isSuccess = true;
+                return jsonData;
+            }
 
-            return jsonData;
+            var emptyData = {
+                cpuUsedPercent: 0,
+                memoryUsedPercent: 0,
+                hddUsedPercent: 0,
+                isSuccess: false
+            }
+            return emptyData;
         }
     </script>
 }

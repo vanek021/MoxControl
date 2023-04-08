@@ -1,0 +1,273 @@
+﻿@using MoxControl.Infrastructure.Extensions;
+@using MoxControl.ViewModels.MachineViewModels;
+
+@model MachineDetailsViewModel
+
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+    <div class=" container-xxl " id="kt_content_container">
+        <div class="card mb-5 mb-xl-10">
+            <!--begin::Card header-->
+            <div class="card-header">
+                <!--begin::Card title-->
+                <div class="card-title m-0">
+                    <h3 class="fw-bold m-0">Информация о ВМ: @Model.Name <span class="@Model.Status.GetMachineStatusColor()">@Model.Status.GetDisplayName()</span></h3>
+                </div>
+                <!--end::Card title-->
+                <!--begin::Action-->
+                <a asp-controller="Machine"
+                   asp-action="Edit"
+                   asp-route-virtualizationSystem="@Model.VirtualizationSystem"
+                   asp-route-id="@Model.Id"
+                   class="btn btn-sm btn-primary align-self-center">
+                    Редактировать
+                </a>
+                <!--end::Action-->
+            </div>
+            <!--begin::Card header-->
+            <!--begin::Body-->
+            <div class="card-body pt-5">
+                <!--begin::Row-->
+                <div class="row mb-6">
+                    <!--begin::Label-->
+                    <label class="col-lg-6 fw-semibold text-muted">Сервер</label>
+                    <!--end::Label-->
+                    <!--begin::Col-->
+                    <div class="col-lg-6">
+                        <span class="fw-bold fs-6 text-gray-80">
+                            @if (!string.IsNullOrEmpty(Model.ServerName))
+                            {
+                                <a asp-controller="Server" 
+                                        asp-action="Details" 
+                                        asp-route-virtualizationSystem="@Model.VirtualizationSystem"
+                                        asp-route-id="@Model.ServerId!.Value" 
+                                        class="text-dark fw-bolder text-hover-primary mb-1 fs-6">
+                                    @Model.ServerName
+                                </a>
+                            }
+                            else
+                            {
+                                <span class="fw-bold text-gray-800 fs-6">
+                                    Сервер не обнаружен
+                                </span>
+                            }
+                        </span>
+                    </div>
+                    <!--end::Col-->
+                </div>
+                <!--end::Row-->
+                <!--begin::Row-->
+                <div class="row mb-6">
+                    <!--begin::Label-->
+                    <label class="col-lg-6 fw-semibold text-muted">Название машины</label>
+                    <!--end::Label-->
+                    <!--begin::Col-->
+                    <div class="col-lg-6">
+                        <span class="fw-bold fs-6 text-gray-80">@Model.Name</span>
+                    </div>
+                    <!--end::Col-->
+                </div>
+                <!--end::Row-->
+                <!--begin::Row-->
+                <div class="row mb-6">
+                    <!--begin::Label-->
+                    <label class="col-lg-6 fw-semibold text-muted">Описание машины</label>
+                    <!--end::Label-->
+                    <!--begin::Col-->
+                    <div class="col-lg-6">
+                        <span class="fw-bold fs-6 text-gray-80">@Model.Description</span>
+                    </div>
+                    <!--end::Col-->
+                </div>
+                <!--end::Row-->
+                <!--begin::Input group-->
+                <div class="row mb-6">
+                    <!--begin::Label-->
+                    <label class="col-lg-6 fw-semibold text-muted">Система виртуализации</label>
+                    <!--end::Label-->
+                    <!--begin::Col-->
+                    <div class="col-lg-6 fv-row">
+                        <span class="fw-bold text-gray-800 fs-6">@Model.VirtualizationSystem.GetDisplayName()</span>
+                    </div>
+                    <!--end::Col-->
+                </div>
+                <!--end::Input group-->
+                <!--begin::Input group-->
+                <div class="row mb-6">
+                    <!--begin::Label-->
+                    <label class="col-lg-6 fw-semibold text-muted">Статус</label>
+                    <!--begin::Label-->
+                    <!--begin::Label-->
+                    <div class="col-lg-6">
+                        <span class="fw-bold fs-6 text-gray-800"><span class="@Model.Status.GetMachineStatusColor()">@Model.Status.GetDisplayName()</span></span>
+                    </div>
+                    <!--begin::Label-->
+                </div>
+                <!--end::Input group-->
+                <!--begin::Row-->
+                <div class="row mb-6">
+                    <!--begin::Label-->
+                    <label class="col-lg-6 fw-semibold text-muted">Процессор</label>
+                    <!--end::Label-->
+                    <!--begin::Col-->
+                    <div class="col-lg-6">
+                        <span class="fw-bold fs-6 text-gray-80">Sockets: @Model.CPUSockets, Cores: @Model.CPUCores</span>
+                    </div>
+                    <!--end::Col-->
+                </div>
+                <!--end::Row-->
+                <!--begin::Row-->
+                <div class="row mb-6">
+                    <!--begin::Label-->
+                    <label class="col-lg-6 fw-semibold text-muted">Оперативная память</label>
+                    <!--end::Label-->
+                    <!--begin::Col-->
+                    <div class="col-lg-6">
+                        <span class="fw-bold fs-6 text-gray-80">@Model.RAMSize Мб</span>
+                    </div>
+                    <!--end::Col-->
+                </div>
+                <!--end::Row-->
+                <!--begin::Row-->
+                <div class="row mb-6">
+                    <!--begin::Label-->
+                    <label class="col-lg-6 fw-semibold text-muted">Жесткий диск</label>
+                    <!--end::Label-->
+                    <!--begin::Col-->
+                    <div class="col-lg-6">
+                        <span class="fw-bold fs-6 text-gray-80">@Model.HDDSize Гб</span>
+                    </div>
+                    <!--end::Col-->
+                </div>
+                <!--end::Row-->
+                <!--begin::Input group-->
+                <div class="row mb-6">
+                    <!--begin::Label-->
+                    <label class="col-lg-6 fw-semibold text-muted">Этап создания ВМ</label>
+                    <!--begin::Label-->
+                    <!--begin::Label-->
+                    <div class="col-lg-6">
+                        <span class="fw-bold fs-6 text-gray-800"><span class="@Model.Stage.GetMachineStageColor()">@Model.Stage.GetDisplayName()</span></span>
+                    </div>
+                    <!--begin::Label-->
+                </div>
+                <!--end::Input group-->
+            </div>
+            <!--end::Body-->
+        </div>
+        <div class="card mb-5 mb-xl-10">
+            <div class="card-header">
+                <!--begin::Card title-->
+                <div class="card-title m-0">
+                    <h3 class="fw-bold m-0">Действия</h3>
+                </div>
+                <!--end::Card title-->
+            </div>
+            <!--begin::Body-->
+            <div class="card-body pt-5">
+                <div class="d-flex flex-wrap justify-content-around">
+                    <div class="p-2">
+                        <button class="btn btn-primary">
+                            <span class="svg-icon svg-icon-1">
+                                <!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\Electric\Shutdown.svg-->
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                        <rect x="0" y="0" width="24" height="24" />
+                                        <path d="M7.62302337,5.30262097 C8.08508802,5.000107 8.70490146,5.12944838 9.00741543,5.59151303 C9.3099294,6.05357769 9.18058801,6.67339112 8.71852336,6.97590509 C7.03468892,8.07831239 6,9.95030239 6,12 C6,15.3137085 8.6862915,18 12,18 C15.3137085,18 18,15.3137085 18,12 C18,9.99549229 17.0108275,8.15969002 15.3875704,7.04698597 C14.9320347,6.73472706 14.8158858,6.11230651 15.1281448,5.65677076 C15.4404037,5.20123501 16.0628242,5.08508618 16.51836,5.39734508 C18.6800181,6.87911023 20,9.32886071 20,12 C20,16.418278 16.418278,20 12,20 C7.581722,20 4,16.418278 4,12 C4,9.26852332 5.38056879,6.77075716 7.62302337,5.30262097 Z" fill="#000000" fill-rule="nonzero" />
+                                        <rect fill="#000000" opacity="0.3" x="11" y="3" width="2" height="10" rx="1" />
+                                    </g>
+                                </svg><!--end::Svg Icon-->
+                            </span>
+                            Включить
+                        </button>
+                    </div>
+                    <div class="p-2">
+                        <button class="btn btn-primary">
+                            <span class="svg-icon svg-icon-1">
+                                <!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\Electric\Shutdown.svg-->
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                        <rect x="0" y="0" width="24" height="24" />
+                                        <path d="M7.62302337,5.30262097 C8.08508802,5.000107 8.70490146,5.12944838 9.00741543,5.59151303 C9.3099294,6.05357769 9.18058801,6.67339112 8.71852336,6.97590509 C7.03468892,8.07831239 6,9.95030239 6,12 C6,15.3137085 8.6862915,18 12,18 C15.3137085,18 18,15.3137085 18,12 C18,9.99549229 17.0108275,8.15969002 15.3875704,7.04698597 C14.9320347,6.73472706 14.8158858,6.11230651 15.1281448,5.65677076 C15.4404037,5.20123501 16.0628242,5.08508618 16.51836,5.39734508 C18.6800181,6.87911023 20,9.32886071 20,12 C20,16.418278 16.418278,20 12,20 C7.581722,20 4,16.418278 4,12 C4,9.26852332 5.38056879,6.77075716 7.62302337,5.30262097 Z" fill="#000000" fill-rule="nonzero" />
+                                        <rect fill="#000000" opacity="0.3" x="11" y="3" width="2" height="10" rx="1" />
+                                    </g>
+                                </svg><!--end::Svg Icon-->
+                            </span>
+                            Выключить
+                        </button>
+                    </div>
+                    <div class="p-2">
+                        <button class="btn btn-primary">
+                            <span class="svg-icon svg-icon-1">
+                                <!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\General\Update.svg-->
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                        <rect x="0" y="0" width="24" height="24" />
+                                        <path d="M8.43296491,7.17429118 L9.40782327,7.85689436 C9.49616631,7.91875282 9.56214077,8.00751728 9.5959027,8.10994332 C9.68235021,8.37220548 9.53982427,8.65489052 9.27756211,8.74133803 L5.89079566,9.85769242 C5.84469033,9.87288977 5.79661753,9.8812917 5.74809064,9.88263369 C5.4720538,9.8902674 5.24209339,9.67268366 5.23445968,9.39664682 L5.13610134,5.83998177 C5.13313425,5.73269078 5.16477113,5.62729274 5.22633424,5.53937151 C5.384723,5.31316892 5.69649589,5.25819495 5.92269848,5.4165837 L6.72910242,5.98123382 C8.16546398,4.72182424 10.0239806,4 12,4 C16.418278,4 20,7.581722 20,12 C20,16.418278 16.418278,20 12,20 C7.581722,20 4,16.418278 4,12 L6,12 C6,15.3137085 8.6862915,18 12,18 C15.3137085,18 18,15.3137085 18,12 C18,8.6862915 15.3137085,6 12,6 C10.6885336,6 9.44767246,6.42282109 8.43296491,7.17429118 Z" fill="#000000" fill-rule="nonzero" />
+                                    </g>
+                                </svg><!--end::Svg Icon-->
+                            </span>
+                            Жесткая перезагрузка
+                        </button>
+                    </div>
+                    <div class="p-2">
+                        <button class="btn btn-primary">
+                            <span class="svg-icon svg-icon-1">
+                                <!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\General\Update.svg-->
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                        <rect x="0" y="0" width="24" height="24" />
+                                        <path d="M8.43296491,7.17429118 L9.40782327,7.85689436 C9.49616631,7.91875282 9.56214077,8.00751728 9.5959027,8.10994332 C9.68235021,8.37220548 9.53982427,8.65489052 9.27756211,8.74133803 L5.89079566,9.85769242 C5.84469033,9.87288977 5.79661753,9.8812917 5.74809064,9.88263369 C5.4720538,9.8902674 5.24209339,9.67268366 5.23445968,9.39664682 L5.13610134,5.83998177 C5.13313425,5.73269078 5.16477113,5.62729274 5.22633424,5.53937151 C5.384723,5.31316892 5.69649589,5.25819495 5.92269848,5.4165837 L6.72910242,5.98123382 C8.16546398,4.72182424 10.0239806,4 12,4 C16.418278,4 20,7.581722 20,12 C20,16.418278 16.418278,20 12,20 C7.581722,20 4,16.418278 4,12 L6,12 C6,15.3137085 8.6862915,18 12,18 C15.3137085,18 18,15.3137085 18,12 C18,8.6862915 15.3137085,6 12,6 C10.6885336,6 9.44767246,6.42282109 8.43296491,7.17429118 Z" fill="#000000" fill-rule="nonzero" />
+                                    </g>
+                                </svg><!--end::Svg Icon-->
+                            </span>
+                            Мягкая перезагрузка
+                        </button>
+                    </div>
+                    <div class="p-2">
+                        <button class="btn btn-primary">
+                            <span class="svg-icon svg-icon-1">
+                                <!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\Code\Terminal.svg-->
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                        <polygon points="0 0 24 0 24 24 0 24" />
+                                        <path d="M3.70710678,15.7071068 C3.31658249,16.0976311 2.68341751,16.0976311 2.29289322,15.7071068 C1.90236893,15.3165825 1.90236893,14.6834175 2.29289322,14.2928932 L8.29289322,8.29289322 C8.67147216,7.91431428 9.28105859,7.90106866 9.67572463,8.26284586 L15.6757246,13.7628459 C16.0828436,14.1360383 16.1103465,14.7686056 15.7371541,15.1757246 C15.3639617,15.5828436 14.7313944,15.6103465 14.3242754,15.2371541 L9.03007575,10.3841378 L3.70710678,15.7071068 Z" fill="#000000" fill-rule="nonzero" transform="translate(9.000003, 11.999999) rotate(-270.000000) translate(-9.000003, -11.999999) " />
+                                        <rect fill="#000000" opacity="0.3" x="12" y="17" width="10" height="2" rx="1" />
+                                    </g>
+                                </svg><!--end::Svg Icon-->
+                            </span>
+                            Консоль
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!--end::Body-->
+        </div>
+        <div class="card mb-5 mb-xl-10">
+            <!--begin::Header-->
+            <div class="card-header">
+                <!--begin::Card title-->
+                <div class="card-title m-0">
+                    <h3 class="fw-bold m-0">Ключевые показатели</h3>
+                </div>
+                <!--end::Card title-->
+            </div>
+            <!--end::Header-->
+            <!--begin::Body-->
+            <div class="card-body pt-5">
+                <div class="d-flex justify-content-center" id="chartSpinner">
+                    <div class="flex-column spinner-border text-primary">
+                    </div>
+                </div>
+                <div class="row min-h-auto" style="min-height: 365px;">
+                    <div class="col-lg-4" id="chart1">
+                    </div>
+                    <div class="col-lg-4" id="chart2">
+                    </div>
+                    <div class="col-lg-4" id="chart3">
+                    </div>
+                </div>
+            </div>
+            <!--end::Body-->
+        </div>
+    </div>
+</div>

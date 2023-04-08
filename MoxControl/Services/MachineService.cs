@@ -98,6 +98,28 @@ namespace MoxControl.Services
             return result;
         }
 
+        public async Task<MachineDetailsViewModel?> GetMachineDetailsViewModelAsync(VirtualizationSystem virtualizationSystem, long machineId)
+        {
+            var connectService = _connectServiceFactory.GetByVirtualizationSystem(virtualizationSystem);
+            var machine = await connectService.Machines.GetAsync(machineId);
+
+            if (machine is null)
+                return null;
+
+            var viewModel = _mapper.Map<MachineDetailsViewModel>(machine);
+            viewModel.VirtualizationSystem = virtualizationSystem;
+
+            var server = await connectService.Servers.GetAsync(machine.ServerId);
+
+            if (server is not null)
+            {
+                viewModel.ServerName = server.Name;
+                viewModel.ServerId = server.Id;
+            }
+
+            return viewModel;
+        }
+
         public async Task<SelectList> GetTemplatesSelectListAsync()
         {
             var templates = await _templateManager.GetAllAsync();

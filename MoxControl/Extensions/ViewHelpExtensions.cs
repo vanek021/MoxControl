@@ -43,5 +43,14 @@ namespace MoxControl.Extensions
                 _ => "badge badge-light",
             };
         }
+
+        public static string GetMachineStageColor(this MachineStage stage)
+        {
+            return stage switch
+            {
+                MachineStage.ReadyForCreate => "badge badge-light-info",
+                _ => "badge badge-light",
+            };
+        }
     }
 }

@@ -83,7 +83,7 @@
                                             {
                                                 <tr>
                                                     <td>
-                                                        <a href="#" class="text-dark fw-bolder text-hover-primary mb-1 fs-6">@machine.Name</a>
+                                                        <a asp-controller="Machine" asp-action="Details" asp-route-virtualizationSystem="@machineList.Server.VirtualizationSystem" asp-route-id="@machine.Id" class="text-dark fw-bolder text-hover-primary mb-1 fs-6">@machine.Name</a>
                                                         <span class="text-muted fw-bold d-block">@machine.Description</span>
                                                     </td>
                                                     <td>

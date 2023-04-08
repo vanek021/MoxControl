@@ -23,9 +23,14 @@ namespace MoxControl.Controllers
             return View(machineIndexViewModel);
         }
 
-        public ActionResult Details(long id)
+        public async Task<IActionResult> Details(VirtualizationSystem virtualizationSystem, long id)
         {
-            return View();
+            var viewModel = await _machineService.GetMachineDetailsViewModelAsync(virtualizationSystem, id);
+
+            if (viewModel is null)
+                return NotFound();
+
+            return View(viewModel);
         }
 
         public async Task<IActionResult> Create(VirtualizationSystem virtualizationSystem, long serverId)

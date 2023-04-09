@@ -76,5 +76,10 @@ namespace MoxControl.Areas.Identity.Controllers
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home", new { area = "" });
         }
+
+        public IActionResult About()
+        {
+            return View();
+        }
     }
 }

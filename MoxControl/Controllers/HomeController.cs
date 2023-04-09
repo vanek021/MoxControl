@@ -25,6 +25,17 @@ namespace MoxControl.Controllers
             return View(homeIndexVm);
         }
 
+        public IActionResult About()
+        {
+            return View();
+        }
+
+        [AllowAnonymous]
+        public IActionResult Visitor()
+        {
+            return RedirectToAction("VisitorLogin", "Account", new { area = "Identity" });
+        }
+
         [AllowAnonymous]
         public IActionResult Error(string id)
         {
@@ -45,12 +56,6 @@ namespace MoxControl.Controllers
             };
 
             return View(model);
-        }
-
-        [AllowAnonymous]
-        public IActionResult Visitor()
-        {
-            return RedirectToAction("VisitorLogin", "Account", new { area = "Identity" });
         }
     }
 }

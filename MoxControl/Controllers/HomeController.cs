@@ -46,5 +46,11 @@ namespace MoxControl.Controllers
 
             return View(model);
         }
+
+        [AllowAnonymous]
+        public IActionResult Visitor()
+        {
+            return RedirectToAction("VisitorLogin", "Account", new { area = "Identity" });
+        }
     }
 }

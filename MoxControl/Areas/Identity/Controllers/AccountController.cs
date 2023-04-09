@@ -2,12 +2,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using MoxControl.Areas.Identity.ViewModels;
-using MoxControl.Infrastructure.Configurations;
 using MoxControl.Infrastructure.Services;
 using MoxControl.Models.Entities;
-using static MoxControl.Infrastructure.Services.LdapService;
 
 namespace MoxControl.Areas.Identity.Controllers
 {
@@ -17,6 +14,8 @@ namespace MoxControl.Areas.Identity.Controllers
     {
         private readonly MoxControlUserManager _moxControlUserManager;
         private readonly SignInManager<User> _signInManager;
+        private const string visitorLogin = "Visitor";
+        private const string visitorPassword = "qwertyuiop123";
 
         public AccountController(MoxControlUserManager moxControlUserManager, SignInManager<User> signInManager)
         {
@@ -57,6 +56,18 @@ namespace MoxControl.Areas.Identity.Controllers
             }
 
             return View(model);
+        }
+
+        public async Task<IActionResult> VisitorLogin()
+        {
+            await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+
+            var result = await _moxControlUserManager.LdapSignInAsync(visitorLogin, visitorPassword, true);
+
+            if (result)
+                return RedirectToAction("Index", "Home", new { area = "" });
+
+            return BadRequest();
         }
 
         [Authorize]

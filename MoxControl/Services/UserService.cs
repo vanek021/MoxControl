@@ -40,5 +40,37 @@ namespace MoxControl.Services
 
             return new PagedList<List<UserViewModel>, UserViewModel>(userVms, userVms, pageSize, page, users.TotalCount, users.TotalPage);
         }
+
+        public async Task<UserSettingsViewModel?> GetUserSettingsViewModelAsync(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user is null)
+                return null;
+
+            var viewModel = _mapper.Map<UserSettingsViewModel>(user);
+
+            return viewModel;
+        }
+
+        public async Task<bool> UpdateUserSettings(UserSettingsViewModel viewModel)
+        {
+            var user = await _userManager.FindByIdAsync(viewModel.Id.ToString());
+
+            if (user is null)
+                return false;
+
+            user = _mapper.Map(viewModel, user);
+
+            try
+            {
+                await _userManager.UpdateAsync(user);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

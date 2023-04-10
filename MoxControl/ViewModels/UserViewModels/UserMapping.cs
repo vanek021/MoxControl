@@ -9,6 +9,9 @@ namespace MoxControl.ViewModels.UserViewModels
         {
             CreateMap<User, UserViewModel>()
                 .ForMember(src => src.Role, opt => opt.Ignore());
+
+            CreateMap<UserSettingsViewModel, User>();
+            CreateMap<User, UserSettingsViewModel>();
         }
     }
 }

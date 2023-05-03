@@ -81,13 +81,13 @@
                                         <tbody>
                                             @foreach (var machine in machineList.Machines)
                                             {
-                                                <tr>
+                                                <tr data-machine-row data-machine-id="@machine.Id" data-virtualizationSystem="@machineList.Server.VirtualizationSystem">
                                                     <td>
                                                         <a asp-controller="Machine" asp-action="Details" asp-route-virtualizationSystem="@machineList.Server.VirtualizationSystem" asp-route-id="@machine.Id" class="text-dark fw-bolder text-hover-primary mb-1 fs-6">@machine.Name</a>
                                                         <span class="text-muted fw-bold d-block">@machine.Description</span>
                                                     </td>
                                                     <td>
-                                                        <div class="d-flex flex-column w-100 me-2 mt-2">
+                                                        <div data-machine-cpu class="d-flex flex-column w-100 me-2 mt-2">
                                                             <span class="text-gray-400 me-2 fw-boldest mb-2">CPU: -%</span>
                                                             <div class="progress bg-light-primary w-100 h-5px">
                                                                 <div class="progress-bar bg-primary" role="progressbar" style="width: 0%"></div>
@@ -95,7 +95,7 @@
                                                         </div>
                                                     </td>
                                                     <td>
-                                                        <div class="d-flex flex-column w-100 me-2 mt-2">
+                                                        <div data-machine-ram class="d-flex flex-column w-100 me-2 mt-2">
                                                             <span class="text-gray-400 me-2 fw-boldest mb-2">RAM: -%</span>
                                                             <div class="progress bg-light-warning w-100 h-5px">
                                                                 <div class="progress-bar bg-warning" role="progressbar" style="width: 0%"></div>
@@ -103,7 +103,7 @@
                                                         </div>
                                                     </td>
                                                     <td>
-                                                        <div class="d-flex flex-column w-100 me-2 mt-2">
+                                                        <div data-machine-hdd class="d-flex flex-column w-100 me-2 mt-2">
                                                             <span class="text-gray-400 me-2 fw-boldest mb-2">HDD: -%</span>
                                                             <div class="progress bg-light-info w-100 h-5px">
                                                                 <div class="progress-bar bg-info" role="progressbar" style="width: 0%"></div>
@@ -167,3 +167,7 @@
         }
     </div>
 </div>
+
+@section Scripts {
+    <script src="~/js/machine/health.js"></script>
+}

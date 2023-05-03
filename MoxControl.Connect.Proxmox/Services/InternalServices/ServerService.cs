@@ -21,7 +21,6 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
 {
     public class ServerService : BaseServerService, IServerService
     {
-        private readonly MoxControlUserManager _moxControlUserManager;
         private readonly ConnectProxmoxDbContext _context;
 
         public ServerService(IServiceScopeFactory serviceScopeFactory) : base(serviceScopeFactory)
@@ -29,7 +28,6 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
             var scope = serviceScopeFactory.CreateScope();
 
             _context = scope.ServiceProvider.GetRequiredService<ConnectProxmoxDbContext>();
-            _moxControlUserManager = scope.ServiceProvider.GetRequiredService<MoxControlUserManager>();
         }
 
         #region lambdas

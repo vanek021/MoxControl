@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MoxControl.Connect.Models;
 using MoxControl.Connect.Models.Enums;
 using MoxControl.Services;
 using MoxControl.ViewModels.MachineViewModels;
@@ -85,6 +86,18 @@ namespace MoxControl.Controllers
             viewModel.Templates = await _machineService.GetTemplatesSelectListAsync();
             ModelState.AddModelError(string.Empty, "Что-то пошло не так, проверьте правильность введенных данных");
             return View(viewModel);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<ActionResult<MachineHealthModel>> GetMachineHealth(VirtualizationSystem virtualizationSystem, long id)
+        {
+            var machineHealthModel = await _machineService.GetMachineHealthModelAsync(virtualizationSystem, id);
+
+            if (machineHealthModel is null)
+                return NotFound();
+
+            return machineHealthModel;
         }
     }
 }

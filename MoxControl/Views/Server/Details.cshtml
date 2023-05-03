@@ -181,32 +181,32 @@
                                 <tbody>
                                     @foreach (var machine in Model.Machines)
                                     {
-                                        <tr>
+                                        <tr data-machine-row data-machine-id="@machine.Id" data-virtualizationSystem="@Model.VirtualizationSystem">
                                             <td>
                                                 <a href="#" class="text-dark fw-bolder text-hover-primary mb-1 fs-6">@machine.Name</a>
                                                 <span class="text-muted fw-bold d-block">@machine.Description</span>
                                             </td>
                                             <td>
-                                                <div class="d-flex flex-column w-100 me-2 mt-2">
-                                                    <span class="text-gray-400 me-2 fw-boldest mb-2">CPU: 65%</span>
+                                                <div data-machine-cpu class="d-flex flex-column w-100 me-2 mt-2">
+                                                    <span class="text-gray-400 me-2 fw-boldest mb-2">CPU: -%</span>
                                                     <div class="progress bg-light-primary w-100 h-5px">
-                                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 65%"></div>
+                                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 0%"></div>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td>
-                                                <div class="d-flex flex-column w-100 me-2 mt-2">
-                                                    <span class="text-gray-400 me-2 fw-boldest mb-2">RAM: 30%</span>
+                                                <div data-machine-ram class="d-flex flex-column w-100 me-2 mt-2">
+                                                    <span class="text-gray-400 me-2 fw-boldest mb-2">RAM: -%</span>
                                                     <div class="progress bg-light-warning w-100 h-5px">
-                                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 30%"></div>
+                                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 0%"></div>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td>
-                                                <div class="d-flex flex-column w-100 me-2 mt-2">
-                                                    <span class="text-gray-400 me-2 fw-boldest mb-2">HDD: 20%</span>
+                                                <div data-machine-hdd class="d-flex flex-column w-100 me-2 mt-2">
+                                                    <span class="text-gray-400 me-2 fw-boldest mb-2">HDD: -%</span>
                                                     <div class="progress bg-light-info w-100 h-5px">
-                                                        <div class="progress-bar bg-info" role="progressbar" style="width: 20%"></div>
+                                                        <div class="progress-bar bg-info" role="progressbar" style="width: 0%"></div>
                                                     </div>
                                                 </div>
                                             </td>
@@ -236,6 +236,7 @@
 
 @section Scripts {
     <script src="~/js/radialBarCreator.js" asp-append-version="true"></script>
+    <script src="~/js/machine/health.js"></script>
     <script type="text/javascript">
         $(document).ready(async function () {
             var serverHealth = await getServerHealth();
@@ -256,7 +257,7 @@
         });
 
         async function getServerHealth() {
-            const response = await fetch("/Server/GetServerHealth/@Html.Raw(Model.Id)?virtualizationSystem=${@Html.Raw(Model.VirtualizationSystem.ToString())}");
+            const response = await fetch("/Server/GetServerHealth/@Html.Raw(Model.Id)?virtualizationSystem=@Html.Raw(Model.VirtualizationSystem.ToString())");
             
             if (response.ok) {
                 const jsonData = await response.json();

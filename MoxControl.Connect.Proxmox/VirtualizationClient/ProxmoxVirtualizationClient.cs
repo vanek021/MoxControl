@@ -21,7 +21,17 @@ namespace MoxControl.Connect.Proxmox
 
         public async Task<List<RrddataItem>> GetServerRrdata(string timeframe = "hour", string cf = "AVERAGE")
         {
-            var rrddata = await _pveClient.Nodes[_baseNode].Rrddata.Rrddata("hour", "AVERAGE");
+            return await GetNodeRrdata(_baseNode, timeframe, cf);
+        }
+
+        public async Task<List<RrddataItem>> GetMachineRrdata(string nodeName, string timeFrame = "hour", string cf = "AVERAGE")
+        {
+            return await GetNodeRrdata(nodeName, timeFrame, cf);
+        }
+
+        private async Task<List<RrddataItem>> GetNodeRrdata(string nodeName, string timeFrame = "hour", string cf = "AVERAGE")
+        {
+            var rrddata = await _pveClient.Nodes[nodeName].Rrddata.Rrddata(timeFrame, cf);
             var stringResponse = JsonConvert.SerializeObject(rrddata.Response.data, Formatting.Indented);
 
             List<RrddataItem> rrddataItems = JsonConvert.DeserializeObject<List<RrddataItem>>(stringResponse);

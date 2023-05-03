@@ -1,4 +1,5 @@
-﻿using MoxControl.Connect.Models.Entities;
+﻿using MoxControl.Connect.Models;
+using MoxControl.Connect.Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,5 +25,7 @@ namespace MoxControl.Connect.Interfaces.Connect
         public Task<bool> DeleteAsync(long id);
 
         public Task<BaseMachine?> GetAsync(long id);
+
+        public Task<MachineHealthModel?> GetHealthModel(long machineId, string? initiatorUsername = null);
     }
 }

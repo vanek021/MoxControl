@@ -1,7 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using MoxControl.Connect.Models;
-using MoxControl.Connect.Models.Entities;
-using MoxControl.Connect.Models.Enums;
 using MoxControl.Infrastructure.Services;
 using System;
 using System.Collections.Generic;
@@ -11,9 +8,10 @@ using System.Threading.Tasks;
 
 namespace MoxControl.Connect.Services.InternalServices
 {
-    public class BaseServerService : BaseInternalService
+    public class BaseMachineService : BaseInternalService
     {
-        public BaseServerService(IServiceScopeFactory serviceScopeFactory) : base(serviceScopeFactory)
+
+        public BaseMachineService(IServiceScopeFactory serviceScopeFactory) : base(serviceScopeFactory)
         {
 
         }

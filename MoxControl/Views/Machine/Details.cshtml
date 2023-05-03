@@ -258,7 +258,7 @@
                     <div class="flex-column spinner-border text-primary">
                     </div>
                 </div>
-                <div class="row min-h-auto" style="min-height: 365px;">
+                <div class="row min-h-auto" style="min-height: 365px;" id="chartContainer">
                     <div class="col-lg-4" id="chart1">
                     </div>
                     <div class="col-lg-4" id="chart2">
@@ -271,3 +271,44 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script src="~/js/radialBarCreator.js" asp-append-version="true"></script>
+    <script src="~/js/machine/health.js"></script>
+    <script type="text/javascript">
+        $(document).ready(async function () {
+            var serverHealth = await getMachineHealth();
+
+            createAndRenderRadialBar("chart1", "#00B2FF", serverHealth.cpuUsedPercent, "Загрузка CPU");
+            createAndRenderRadialBar("chart2", "#FFC700", serverHealth.cpuUsedPercent, "Загрузка RAM");
+            createAndRenderRadialBar("chart3", "#7239EA", serverHealth.cpuUsedPercent, "Загрузка HDD");
+
+            $("#chartSpinner").remove();
+            if (!serverHealth.isSuccess) {
+                var txt = document.createElement("span");
+                txt.classList.add("text-danger");
+                txt.classList.add("text-center");
+                txt.innerHTML = "Не удалось загрузить данные";
+                $("#chartContainer").append(txt);
+            }
+        });
+
+        async function getMachineHealth() {
+            const response = await fetch("/Machine/GetMachineHealth/@Html.Raw(Model.Id)?virtualizationSystem=@Html.Raw(Model.VirtualizationSystem.ToString())");
+
+            if (response.ok) {
+                const jsonData = await response.json();
+                jsonData.isSuccess = true;
+                return jsonData;
+            }
+
+            var emptyData = {
+                cpuUsedPercent: 0,
+                memoryUsedPercent: 0,
+                hddUsedPercent: 0,
+                isSuccess: false
+            }
+            return emptyData;
+        }
+    </script>
+}

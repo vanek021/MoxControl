@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MoxControl.Connect.Interfaces.Factories;
+using MoxControl.Connect.Models;
 using MoxControl.Connect.Models.Entities;
 using MoxControl.Connect.Models.Enums;
 using MoxControl.Connect.Services;
@@ -13,12 +14,15 @@ namespace MoxControl.Services
     public class MachineService
     {
         private readonly IConnectServiceFactory _connectServiceFactory;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMapper _mapper;
         private readonly TemplateManager _templateManager;
 
-        public MachineService(IConnectServiceFactory connectServiceFactory, IMapper mapper, TemplateManager templateManager)
+        public MachineService(IConnectServiceFactory connectServiceFactory, IHttpContextAccessor httpContextAccessor, 
+            IMapper mapper, TemplateManager templateManager)
         {
             _connectServiceFactory = connectServiceFactory;
+            _httpContextAccessor = httpContextAccessor;
             _mapper = mapper;
             _templateManager = templateManager;
         }
@@ -125,6 +129,15 @@ namespace MoxControl.Services
             var templates = await _templateManager.GetAllAsync();
             var selectItems = templates.Select(x => new { Name = x.Name, Value = x.Id });
             return new SelectList(selectItems, "Value", "Name");
+        }
+
+        public async Task<MachineHealthModel?> GetMachineHealthModelAsync(VirtualizationSystem virtualizationSystem, long machineId)
+        {
+            var connectService = _connectServiceFactory.GetByVirtualizationSystem(virtualizationSystem);
+
+            var healthModel = await connectService.Machines.GetHealthModel(machineId, _httpContextAccessor?.HttpContext?.User?.Identity?.Name);
+
+            return healthModel;
         }
     }
 }

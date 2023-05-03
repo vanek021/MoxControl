@@ -1,12 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Hosting.Server;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MoxControl.Connect.Interfaces.Connect;
+using MoxControl.Connect.Models;
 using MoxControl.Connect.Models.Entities;
 using MoxControl.Connect.Models.Enums;
 using MoxControl.Connect.Proxmox.Data;
 using MoxControl.Connect.Proxmox.Models.Entities;
+using MoxControl.Connect.Services.InternalServices;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,11 +18,11 @@ using System.Xml.Linq;
 
 namespace MoxControl.Connect.Proxmox.Services.InternalServices
 {
-    public class MachineService : IMachineService
+    public class MachineService : BaseMachineService, IMachineService
     {
         private readonly ConnectProxmoxDbContext _context;
 
-        public MachineService(IServiceScopeFactory serviceScopeFactory)
+        public MachineService(IServiceScopeFactory serviceScopeFactory) : base(serviceScopeFactory)
         {
             var scope = serviceScopeFactory.CreateScope();
 
@@ -113,6 +117,30 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
             await _context.SaveChangesAsync();
 
             return true;
+        }
+
+        public async Task<MachineHealthModel?> GetHealthModel(long machineId, string? initiatorUsername = null)
+        {
+            var machine = await _context.ProxmoxMachines.Include(m => m.Server).FirstOrDefaultAsync(m => m.Id == machineId);
+
+            if (machine is null || string.IsNullOrEmpty(machine.ProxmoxName))
+                return null;
+
+            var credentials = GetServerCredentials(machine.Server, initiatorUsername);
+
+            var client = new ProxmoxVirtualizationClient(machine.Server.Host, machine.Server.Port, credentials.Login, credentials.Password);
+
+            var rrddataItems = await client.GetMachineRrdata(machine.ProxmoxName);
+            var lastData = rrddataItems.LastOrDefault();
+
+            if (lastData is null)
+                return null;
+
+            var machineHealthModel = new MachineHealthModel(long.Parse(lastData.MemoryTotal!),
+                double.Parse(lastData.MemoryUsed!, CultureInfo.InvariantCulture), long.Parse(lastData.HDDTotal!),
+                double.Parse(lastData.HDDUsed!, CultureInfo.InvariantCulture), double.Parse(lastData.CPUUsed!, CultureInfo.InvariantCulture));
+
+            return machineHealthModel;
         }
     }
 }

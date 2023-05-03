@@ -26,7 +26,7 @@ namespace MoxControl.Connect
             await connectService.Servers.SendHeartBeat(serverId, initiatorUsername);
         }
 
-        public async Task HangfireSendHeartBeatToAll()
+        public async Task HangfireSendHeartBeatToAllServers()
         {
             var connectServices = _connectServiceFactory.GetAll();
 
@@ -37,9 +37,27 @@ namespace MoxControl.Connect
             }
         }
 
+        public async Task HangfireSendMachineHeartBeat(VirtualizationSystem virtualizationSystem, long machineId, string? initiatorUsername = null)
+        {
+            var connectService = _connectServiceFactory.GetByVirtualizationSystem(virtualizationSystem);
+            await connectService.Machines.SendHeartBeat(machineId, initiatorUsername);
+        }
+
+        public async Task HangfireSendHeartBeatToAllMachines()
+        {
+            var connectServices = _connectServiceFactory.GetAll();
+
+            foreach (var connectService in connectServices)
+            {
+                var machines = await connectService.Item2.Machines.GetAllAsync();
+                machines.ForEach(m => BackgroundJob.Enqueue<HangfireConnectManager>(h => h.HangfireSendMachineHeartBeat(connectService.Item1, m.Id, null)));
+            }
+        }
+
         public static void RegisterJobs()
         {
-            RecurringJob.AddOrUpdate<HangfireConnectManager>(x => x.HangfireSendHeartBeatToAll(), Cron.Hourly());
+            RecurringJob.AddOrUpdate<HangfireConnectManager>(x => x.HangfireSendHeartBeatToAllServers(), Cron.Hourly());
+            RecurringJob.AddOrUpdate<HangfireConnectManager>(x => x.HangfireSendHeartBeatToAllMachines(), Cron.Hourly());
         }
     }
 }

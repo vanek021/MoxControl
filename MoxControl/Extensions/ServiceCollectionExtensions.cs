@@ -19,6 +19,7 @@ namespace MoxControl.Extensions
             serviceCollection.AddScoped<ImageService>();
             serviceCollection.AddScoped<SettingService>();
             serviceCollection.AddScoped<HomeService>();
+            serviceCollection.AddScoped<NotificationService>();
             serviceCollection.AddScoped<MoxControlUserManager>();
 
             return serviceCollection;

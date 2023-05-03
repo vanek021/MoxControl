@@ -27,5 +27,9 @@ namespace MoxControl.Connect.Interfaces.Connect
         public Task<BaseMachine?> GetAsync(long id);
 
         public Task<MachineHealthModel?> GetHealthModel(long machineId, string? initiatorUsername = null);
+
+        public Task SendHeartBeat(long machineId, string? initiatorUsername = null);
+
+        public Task<List<BaseMachine>> GetAllAsync();
     }
 }

@@ -45,5 +45,11 @@ namespace MoxControl.Connect.Proxmox
 
             return rrddataItems;
         }
+
+        public async Task GetMachineStatus(string nodeName)
+        {
+            var status = await _pveClient.Nodes[nodeName].Status.Status();
+            var stringResponse = JsonConvert.SerializeObject(status.Response.data, Formatting.Indented);
+        }
     }
 }

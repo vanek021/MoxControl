@@ -46,6 +46,9 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
         public async Task<BaseMachine?> GetAsync(long id)
             => await _context.ProxmoxMachines.Where(x => !x.IsDeleted).Select(x => (BaseMachine)x).FirstOrDefaultAsync(m => m.Id == id);
 
+        public async Task<List<BaseMachine>> GetAllAsync()
+            => await _context.ProxmoxMachines.Where(x => !x.IsDeleted).Select(x => (BaseMachine)x).ToListAsync();
+
         #endregion
 
         public async Task<bool> CreateAsync(BaseMachine machine, long serverId, long? templateId = null)
@@ -141,6 +144,33 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
                 double.Parse(lastData.HDDUsed!, CultureInfo.InvariantCulture), double.Parse(lastData.CPUUsed!, CultureInfo.InvariantCulture));
 
             return machineHealthModel;
+        }
+
+        public async Task SendHeartBeat(long machineId, string? initiatorUsername = null)
+        {
+            var machine = await _context.ProxmoxMachines.Include(m => m.Server).FirstOrDefaultAsync(x => x.Id == machineId && !x.IsDeleted);
+
+            if (machine is null)
+                return;
+
+            var credentials = GetServerCredentials(machine.Server, initiatorUsername);
+
+            try
+            {
+                var proxmoxVirtualizationSystem = new ProxmoxVirtualizationClient(machine.Server.Host, machine.Server.Port, credentials.Login, credentials.Password);
+
+                // TODO
+            }
+            catch
+            {
+                // TODO
+                machine.Status = MachineStatus.Unknown;
+            }
+            finally
+            {
+                _context.Update(machine);
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }

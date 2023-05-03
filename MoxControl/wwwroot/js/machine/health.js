@@ -1,5 +1,5 @@
 $(document).ready(async function () {
-    var tableRows = $("tr[data-machine-row]").each(async function () {
+    $("tr[data-machine-row]").each(async function () {
         var health = await getMachineHealth($(this).attr("data-virtualizationSystem"), $(this).attr("data-machine-id"));
 
         var cpuProgress = $(this).find("div[data-machine-cpu]");

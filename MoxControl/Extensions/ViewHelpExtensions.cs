@@ -1,5 +1,6 @@
 ﻿using MoxControl.Connect.Models.Enums;
 using MoxControl.Infrastructure.Extensions;
+using MoxControl.Models.Enums;
 
 namespace MoxControl.Extensions
 {
@@ -52,5 +53,18 @@ namespace MoxControl.Extensions
                 _ => "badge badge-light",
             };
         }
+
+        public static string GetGeneralNotificationColor(this GeneralNotificationType type)
+        {
+			return type switch
+			{
+				GeneralNotificationType.Error => "badge-light-danger",
+				GeneralNotificationType.Warning => "badge-light-warning",
+				GeneralNotificationType.Info => "badge-light-info",
+				GeneralNotificationType.Success => "badge-light-success",
+				GeneralNotificationType.InternalServerError => "badge-light-danger",
+				_ => "badge badge-light",
+			};
+		}
     }
 }

@@ -1,8 +1,10 @@
-﻿using MoxControl.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using MoxControl.Data;
 using MoxControl.Infrastructure.Services;
 using MoxControl.Models.Entities.Notifications;
 using MoxControl.Models.Enums;
 using MoxControl.Services.Abtractions;
+using Sakura.AspNetCore;
 
 namespace MoxControl.Services
 {
@@ -39,6 +41,15 @@ namespace MoxControl.Services
             return await AddNewNotifyAsync(model);
         }
 
+        public async Task<List<GeneralNotification>> GetLastAsync(int count)
+        {
+            return await DbContext.GeneralNotifications.OrderBy(n => n.CreatedAt).Take(count).ToListAsync();
+        }
+
+        public async Task<IPagedList<GeneralNotification>> GetPagedAsync(int page, int pageSize)
+        {
+            return await DbContext.GeneralNotifications.OrderBy(n => n.CreatedAt).ToPagedListAsync(pageSize, page);
+        }
     }
 
     public class GeneralNotifyData

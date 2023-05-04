@@ -20,9 +20,14 @@ namespace MoxControl.Controllers
 			return View(notifications);
 		}
 
-		public IActionResult Details(long id)
+		public async Task<IActionResult> Details(long id)
 		{
-			return View();
+			var notification = await _generalNotificationService.GetById(id);
+
+			if (notification is null)
+				return NotFound();
+
+			return View(notification);
 		}
 	}
 }

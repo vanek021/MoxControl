@@ -1,0 +1,25 @@
+﻿@using MoxControl.Infrastructure.Extensions;
+@using MoxControl.Models.Entities.Notifications;
+
+@model GeneralNotification
+
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+    <div class=" container-xxl " id="kt_content_container">
+        <div class="card mb-5 mb-xl-10">
+            <!--begin::Card header-->
+            <div class="card-header">
+                <!--begin::Card title-->
+                <div class="card-title m-0">
+                    <h3 class="fw-bold m-0">@Model.Title <span class="badge @Model.Type.GetGeneralNotificationColor()">@Model.Type.GetDisplayName()</span></h3>
+                </div>
+                <!--end::Card title-->
+            </div>
+            <!--begin::Card header-->
+            <!--begin::Body-->
+            <div class="card-body pt-5">
+                @Model.Description
+            </div>
+            <!--end::Body-->
+        </div>
+    </div>
+</div>

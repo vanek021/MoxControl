@@ -50,6 +50,11 @@ namespace MoxControl.Services
         {
             return await DbContext.GeneralNotifications.OrderBy(n => n.CreatedAt).ToPagedListAsync(pageSize, page);
         }
+
+        public async Task<GeneralNotification?> GetById(long id)
+        {
+            return await DbContext.GeneralNotifications.FirstOrDefaultAsync(n => n.Id == id);
+        }
     }
 
     public class GeneralNotifyData

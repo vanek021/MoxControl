@@ -9,13 +9,15 @@ namespace MoxControl.Models.Enums
 {
     public enum GeneralNotificationType
     {
-        [Display(Name = "Инфо")]
-        Info = 0,
-        [Display(Name = "Успех")]
+        [Display(Name = "Информация")]
+        Info,
+        [Display(Name = "Успешно")]
         Success,
         [Display(Name = "Ошибка")]
         Error,
-        [Display(Name = "Пред")]
-        Warning
+        [Display(Name = "Предупреждение")]
+        Warning,
+        [Display(Name = "Внутренняя ошибка сервера")]
+        InternalServerError,
     }
 }

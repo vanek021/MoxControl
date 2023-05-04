@@ -13,6 +13,7 @@ using MoxControl.Core.Extensions;
 using MoxControl.Data;
 using MoxControl.Extensions;
 using MoxControl.Infrastructure.Extensions;
+using MoxControl.Middlewares;
 using MoxControl.Models.Entities;
 using System.Reflection;
 
@@ -65,6 +66,8 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.UseDbLogs();
 
 app.MapHangfireDashboard(options: new DashboardOptions
 {

@@ -7,6 +7,7 @@ using MoxControl.Connect.Models.Entities;
 using MoxControl.Connect.Models.Enums;
 using MoxControl.Connect.Proxmox.Data;
 using MoxControl.Connect.Proxmox.Models.Entities;
+using MoxControl.Connect.Proxmox.VirtualizationClient.Helpers;
 using MoxControl.Connect.Services.InternalServices;
 using System;
 using System.Collections.Generic;
@@ -126,14 +127,14 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
         {
             var machine = await _context.ProxmoxMachines.Include(m => m.Server).FirstOrDefaultAsync(m => m.Id == machineId);
 
-            if (machine is null || string.IsNullOrEmpty(machine.ProxmoxName))
+            if (machine is null || !machine.ProxmoxId.HasValue)
                 return null;
 
             var credentials = GetServerCredentials(machine.Server, initiatorUsername);
 
             var client = new ProxmoxVirtualizationClient(machine.Server.Host, machine.Server.Port, credentials.Login, credentials.Password);
 
-            var rrddataItems = await client.GetMachineRrddata(int.Parse(machine.ProxmoxName));
+            var rrddataItems = await client.GetMachineRrddata(machine.ProxmoxId.Value);
             var lastData = rrddataItems.LastOrDefault();
 
             if (lastData is null)
@@ -150,7 +151,7 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
         {
             var machine = await _context.ProxmoxMachines.Include(m => m.Server).FirstOrDefaultAsync(x => x.Id == machineId && !x.IsDeleted);
 
-            if (machine is null)
+            if (machine is null || !machine.ProxmoxId.HasValue)
                 return;
 
             var credentials = GetServerCredentials(machine.Server, initiatorUsername);
@@ -159,7 +160,9 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
             {
                 var proxmoxVirtualizationSystem = new ProxmoxVirtualizationClient(machine.Server.Host, machine.Server.Port, credentials.Login, credentials.Password);
 
-                // TODO
+                var status = await proxmoxVirtualizationSystem.GetMachineStatus(machine.ProxmoxId.Value);
+
+                machine.Status = status.Status.GetMachineStatus();
             }
             catch
             {

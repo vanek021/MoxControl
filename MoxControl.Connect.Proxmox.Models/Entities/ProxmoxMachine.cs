@@ -15,5 +15,6 @@ namespace MoxControl.Connect.Proxmox.Models.Entities
         public new long ServerId { get; set; }
 
         public string? ProxmoxName { get; set; }
+        public int? ProxmoxId { get; set; }
     }
 }

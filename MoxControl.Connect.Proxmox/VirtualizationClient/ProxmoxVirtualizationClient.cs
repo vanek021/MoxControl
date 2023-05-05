@@ -33,9 +33,13 @@ namespace MoxControl.Connect.Proxmox
             return DeserializeMachineRrddata(stringResponse);
         }
 
-        public async Task GetMachineStatus(string nodeName)
+        public async Task<MachineStatus> GetMachineStatus(int machineId)
         {
-            throw new NotImplementedException();
+            var vm = _pveClient.Nodes[_baseNode].Qemu[machineId];
+            var status = await vm.Status.Current.VmStatus();
+            var stringResponse = JsonConvert.SerializeObject(status.Response.data, Formatting.Indented);
+
+            return DeserializeMachineStatus(stringResponse);
         }
 
         private async Task<List<RrddataItem>> GetNodeRrdata(string nodeName, string timeFrame = "hour", string cf = "AVERAGE")
@@ -46,6 +50,7 @@ namespace MoxControl.Connect.Proxmox
             return DeserializeRrddata(stringResponse);
         }
 
+        #region Serializations
         private List<RrddataItem> DeserializeRrddata(dynamic? stringResponse)
         {
             List<RrddataItem> rrddataItems = JsonConvert.DeserializeObject<List<RrddataItem>>(stringResponse);
@@ -73,5 +78,11 @@ namespace MoxControl.Connect.Proxmox
 
             return rrddataItems;
         }
+
+        private MachineStatus DeserializeMachineStatus(dynamic? stringResponse)
+        {
+            return JsonConvert.DeserializeObject<MachineStatus>(stringResponse);
+        }
+        #endregion
     }
 }

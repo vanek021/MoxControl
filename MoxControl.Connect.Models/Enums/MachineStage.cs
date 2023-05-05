@@ -11,5 +11,7 @@ namespace MoxControl.Connect.Models.Enums
     {
         [Display(Name = "Готова к созданию")]
         ReadyForCreate = 0,
+        [Display(Name = "Используется")]
+        Using
     }
 }

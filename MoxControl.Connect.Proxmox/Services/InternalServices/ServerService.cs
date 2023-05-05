@@ -8,6 +8,7 @@ using MoxControl.Connect.Models.Entities;
 using MoxControl.Connect.Models.Enums;
 using MoxControl.Connect.Proxmox.Data;
 using MoxControl.Connect.Proxmox.Models.Entities;
+using MoxControl.Connect.Proxmox.VirtualizationClient.Helpers;
 using MoxControl.Connect.Services.InternalServices;
 using MoxControl.Infrastructure.Services;
 using System;
@@ -146,10 +147,58 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
         public async Task SendHeartBeatToAll()
         {
             var serverIds = await _context.ProxmoxServers.Where(x => !x.IsDeleted).Select(x => x.Id).ToListAsync();
-            
+
             foreach (var serverId in serverIds)
             {
                 await SendHeartBeat(serverId);
+            }
+        }
+
+        public async Task SyncMachines(long serverId, string? initiatorUsername = null)
+        {
+            var server = await _context.ProxmoxServers
+                .Include(s => s.Machines)
+                .FirstOrDefaultAsync(x => x.Id == serverId && !x.IsDeleted);
+
+            if (server is null)
+                return;
+
+            var credentials = GetServerCredentials(server, initiatorUsername);
+
+            var proxmoxVirtualizationSystem = new ProxmoxVirtualizationClient(server.Host, server.Port, credentials.Login, credentials.Password);
+
+            var machines = await proxmoxVirtualizationSystem.GetNodeMachines();
+
+            foreach (var machine in machines)
+            {
+                var dbMachine = server.Machines.FirstOrDefault(m => m.ProxmoxId.HasValue && m.ProxmoxId.Value == machine.VMid);
+
+                if (dbMachine is not null)
+                {
+                    dbMachine.Name = machine.Name ?? dbMachine.Name;
+                    dbMachine.ProxmoxName = machine.Name;
+                    dbMachine.Status = machine.Status.GetMachineStatus();
+                    _context.ProxmoxMachines.Update(dbMachine);
+                    
+                }
+                else
+                {
+                    var newMachine = new ProxmoxMachine()
+                    {
+                        Name = machine.Name ?? $"Proxmox Machine {machine.VMid}",
+                        Description = $"Proxmox Machine {machine.VMid}",
+                        Status = machine.Status.GetMachineStatus(),
+                        ProxmoxName = machine.Name,
+                        ProxmoxId = machine.VMid,
+                        Stage = MachineStage.Using,
+                        CPUCores = machine.CPUs,
+                        RAMSize = Convert.ToInt32(machine.MemoryTotal / (1024 * 1024)),
+                        HDDSize = Convert.ToInt32(machine.HDDTotal / (1024 * 1024)),
+                        ServerId = serverId
+                    };
+                    _context.ProxmoxMachines.Add(newMachine);
+                }
+                await _context.SaveChangesAsync();
             }
         }
 
@@ -170,8 +219,8 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
             if (lastData is null)
                 return null;
 
-            var serverHealthModel = new ServerHealthModel(long.Parse(lastData.MemoryTotal!), 
-                double.Parse(lastData.MemoryUsed!, CultureInfo.InvariantCulture), long.Parse(lastData.HDDTotal!), 
+            var serverHealthModel = new ServerHealthModel(long.Parse(lastData.MemoryTotal!),
+                double.Parse(lastData.MemoryUsed!, CultureInfo.InvariantCulture), long.Parse(lastData.HDDTotal!),
                 double.Parse(lastData.HDDUsed!, CultureInfo.InvariantCulture), double.Parse(lastData.CPUUsed!, CultureInfo.InvariantCulture));
 
             return serverHealthModel;

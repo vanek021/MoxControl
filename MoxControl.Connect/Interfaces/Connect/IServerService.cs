@@ -32,5 +32,7 @@ namespace MoxControl.Connect.Interfaces.Connect
         public Task<int> GetTotalCountAsync();
 
         public Task<int> GetAliveCountAsync();
+
+        public Task SyncMachines(long serverId, string? initiatorUsername = null);
     }
 }

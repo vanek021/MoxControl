@@ -21,6 +21,7 @@ namespace MoxControl.Connect.Proxmox
 
         public async Task<List<RrddataItem>> GetServerRrddata(string timeframe = "hour", string cf = "AVERAGE")
         {
+            await GetNodeMachines();
             return await GetNodeRrdata(_baseNode, timeframe, cf);
         }
 
@@ -40,6 +41,14 @@ namespace MoxControl.Connect.Proxmox
             var stringResponse = JsonConvert.SerializeObject(status.Response.data, Formatting.Indented);
 
             return DeserializeMachineStatus(stringResponse);
+        }
+
+        public async Task<List<MachineListItem>> GetNodeMachines()
+        {
+            var vmList = await _pveClient.Nodes[_baseNode].Qemu.Vmlist();
+            var stringResponse = JsonConvert.SerializeObject(vmList.Response.data, Formatting.Indented);
+
+            return DeserializeVmList(stringResponse);
         }
 
         private async Task<List<RrddataItem>> GetNodeRrdata(string nodeName, string timeFrame = "hour", string cf = "AVERAGE")
@@ -83,6 +92,12 @@ namespace MoxControl.Connect.Proxmox
         {
             return JsonConvert.DeserializeObject<MachineStatus>(stringResponse);
         }
+
+        private List<MachineListItem> DeserializeVmList(dynamic? stringResponse)
+        {
+            return JsonConvert.DeserializeObject<List<MachineListItem>>(stringResponse);
+        }
+
         #endregion
     }
 }

@@ -54,10 +54,28 @@ namespace MoxControl.Connect
             }
         }
 
+        public async Task HangfireSyncMachinesForAllServers()
+        {
+            var connectServices = _connectServiceFactory.GetAll();
+
+            foreach (var connectService in connectServices)
+            {
+                var servers = await connectService.Item2.Servers.GetAllAsync();
+                servers.ForEach(s => BackgroundJob.Enqueue<HangfireConnectManager>(h => HangfireSyncServerMachines(connectService.Item1, s.Id, null)));
+            }
+        }
+
+        public async Task HangfireSyncServerMachines(VirtualizationSystem virtualizationSystem, long serverId, string? initiatorUsername = null)
+        {
+            var connectService = _connectServiceFactory.GetByVirtualizationSystem(virtualizationSystem);
+            await connectService.Servers.SyncMachines(serverId, initiatorUsername);
+        }
+
         public static void RegisterJobs()
         {
             RecurringJob.AddOrUpdate<HangfireConnectManager>(x => x.HangfireSendHeartBeatToAllServers(), Cron.Hourly());
             RecurringJob.AddOrUpdate<HangfireConnectManager>(x => x.HangfireSendHeartBeatToAllMachines(), Cron.Hourly());
+            RecurringJob.AddOrUpdate<HangfireConnectManager>(x => x.HangfireSyncMachinesForAllServers(), Cron.Hourly());
         }
     }
 }

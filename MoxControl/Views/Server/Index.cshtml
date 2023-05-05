@@ -49,18 +49,18 @@
                                 <tbody>
                                     @foreach (var server in serverList.Servers)
                                     {
-                                        <tr>
+                                        <tr data-server-row data-server-id="@server.Id" data-virtualizationSystem="@server.VirtualizationSystem">
                                             <td>
-                                                <a asp-controller="Server" 
-                                                        asp-action="Details" 
-                                                        asp-route-virtualizationSystem="@serverList.VirtualizationSystem" 
+                                                <a asp-controller="Server"
+                                                        asp-action="Details"
+                                                        asp-route-virtualizationSystem="@serverList.VirtualizationSystem"
                                                         asp-route-id="@server.Id" class="text-dark fw-bolder text-hover-primary mb-1 fs-6">
-                                                        @server.Name
+                                                    @server.Name
                                                 </a>
                                                 <span class="text-muted fw-bold d-block">@server.Description</span>
                                             </td>
                                             <td>
-                                                <div class="d-flex flex-column w-100 me-2 mt-2">
+                                                <div data-server-cpu class="d-flex flex-column w-100 me-2 mt-2">
                                                     <span class="text-gray-400 me-2 fw-boldest mb-2">CPU: -%</span>
                                                     <div class="progress bg-light-primary w-100 h-5px">
                                                         <div class="progress-bar bg-primary" role="progressbar" style="width: 0%"></div>
@@ -68,7 +68,7 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <div class="d-flex flex-column w-100 me-2 mt-2">
+                                                <div data-server-ram class="d-flex flex-column w-100 me-2 mt-2">
                                                     <span class="text-gray-400 me-2 fw-boldest mb-2">RAM: -%</span>
                                                     <div class="progress bg-light-warning w-100 h-5px">
                                                         <div class="progress-bar bg-warning" role="progressbar" style="width: 0%"></div>
@@ -76,7 +76,7 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <div class="d-flex flex-column w-100 me-2 mt-2">
+                                                <div data-server-hdd class="d-flex flex-column w-100 me-2 mt-2">
                                                     <span class="text-gray-400 me-2 fw-boldest mb-2">HDD: -%</span>
                                                     <div class="progress bg-light-info w-100 h-5px">
                                                         <div class="progress-bar bg-info" role="progressbar" style="width: 0%"></div>
@@ -102,21 +102,21 @@
                                                     <!--begin::Menu item-->
                                                     <div class="menu-item px-3">
                                                         <a asp-controller="Server"
-                                                                asp-action="Edit"
-                                                                asp-route-virtualizationSystem="@serverList.VirtualizationSystem"
-                                                                asp-route-id="@server.Id"
-                                                                class="menu-link px-3">
+                                                   asp-action="Edit"
+                                                   asp-route-virtualizationSystem="@serverList.VirtualizationSystem"
+                                                   asp-route-id="@server.Id"
+                                                   class="menu-link px-3">
                                                             Редактировать
                                                         </a>
                                                     </div>
                                                     <!--end::Menu item-->
                                                     <!--begin::Menu item-->
                                                     <div class="menu-item px-3">
-                                                        <a asp-controller="Server" 
-                                                                asp-action="Delete" 
-                                                                asp-route-virtualizationSystem="@serverList.VirtualizationSystem" 
-                                                                asp-route-id="@server.Id" 
-                                                                class="menu-link px-3">
+                                                        <a asp-controller="Server"
+                                                   asp-action="Delete"
+                                                   asp-route-virtualizationSystem="@serverList.VirtualizationSystem"
+                                                   asp-route-id="@server.Id"
+                                                   class="menu-link px-3">
                                                             Удалить
                                                         </a>
                                                     </div>
@@ -138,3 +138,7 @@
         }
     </div>
 </div>
+
+@section Scripts {
+    <script src="~/js/server/health.js"></script>
+}

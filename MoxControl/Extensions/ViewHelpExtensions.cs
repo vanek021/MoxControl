@@ -66,5 +66,14 @@ namespace MoxControl.Extensions
 				_ => "badge badge-light",
 			};
 		}
-    }
+
+		public static string GetNotificationColor(this NotificationType type)
+		{
+			return type switch
+			{
+				NotificationType.Common => "badge-light-success",
+				_ => "badge badge-light",
+			};
+		}
+	}
 }

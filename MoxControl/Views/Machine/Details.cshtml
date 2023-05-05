@@ -280,8 +280,8 @@
             var serverHealth = await getMachineHealth();
 
             createAndRenderRadialBar("chart1", "#00B2FF", serverHealth.cpuUsedPercent, "Загрузка CPU");
-            createAndRenderRadialBar("chart2", "#FFC700", serverHealth.cpuUsedPercent, "Загрузка RAM");
-            createAndRenderRadialBar("chart3", "#7239EA", serverHealth.cpuUsedPercent, "Загрузка HDD");
+            createAndRenderRadialBar("chart2", "#FFC700", serverHealth.memoryUsedPercent, "Загрузка RAM");
+            createAndRenderRadialBar("chart3", "#7239EA", serverHealth.hddUsedPercent, "Загрузка HDD");
 
             $("#chartSpinner").remove();
             if (!serverHealth.isSuccess) {

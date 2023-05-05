@@ -133,7 +133,7 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
 
             var client = new ProxmoxVirtualizationClient(machine.Server.Host, machine.Server.Port, credentials.Login, credentials.Password);
 
-            var rrddataItems = await client.GetMachineRrdata(machine.ProxmoxName);
+            var rrddataItems = await client.GetMachineRrddata(int.Parse(machine.ProxmoxName));
             var lastData = rrddataItems.LastOrDefault();
 
             if (lastData is null)

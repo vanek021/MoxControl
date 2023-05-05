@@ -19,14 +19,23 @@ namespace MoxControl.Connect.Proxmox
             _baseNode = baseNode;
         }
 
-        public async Task<List<RrddataItem>> GetServerRrdata(string timeframe = "hour", string cf = "AVERAGE")
+        public async Task<List<RrddataItem>> GetServerRrddata(string timeframe = "hour", string cf = "AVERAGE")
         {
             return await GetNodeRrdata(_baseNode, timeframe, cf);
         }
 
-        public async Task<List<RrddataItem>> GetMachineRrdata(string nodeName, string timeFrame = "hour", string cf = "AVERAGE")
+        public async Task<List<MachineRrddataItem>> GetMachineRrddata(int machineId, string timeFrame = "hour", string cf = "AVERAGE")
         {
-            return await GetNodeRrdata(nodeName, timeFrame, cf);
+            var vm = _pveClient.Nodes[_baseNode].Qemu[machineId];
+            var rrddata = await vm.Rrddata.Rrddata(timeFrame, cf);
+            var stringResponse = JsonConvert.SerializeObject(rrddata.Response.data, Formatting.Indented);
+
+            return DeserializeMachineRrddata(stringResponse);
+        }
+
+        public async Task GetMachineStatus(string nodeName)
+        {
+            throw new NotImplementedException();
         }
 
         private async Task<List<RrddataItem>> GetNodeRrdata(string nodeName, string timeFrame = "hour", string cf = "AVERAGE")
@@ -34,6 +43,11 @@ namespace MoxControl.Connect.Proxmox
             var rrddata = await _pveClient.Nodes[nodeName].Rrddata.Rrddata(timeFrame, cf);
             var stringResponse = JsonConvert.SerializeObject(rrddata.Response.data, Formatting.Indented);
 
+            return DeserializeRrddata(stringResponse);
+        }
+
+        private List<RrddataItem> DeserializeRrddata(dynamic? stringResponse)
+        {
             List<RrddataItem> rrddataItems = JsonConvert.DeserializeObject<List<RrddataItem>>(stringResponse);
 
             rrddataItems = rrddataItems.
@@ -46,10 +60,18 @@ namespace MoxControl.Connect.Proxmox
             return rrddataItems;
         }
 
-        public async Task GetMachineStatus(string nodeName)
+        private List<MachineRrddataItem> DeserializeMachineRrddata(dynamic? stringResponse)
         {
-            var status = await _pveClient.Nodes[nodeName].Status.Status();
-            var stringResponse = JsonConvert.SerializeObject(status.Response.data, Formatting.Indented);
+            List<MachineRrddataItem> rrddataItems = JsonConvert.DeserializeObject<List<MachineRrddataItem>>(stringResponse);
+
+            rrddataItems = rrddataItems.
+                Where(x => !string.IsNullOrEmpty(x.HDDUsed) && !string.IsNullOrEmpty(x.HDDTotal)
+                    && !string.IsNullOrEmpty(x.MemoryUsed) && !string.IsNullOrEmpty(x.MemoryTotal)
+                    && !string.IsNullOrEmpty(x.CPUUsed))
+                .OrderByDescending(x => x.DateTimeTicks)
+                .ToList();
+
+            return rrddataItems;
         }
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using System;
 using MoxControl.Connect.Proxmox.VirtualizationClient.DTOs;
+using MoxControl.Connect.Models.Result;
 
 namespace MoxControl.Connect.Proxmox
 {
@@ -49,6 +50,58 @@ namespace MoxControl.Connect.Proxmox
             var stringResponse = JsonConvert.SerializeObject(vmList.Response.data, Formatting.Indented);
 
             return DeserializeVmList(stringResponse);
+        }
+
+        public async Task<BaseResult> ShutdownMachine(int machineId)
+        {
+            var vm = _pveClient.Nodes[_baseNode].Qemu[machineId];
+
+            var result = await vm.Status.Shutdown.VmShutdown();
+
+            if (result.InError())
+                return new(false, result.GetError());
+
+            return new(true);
+
+        }
+
+        public async Task<BaseResult> ResetMachine(int machineId)
+        {
+            var vm = _pveClient.Nodes[_baseNode].Qemu[machineId];
+
+            var result = await vm.Status.Reset.VmReset();
+
+            if (result.InError())
+                return new(false, result.GetError());
+
+            return new(true);
+
+        }
+
+        public async Task<BaseResult> RebootMachine(int machineId)
+        {
+            var vm = _pveClient.Nodes[_baseNode].Qemu[machineId];
+
+            var result = await vm.Status.Reboot.VmReboot();
+
+            if (result.InError())
+                return new(false, result.GetError());
+
+            return new(true);
+
+        }
+
+        public async Task<BaseResult> StartMachine(int machineId)
+        {
+            var vm = _pveClient.Nodes[_baseNode].Qemu[machineId];
+
+            var result = await vm.Status.Start.VmStart();
+
+            if (result.InError())
+                return new(false, result.GetError());
+
+            return new(true);
+
         }
 
         private async Task<List<RrddataItem>> GetNodeRrdata(string nodeName, string timeFrame = "hour", string cf = "AVERAGE")

@@ -12,5 +12,7 @@ namespace MoxControl.Models.Enums
     {
         [Display(Name = "Общий")]
         Common = 0,
+        [Display(Name = "Ошибка")]
+        Error
     }
 }

@@ -99,5 +99,37 @@ namespace MoxControl.Controllers
 
             return machineHealthModel;
         }
+
+        [HttpPost]
+        public async Task<IActionResult> TurnOn(VirtualizationSystem virtualizationSystem, long id)
+        {
+            await _machineService.TurnOnMachine(virtualizationSystem, id);
+
+            return Ok();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> TurnOff(VirtualizationSystem virtualizationSystem, long id)
+        {
+            await _machineService.TurnOffMachine(virtualizationSystem, id);
+
+            return Ok();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Reboot(VirtualizationSystem virtualizationSystem, long id)
+        {
+            await _machineService.RebootMachine(virtualizationSystem, id);
+
+            return Ok();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> HardReboot(VirtualizationSystem virtualizationSystem, long id)
+        {
+            await _machineService.HardRebootMachine(virtualizationSystem, id);
+
+            return Ok();
+        }
     }
 }

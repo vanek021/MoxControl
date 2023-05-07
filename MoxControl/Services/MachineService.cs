@@ -4,6 +4,7 @@ using MoxControl.Connect.Interfaces.Factories;
 using MoxControl.Connect.Models;
 using MoxControl.Connect.Models.Entities;
 using MoxControl.Connect.Models.Enums;
+using MoxControl.Connect.Models.Result;
 using MoxControl.Connect.Services;
 using MoxControl.ViewModels.MachineViewModels;
 using MoxControl.ViewModels.ServerViewModels;
@@ -17,14 +18,16 @@ namespace MoxControl.Services
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMapper _mapper;
         private readonly TemplateManager _templateManager;
+        private readonly NotificationService _notificationService;
 
         public MachineService(IConnectServiceFactory connectServiceFactory, IHttpContextAccessor httpContextAccessor, 
-            IMapper mapper, TemplateManager templateManager)
+            IMapper mapper, TemplateManager templateManager, NotificationService notificationService)
         {
             _connectServiceFactory = connectServiceFactory;
             _httpContextAccessor = httpContextAccessor;
             _mapper = mapper;
             _templateManager = templateManager;
+            _notificationService = notificationService;
         }
 
         public async Task<MachineIndexViewModel> GetMachineIndexViewModelAsync()
@@ -138,6 +141,52 @@ namespace MoxControl.Services
             var healthModel = await connectService.Machines.GetHealthModel(machineId, _httpContextAccessor?.HttpContext?.User?.Identity?.Name);
 
             return healthModel;
+        }
+
+        public async Task TurnOnMachine(VirtualizationSystem virtualizationSystem, long machineId)
+        {
+            var connectService = _connectServiceFactory.GetByVirtualizationSystem(virtualizationSystem);
+
+            var result = await connectService.Machines.TurnOn(machineId);
+
+            if (!result.Success)
+                await WriteErrorNotification(result);
+        }
+
+        public async Task TurnOffMachine(VirtualizationSystem virtualizationSystem, long machineId)
+        {
+            var connectService = _connectServiceFactory.GetByVirtualizationSystem(virtualizationSystem);
+
+            var result = await connectService.Machines.TurnOff(machineId);
+
+            if (!result.Success)
+                await WriteErrorNotification(result);
+        }
+
+        public async Task RebootMachine(VirtualizationSystem virtualizationSystem, long machineId)
+        {
+            var connectService = _connectServiceFactory.GetByVirtualizationSystem(virtualizationSystem);
+
+            var result = await connectService.Machines.Reboot(machineId);
+
+            if (!result.Success)
+                await WriteErrorNotification(result);
+        }
+
+        public async Task HardRebootMachine(VirtualizationSystem virtualizationSystem, long machineId)
+        {
+            var connectService = _connectServiceFactory.GetByVirtualizationSystem(virtualizationSystem);
+
+            var result = await connectService.Machines.HardReboot(machineId);
+
+            if (!result.Success)
+                await WriteErrorNotification(result);
+        }
+
+        private async Task WriteErrorNotification(BaseResult result)
+        {
+            var username = _httpContextAccessor?.HttpContext?.User?.Identity?.Name;
+            await _notificationService.AddErrorAsync(username ?? "", "Ошибка при перезагрузке ВМ", result.ErrorMessage!);
         }
     }
 }

@@ -5,6 +5,7 @@ using MoxControl.Connect.Interfaces.Connect;
 using MoxControl.Connect.Models;
 using MoxControl.Connect.Models.Entities;
 using MoxControl.Connect.Models.Enums;
+using MoxControl.Connect.Models.Result;
 using MoxControl.Connect.Proxmox.Data;
 using MoxControl.Connect.Proxmox.Models.Entities;
 using MoxControl.Connect.Proxmox.VirtualizationClient.Helpers;
@@ -49,6 +50,9 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
 
         public async Task<List<BaseMachine>> GetAllAsync()
             => await _context.ProxmoxMachines.Where(x => !x.IsDeleted).Select(x => (BaseMachine)x).ToListAsync();
+
+        private async Task<ProxmoxMachine?> GetWithServerAsync(long id)
+            => await _context.ProxmoxMachines.Where(x => !x.IsDeleted).Include(x => x.Server).FirstOrDefaultAsync(m => m.Id == id);
 
         #endregion
 
@@ -174,6 +178,131 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
                 _context.Update(machine);
                 await _context.SaveChangesAsync();
             }
+        }
+
+        public async Task<BaseResult> TurnOff(long machineId, string? initiatorUsername = null)
+        {
+            var machine = await GetWithServerAsync(machineId);
+
+            var validationResult = ValidateMachineBeforeAction(machine);
+
+            if (validationResult is not null)
+                return validationResult;
+
+            var credentials = GetServerCredentials(machine!.Server, initiatorUsername);
+
+            try
+            {
+                var proxmoxVirtualizationSystem = new ProxmoxVirtualizationClient(machine.Server.Host, machine.Server.Port, credentials.Login, credentials.Password);
+
+                var result = await proxmoxVirtualizationSystem.ShutdownMachine(machine!.ProxmoxId!.Value);
+
+                if (result.Success)
+                {
+                    machine.Status = MachineStatus.Stopped;
+                    _context.ProxmoxMachines.Update(machine);
+                    await _context.SaveChangesAsync();
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return new(false, ex.ToString());
+            }
+        }
+
+        public async Task<BaseResult> TurnOn(long machineId, string? initiatorUsername = null)
+        {
+            var machine = await GetWithServerAsync(machineId);
+
+            var validationResult = ValidateMachineBeforeAction(machine);
+
+            if (validationResult is not null)
+                return validationResult;
+
+            var credentials = GetServerCredentials(machine!.Server, initiatorUsername);
+
+            try
+            {
+                var proxmoxVirtualizationSystem = new ProxmoxVirtualizationClient(machine.Server.Host, machine.Server.Port, credentials.Login, credentials.Password);
+
+                var result = await proxmoxVirtualizationSystem.StartMachine(machine!.ProxmoxId!.Value);
+
+                if (result.Success)
+                {
+                    machine.Status = MachineStatus.Running;
+                    _context.ProxmoxMachines.Update(machine);
+                    await _context.SaveChangesAsync();
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return new(false, ex.ToString());
+            }
+        }
+
+        public async Task<BaseResult> Reboot(long machineId, string? initiatorUsername = null)
+        {
+            var machine = await GetWithServerAsync(machineId);
+
+            var validationResult = ValidateMachineBeforeAction(machine);
+
+            if (validationResult is not null)
+                return validationResult;
+
+            var credentials = GetServerCredentials(machine!.Server, initiatorUsername);
+
+            try
+            {
+                var proxmoxVirtualizationSystem = new ProxmoxVirtualizationClient(machine.Server.Host, machine.Server.Port, credentials.Login, credentials.Password);
+
+                var result = await proxmoxVirtualizationSystem.RebootMachine(machine!.ProxmoxId!.Value);
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return new(false, ex.ToString());
+            }
+        }
+
+        public async Task<BaseResult> HardReboot(long machineId, string? initiatorUsername = null)
+        {
+            var machine = await GetWithServerAsync(machineId);
+
+            var validationResult = ValidateMachineBeforeAction(machine);
+
+            if (validationResult is not null)
+                return validationResult;
+
+            var credentials = GetServerCredentials(machine!.Server, initiatorUsername);
+
+            try
+            {
+                var proxmoxVirtualizationSystem = new ProxmoxVirtualizationClient(machine.Server.Host, machine.Server.Port, credentials.Login, credentials.Password);
+
+                var result = await proxmoxVirtualizationSystem.ResetMachine(machine!.ProxmoxId!.Value);
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return new(false, ex.ToString());
+            }
+        }
+
+        private BaseResult? ValidateMachineBeforeAction(ProxmoxMachine? machine)
+        {
+            if (machine is null)
+                return new(false, "Виртуальная машина не найдена в базе данных сервиса");
+
+            if (machine.ProxmoxId is null)
+                return new(false, "Идентификатор машины в Proxmox не установлен");
+
+            return null;
         }
     }
 }

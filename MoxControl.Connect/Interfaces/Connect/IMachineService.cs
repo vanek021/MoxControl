@@ -1,5 +1,6 @@
 ﻿using MoxControl.Connect.Models;
 using MoxControl.Connect.Models.Entities;
+using MoxControl.Connect.Models.Result;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,5 +32,13 @@ namespace MoxControl.Connect.Interfaces.Connect
         public Task SendHeartBeat(long machineId, string? initiatorUsername = null);
 
         public Task<List<BaseMachine>> GetAllAsync();
+
+        public Task<BaseResult> TurnOff(long machineId, string? initiatorUsername = null);
+
+        public Task<BaseResult> TurnOn(long machineId, string? initiatorUsername = null);
+
+        public Task<BaseResult> Reboot(long machineId, string? initiatorUsername = null);
+
+        public Task<BaseResult> HardReboot(long machineId, string? initiatorUsername = null);
     }
 }

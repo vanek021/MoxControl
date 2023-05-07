@@ -54,6 +54,12 @@ namespace MoxControl.Services
                 await MarkAsViewedAsync(id);
         }
 
+        public async Task<bool> AddErrorAsync(string userName, string title, string description)
+        {
+            var model = new NotifyData(NotificationType.Error, title, description);
+            return await AddNewNotifyAsync(userName, model);
+        }
+
         private async Task<bool> AddNewNotifyAsync(string userName, NotifyData model)
         {
             var user = GetUser(userName);

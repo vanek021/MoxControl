@@ -103,7 +103,10 @@ namespace MoxControl.Controllers
         [HttpPost]
         public async Task<IActionResult> TurnOn(VirtualizationSystem virtualizationSystem, long id)
         {
-            await _machineService.TurnOnMachine(virtualizationSystem, id);
+            var result = await _machineService.TurnOnMachine(virtualizationSystem, id);
+
+            if (!result)
+                return BadRequest();
 
             return Ok();
         }
@@ -111,7 +114,10 @@ namespace MoxControl.Controllers
         [HttpPost]
         public async Task<IActionResult> TurnOff(VirtualizationSystem virtualizationSystem, long id)
         {
-            await _machineService.TurnOffMachine(virtualizationSystem, id);
+            var result = await _machineService.TurnOffMachine(virtualizationSystem, id);
+
+            if (!result)
+                return BadRequest();
 
             return Ok();
         }
@@ -119,7 +125,10 @@ namespace MoxControl.Controllers
         [HttpPost]
         public async Task<IActionResult> Reboot(VirtualizationSystem virtualizationSystem, long id)
         {
-            await _machineService.RebootMachine(virtualizationSystem, id);
+            var result = await _machineService.RebootMachine(virtualizationSystem, id);
+
+            if (!result)
+                return BadRequest();
 
             return Ok();
         }
@@ -127,7 +136,10 @@ namespace MoxControl.Controllers
         [HttpPost]
         public async Task<IActionResult> HardReboot(VirtualizationSystem virtualizationSystem, long id)
         {
-            await _machineService.HardRebootMachine(virtualizationSystem, id);
+            var result = await _machineService.HardRebootMachine(virtualizationSystem, id);
+
+            if (!result)
+                return BadRequest();
 
             return Ok();
         }

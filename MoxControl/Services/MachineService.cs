@@ -108,6 +108,10 @@ namespace MoxControl.Services
         public async Task<MachineDetailsViewModel?> GetMachineDetailsViewModelAsync(VirtualizationSystem virtualizationSystem, long machineId)
         {
             var connectService = _connectServiceFactory.GetByVirtualizationSystem(virtualizationSystem);
+
+            var username = _httpContextAccessor?.HttpContext?.User?.Identity?.Name;
+            await connectService.Machines.SendHeartBeat(machineId, username);
+
             var machine = await connectService.Machines.GetAsync(machineId);
 
             if (machine is null)
@@ -143,7 +147,7 @@ namespace MoxControl.Services
             return healthModel;
         }
 
-        public async Task TurnOnMachine(VirtualizationSystem virtualizationSystem, long machineId)
+        public async Task<bool> TurnOnMachine(VirtualizationSystem virtualizationSystem, long machineId)
         {
             var connectService = _connectServiceFactory.GetByVirtualizationSystem(virtualizationSystem);
 
@@ -151,9 +155,11 @@ namespace MoxControl.Services
 
             if (!result.Success)
                 await WriteErrorNotification(result);
+
+            return result.Success;
         }
 
-        public async Task TurnOffMachine(VirtualizationSystem virtualizationSystem, long machineId)
+        public async Task<bool> TurnOffMachine(VirtualizationSystem virtualizationSystem, long machineId)
         {
             var connectService = _connectServiceFactory.GetByVirtualizationSystem(virtualizationSystem);
 
@@ -161,9 +167,11 @@ namespace MoxControl.Services
 
             if (!result.Success)
                 await WriteErrorNotification(result);
+
+            return result.Success;
         }
 
-        public async Task RebootMachine(VirtualizationSystem virtualizationSystem, long machineId)
+        public async Task<bool> RebootMachine(VirtualizationSystem virtualizationSystem, long machineId)
         {
             var connectService = _connectServiceFactory.GetByVirtualizationSystem(virtualizationSystem);
 
@@ -171,9 +179,11 @@ namespace MoxControl.Services
 
             if (!result.Success)
                 await WriteErrorNotification(result);
+
+            return result.Success;
         }
 
-        public async Task HardRebootMachine(VirtualizationSystem virtualizationSystem, long machineId)
+        public async Task<bool> HardRebootMachine(VirtualizationSystem virtualizationSystem, long machineId)
         {
             var connectService = _connectServiceFactory.GetByVirtualizationSystem(virtualizationSystem);
 
@@ -181,6 +191,8 @@ namespace MoxControl.Services
 
             if (!result.Success)
                 await WriteErrorNotification(result);
+
+            return result.Success;
         }
 
         private async Task WriteErrorNotification(BaseResult result)

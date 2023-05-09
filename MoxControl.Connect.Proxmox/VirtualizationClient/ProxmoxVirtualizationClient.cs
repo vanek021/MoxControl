@@ -56,7 +56,7 @@ namespace MoxControl.Connect.Proxmox
         {
             var vm = _pveClient.Nodes[_baseNode].Qemu[machineId];
 
-            var result = await vm.Status.Shutdown.VmShutdown();
+            var result = await vm.Status.Stop.VmStop();
 
             if (result.InError())
                 return new(false, result.GetError());

@@ -36,6 +36,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoxControl.Connect.Proxmox.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoxControl.Connect.DependencyInjection", "MoxControl.Connect.DependencyInjection\MoxControl.Connect.DependencyInjection.csproj", "{8EC05585-D99F-4D4D-9097-8383061771B9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoxControl.Tests", "MoxControl.Tests\MoxControl.Tests.csproj", "{4D78ECE2-51E0-46F9-923A-37D40B53FFBF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -94,6 +96,10 @@ Global
 		{8EC05585-D99F-4D4D-9097-8383061771B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8EC05585-D99F-4D4D-9097-8383061771B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8EC05585-D99F-4D4D-9097-8383061771B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D78ECE2-51E0-46F9-923A-37D40B53FFBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D78ECE2-51E0-46F9-923A-37D40B53FFBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D78ECE2-51E0-46F9-923A-37D40B53FFBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D78ECE2-51E0-46F9-923A-37D40B53FFBF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

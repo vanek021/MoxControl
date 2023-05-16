@@ -20,6 +20,7 @@ namespace MoxControl.Extensions
             serviceCollection.AddScoped<SettingService>();
             serviceCollection.AddScoped<HomeService>();
             serviceCollection.AddScoped<NotificationService>();
+            serviceCollection.AddScoped<TelegramService>();
             serviceCollection.AddScoped<MoxControlUserManager>();
 
             return serviceCollection;

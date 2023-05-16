@@ -14,6 +14,7 @@ namespace MoxControl.Models.Entities
         public string LastName { get; set; }
         public NotificationReceiver NotificationReceiver { get; set; } = new();
         public string? TelegramName { get; set; }
+        public bool TelegramNotifyEnabled { get; set; }
         public DateTime LastLogin { get; set; } = DateTime.UtcNow;
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }

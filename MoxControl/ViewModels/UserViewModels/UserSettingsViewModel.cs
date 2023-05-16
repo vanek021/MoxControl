@@ -8,5 +8,7 @@ namespace MoxControl.ViewModels.UserViewModels
 
         [Display(Name = "Имя в Telegram")]
         public string? TelegramName { get; set; }
+
+        public bool TelegramNotifyEnabled { get; set; }
     }
 }

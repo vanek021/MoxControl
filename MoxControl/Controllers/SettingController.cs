@@ -16,9 +16,35 @@ namespace MoxControl.Controllers
             _settingService = settingService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var settingIndexVm = await _settingService.GetSettingIndexViewModelAsync();
+
+            return View(settingIndexVm);
+        }
+
+        public async Task<IActionResult> Edit(long id)
+        {
+            var settingVm = await _settingService.GetGeneralSettingViewModelAsync(id);
+
+            return View(settingVm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(GeneralSettingViewModel generalSettingViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _settingService.UpdateGeneralSetting(generalSettingViewModel);
+
+                if (result)
+                    return RedirectToAction(nameof(Index));
+                else
+                    return BadRequest();
+            }
+
+            return View(generalSettingViewModel);
         }
 
         public async Task<IActionResult> VirtualizationSystem(VirtualizationSystem virtualizationSystem)

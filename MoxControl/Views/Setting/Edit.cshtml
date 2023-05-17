@@ -1,5 +1,79 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@using MoxControl.ViewModels.SettingViewModels;
+
+@model GeneralSettingViewModel
+
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+    <div class="container" id="kt_content_container">
+        <div class=" container-xxl " id="kt_content_container">
+            <!--begin::Basic info-->
+            <div class="card mb-5 mb-xl-10">
+                <!--begin::Card header-->
+                <div class="card-header border-0 cursor-pointer" role="button" data-bs-toggle="collapse" data-bs-target="#kt_account_profile_details" aria-expanded="true" aria-controls="kt_account_profile_details">
+                    <!--begin::Card title-->
+                    <div class="card-title m-0">
+                        <h3 class="fw-bold m-0">Редактировать настройку</h3>
+                    </div>
+                    <!--end::Card title-->
+                </div>
+                <!--begin::Card header-->
+                <!--begin::Content-->
+                <div id="kt_account_settings_profile_details" class="collapse show">
+                    <!--begin::Form-->
+                    <form asp-controller="Setting" asp-action="Edit" method="post" class="form">
+                        <!--begin::Card body-->
+                        <div class="card-body border-top p-9">
+                            <!--begin::Input group-->
+                            <div class="row mb-6">
+                                <!--begin::Label-->
+                                <label asp-for="SystemName" class="col-lg-4 col-form-label required fw-semibold fs-6"></label>
+                                <!--end::Label-->
+                                <!--begin::Col-->
+                                <div class="col-lg-8 fv-row fv-plugins-icon-container">
+                                    <input type="text" asp-for="SystemName" disabled class="form-control" placeholder="название">
+                                    <span asp-validation-for="SystemName" class="text-danger"></span>
+                                </div>
+                                <!--end::Col-->
+                            </div>
+                            <!--end::Input group-->
+                            <!--begin::Input group-->
+                            <div class="row mb-6">
+                                <!--begin::Label-->
+                                <label asp-for="Description" class="col-lg-4 col-form-label required fw-semibold fs-6"></label>
+                                <!--end::Label-->
+                                <!--begin::Col-->
+                                <div class="col-lg-8 fv-row fv-plugins-icon-container">
+                                    <input type="text" asp-for="Description" disabled class="form-control" placeholder="описание">
+                                    <span asp-validation-for="Description" class="text-danger"></span>
+                                </div>
+                                <!--end::Col-->
+                            </div>
+                            <!--end::Input group-->
+                            <!--begin::Input group-->
+                            <div class="row mb-6">
+                                <!--begin::Label-->
+                                <label asp-for="Value" class="col-lg-4 col-form-label required fw-semibold fs-6"></label>
+                                <!--end::Label-->
+                                <!--begin::Col-->
+                                <div class="col-lg-8 fv-row fv-plugins-icon-container">
+                                    <input type="text" asp-for="Value" class="form-control" placeholder="значение">
+                                    <span asp-validation-for="Value" class="text-danger"></span>
+                                </div>
+                                <!--end::Col-->
+                            </div>
+                            <!--end::Input group-->
+                        </div>
+                        <!--end::Card body-->
+                        <!--begin::Actions-->
+                        <div class="card-footer d-flex justify-content-end py-6 px-9">
+                            <button type="submit" class="btn btn-primary">Сохранить</button>
+                        </div>
+                        <!--end::Actions-->
+                    </form>
+                    <!--end::Form-->
+                </div>
+                <!--end::Content-->
+            </div>
+            <!--end::Basic info-->
+        </div>
+    </div>
+</div>

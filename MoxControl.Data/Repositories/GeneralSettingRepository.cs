@@ -20,5 +20,22 @@ namespace MoxControl.Data.Repositories
         {
 
         }
+
+        protected override IQueryable<GeneralSetting> SingleWithIncludes()
+        {
+            return base.SingleWithIncludes()
+                .Where(s => !s.IsHide);
+        }
+
+        protected override IQueryable<GeneralSetting> ManyWithIncludes()
+        {
+            return SingleWithIncludes();
+        }
+
+        public Task<List<GeneralSetting>> GetAll()
+        {
+            return ManyWithIncludes()
+                .ToListAsync();
+        }
     }
 }

@@ -5,49 +5,60 @@
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
     <div class=" container-xxl " id="kt_content_container">
         <partial name="_SettingsNavigationPartial" />
-    </div>
-    @*<!--begin::Basic info-->
-    <div class="card mb-5 mb-xl-10">
-        <!--begin::Card header-->
-        <div class="card-header border-0 cursor-pointer" role="button" data-bs-toggle="collapse" data-bs-target="#kt_account_profile_details" aria-expanded="true" aria-controls="kt_account_profile_details">
-            <!--begin::Card title-->
-            <div class="card-title m-0">
-                <h3 class="fw-bold m-0">Настройки системы виртуализации</h3>
+        <div class="card mb-5 mb-xl-10">
+            <!--begin::Header-->
+            <div class="card-header align-items-center py-5 gap-2 gap-md-5">
+                <!--begin::Card title-->
+                <h3 class="card-title align-items-start flex-column">
+                    <span class="card-label fw-bolder fs-3 mb-1">Основные настройка сервиса</span>
+                </h3>
+                <!--end::Card title-->
             </div>
-            <!--end::Card title-->
-        </div>
-        <!--begin::Card header-->
-        <!--begin::Content-->
-        <div id="kt_account_settings_profile_details" class="collapse show">
-            <!--begin::Form-->
-            <form asp-controller="Setting" asp-action="Save" method="post" class="form fv-plugins-bootstrap5 fv-plugins-framework">
-                <!--begin::Card body-->
-                <div class="card-body border-top p-9">
-                    <!--begin::Input group-->
-                    <div class="row mb-6">
-                        <!--begin::Label-->
-                        <label asp-for="BaseNode" class="col-lg-4 col-form-label required fw-semibold fs-6"></label>
-                        <!--end::Label-->
-                        <!--begin::Col-->
-                        <div class="col-lg-8 fv-row fv-plugins-icon-container">
-                            <input type="hidden" asp-for="Id" value="@Model.Id" />
-                            <input type="text" asp-for="BaseNode" class="form-control form-control-lg form-control-solid" placeholder="базовое название узла">
-                            <span asp-validation-for="BaseNode" class="text-danger"></span>
-                        </div>
-                        <!--end::Col-->
+            <!--end::Header-->
+            <!--begin::Body-->
+            <div class="card-body pt-0">
+                <!--begin::Table container-->
+                <div id="kt_ecommerce_products_table_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                    <div class="table-responsive">
+                        <!--begin::Table-->
+                        <table class="table table-row-dashed table-row-gray-200 align-middle gs-0 gy-4">
+                            <!--begin::Table head-->
+                            <thead>
+                                <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                                    <th class="w-200px sorting_disabled">Название</th>
+                                    <th class="min-w-100px sorting_disabled">Описание</th>
+                                    <th class="w-200px sorting_disabled">Значение</th>
+                                </tr>
+                            </thead>
+                            <!--end::Table head-->
+                            <!--begin::Table body-->
+                            <tbody>
+                                @foreach (var setting in Model.Settings)
+                                {
+                                    <tr>
+                                        <td>
+                                            <a asp-controller="Setting"
+                                           asp-action="Edit"
+                                           asp-route-id="@setting.Id">
+                                                @setting.SystemName
+                                            </a>
+                                        </td>
+                                        <td class="pe-0">
+                                            <span>@setting.Description</span>
+                                        </td>
+                                        <td class="pe-0">
+                                            <span>@setting.Value</span>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                            <!--end::Table body-->
+                        </table>
                     </div>
-                    <!--end::Input group-->
                 </div>
-                <!--end::Card body-->
-                <!--begin::Actions-->
-                <div class="card-footer d-flex justify-content-end py-6 px-9">
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
-                </div>
-                <!--end::Actions-->
-            </form>
-            <!--end::Form-->
+                <!--end::Table-->
+            </div>
+            <!--end::Body-->
         </div>
-        <!--end::Content-->
     </div>
-    <!--end::Basic info-->*@
 </div>

@@ -29,6 +29,7 @@ namespace MoxControl.Extensions
         public static IServiceCollection AddConfigurations(this IServiceCollection serviceCollection, IConfiguration configuration)
         {
             serviceCollection.Configure<ADConfig>(configuration.GetSection("AD"));
+            serviceCollection.Configure<TelegramConfig>(configuration.GetSection("Telegram"));
 
             return serviceCollection;
         }
@@ -36,6 +37,7 @@ namespace MoxControl.Extensions
         public static void SeedData(this IServiceProvider serviceProvider)
         {
             RoleSeeds.Seed(serviceProvider);
+            GeneralSettingSeeds.Seed(serviceProvider);
         }
     }
 }

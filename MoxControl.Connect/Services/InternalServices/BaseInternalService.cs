@@ -14,12 +14,14 @@ namespace MoxControl.Connect.Services.InternalServices
     public abstract class BaseInternalService
     {
         protected readonly MoxControlUserManager _moxControlUserManager;
+        protected readonly TelegramService _telegramService;
 
         public BaseInternalService(IServiceScopeFactory serviceScopeFactory) 
         {
             var scope = serviceScopeFactory.CreateScope();
 
             _moxControlUserManager = scope.ServiceProvider.GetRequiredService<MoxControlUserManager>();
+            _telegramService = scope.ServiceProvider.GetRequiredService<TelegramService>();
         }
 
         protected virtual ServerCredentialsModel GetServerCredentials(BaseServer server, string? initiatorUsername = null)

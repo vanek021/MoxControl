@@ -176,8 +176,13 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
                 if (dbMachine is not null)
                 {
                     dbMachine.Name = machine.Name ?? dbMachine.Name;
+                    dbMachine.Description ??= $"Proxmox Machine {machine.VMid}";
                     dbMachine.ProxmoxName = machine.Name;
                     dbMachine.Status = machine.Status.GetMachineStatus();
+                    dbMachine.Stage = MachineStage.Using;
+                    dbMachine.CPUCores = machine.CPUs;
+                    dbMachine.RAMSize = Convert.ToInt32(machine.MemoryTotal / (1024 * 1024));
+                    dbMachine.HDDSize = Convert.ToInt32(machine.HDDTotal / (1024 * 1024));
                     _context.ProxmoxMachines.Update(dbMachine);
                     
                 }

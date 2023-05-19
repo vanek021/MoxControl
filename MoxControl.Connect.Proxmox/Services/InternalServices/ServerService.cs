@@ -248,7 +248,10 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
 
             var client = new ProxmoxVirtualizationClient(server.Host, server.Port, credentials.Login, credentials.Password);
 
-            await client.InsertImage(Path.GetFileName(image.ImagePath), $"{_configuration["BaseUrl"]}{image.ImagePath}");
+            var imageName = Path.GetFileName(image.ImagePath);
+            var imagePath = image.StorageMethod == ImageStorageMethod.Local ? $"{_configuration["BaseUrl"]}{image.ImagePath}" : image.ImagePath;
+
+            await client.InsertImage(imageName, imagePath);
 
             if (server.ImageData is not null)
                 server.ImageData.ImageIds.Add(imageId);

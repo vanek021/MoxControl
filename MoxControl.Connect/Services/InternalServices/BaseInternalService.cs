@@ -13,23 +13,28 @@ using MoxControl.Models.Constants;
 using MoxControl.Models.Entities.Notifications;
 using Telegram.Bot.Types;
 using Telegram.Bot;
+using Microsoft.Extensions.Configuration;
 
 namespace MoxControl.Connect.Services.InternalServices
 {
     public abstract class BaseInternalService
     {
+        protected readonly IConfiguration _configuration;
         protected readonly MoxControlUserManager _moxControlUserManager;
         protected readonly TelegramService _telegramService;
         protected readonly GeneralNotificationService _generalNotificationService;
+        protected readonly ImageManager _imageManager;
         protected readonly Database _db;
 
         public BaseInternalService(IServiceScopeFactory serviceScopeFactory) 
         {
             var scope = serviceScopeFactory.CreateScope();
 
+            _configuration = scope.ServiceProvider.GetRequiredService<IConfiguration>();
             _moxControlUserManager = scope.ServiceProvider.GetRequiredService<MoxControlUserManager>();
             _telegramService = scope.ServiceProvider.GetRequiredService<TelegramService>();
             _generalNotificationService = scope.ServiceProvider.GetRequiredService<GeneralNotificationService>();
+            _imageManager = scope.ServiceProvider.GetRequiredService<ImageManager>();
             _db = scope.ServiceProvider.GetRequiredService<Database>();
         }
 

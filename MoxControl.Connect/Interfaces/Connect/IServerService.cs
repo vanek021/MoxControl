@@ -33,6 +33,8 @@ namespace MoxControl.Connect.Interfaces.Connect
 
         public Task<int> GetAliveCountAsync();
 
+        public Task UploadImage(long serverId, long imageId, string? initiatorUsername = null);
+
         public Task SyncMachines(long serverId, string? initiatorUsername = null);
     }
 }

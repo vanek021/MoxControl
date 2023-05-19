@@ -45,6 +45,7 @@
                                         <th class="w-200px sorting_disabled">Название</th>
                                         <th class="min-w-100px sorting_disabled">Описание</th>
                                         <th class="w-200px sorting_disabled">Метод хранения</th>
+                                        <th class="min-w-100px sorting_disabled">Статус</th>
                                         <th class="w-200px sorting_disabled">Ссылка</th>
                                         <th class="text-end min-w-70px sorting_disabled" style="width: 120.387px;">Действия</th>
                                     </tr>
@@ -71,6 +72,9 @@
                                                 <span class="text-dark fw-bolder mb-1 fs-6">
                                                     @image.StorageMethod.GetDisplayName()
                                                 </span>
+                                            </td>
+                                            <td class="pe-0">
+                                                <span class="@image.Status.GetImageStatusColor()">@image.Status.GetDisplayName()</span>
                                             </td>
                                             <td>
                                                 <span class="text-dark fw-bolder mb-1 fs-6">

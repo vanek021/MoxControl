@@ -11,13 +11,15 @@ namespace MoxControl.Connect.Proxmox
     public class ProxmoxVirtualizationClient : IVirtualizationSystemClient
     {
         private readonly string _baseNode;
+        private readonly string _baseStorage;
         private readonly PveClient _pveClient;
 
-        public ProxmoxVirtualizationClient(string host, int port, string login, string password, string baseNode = "pve")
+        public ProxmoxVirtualizationClient(string host, int port, string login, string password, string baseNode = "pve", string baseStorage = "local")
         {
             _pveClient = new PveClient(host, port);
             _pveClient.Login(login, password).GetAwaiter().GetResult();
             _baseNode = baseNode;
+            _baseStorage = baseStorage;
         }
 
         public async Task<List<RrddataItem>> GetServerRrddata(string timeframe = "hour", string cf = "AVERAGE")
@@ -52,6 +54,11 @@ namespace MoxControl.Connect.Proxmox
             return DeserializeVmList(stringResponse);
         }
 
+        public async Task InsertImage(string imageFileName, string imageUrl)
+        {
+            var result = await _pveClient.Nodes[_baseNode].Storage[_baseStorage].DownloadUrl.DownloadUrl("iso", imageFileName, imageUrl);
+        }
+
         public async Task<BaseResult> ShutdownMachine(int machineId)
         {
             var vm = _pveClient.Nodes[_baseNode].Qemu[machineId];
@@ -62,7 +69,6 @@ namespace MoxControl.Connect.Proxmox
                 return new(false, result.GetError());
 
             return new(true);
-
         }
 
         public async Task<BaseResult> ResetMachine(int machineId)

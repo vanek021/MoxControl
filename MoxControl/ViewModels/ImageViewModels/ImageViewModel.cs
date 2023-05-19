@@ -24,5 +24,7 @@ namespace MoxControl.ViewModels.ImageViewModels
 
         [Display(Name = "Файл образа")]
         public IFormFile? ImageFile { get; set; }
+
+        public ISOImageStatus Status { get; set; }
     }
 }

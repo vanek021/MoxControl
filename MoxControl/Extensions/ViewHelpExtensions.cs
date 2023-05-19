@@ -75,5 +75,16 @@ namespace MoxControl.Extensions
 				_ => "badge badge-light",
 			};
 		}
+
+        public static string GetImageStatusColor(this ISOImageStatus status)
+        {
+            return status switch
+            {
+                ISOImageStatus.Initializing => "badge badge-primary",
+                ISOImageStatus.Delivering => "badge badge-info",
+                ISOImageStatus.ReadyToUse => "badge badge-light-success",
+                _ => "badge badge-light",
+            };
+        }
 	}
 }

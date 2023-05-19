@@ -2,9 +2,9 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MoxControl.Connect.Data;
-using MoxControl.Connect.Models.Entities;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
@@ -12,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MoxControl.Connect.Data.Migrations
 {
     [DbContext(typeof(ConnectDbContext))]
-    partial class ConnectDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230519091456_AddStatusFieldToISOImagesTable")]
+    partial class AddStatusFieldToISOImagesTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -79,9 +81,6 @@ namespace MoxControl.Connect.Data.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<ServerData>("ServerData")
-                        .HasColumnType("jsonb");
 
                     b.Property<int>("Status")
                         .HasColumnType("integer");

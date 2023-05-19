@@ -1,6 +1,7 @@
 ﻿using MoxControl.Connect.Models.Enums;
 using MoxControl.Core.Interfaces;
 using MoxControl.Core.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -57,7 +58,6 @@ namespace MoxControl.Connect.Models.Entities
         /// </summary>
         public ServerStatus Status { get; set; }
 
-
         /// <summary>
         /// Флаг, мягкое удаление сервера
         /// </summary>
@@ -67,5 +67,17 @@ namespace MoxControl.Connect.Models.Entities
         /// Виртуальные машины данного сервера
         /// </summary>
         public virtual List<BaseMachine> Machines { get; set; } = new();
+
+        /// <summary>
+        /// Образы ОС, которые загружены на сервер
+        /// </summary>
+        [Column(TypeName = "jsonb")]
+        public ImageData? ImageData { get; set; }
+    }
+
+    public class ImageData
+    {
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public List<long> ImageIds { get; set; } = new();
     }
 }

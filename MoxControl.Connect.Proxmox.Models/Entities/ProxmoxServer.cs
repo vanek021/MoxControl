@@ -17,6 +17,7 @@ namespace MoxControl.Connect.Proxmox.Models.Entities
         }
 
         public string BaseNode { get; set; } = "pve";
+        public string BaseStorage { get; set; } = "local";
         public new virtual List<ProxmoxMachine> Machines { get; set; } = new();
     }
 }

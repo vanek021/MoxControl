@@ -34,16 +34,19 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
         #region lambdas
 
         public async Task<BaseServer?> GetAsync(long id)
-            => await _context.ProxmoxServers.FirstOrDefaultAsync(x => x.Id == id && !x.IsDeleted);
+            => await GetBaseQuery().FirstOrDefaultAsync(x => x.Id == id);
 
         public async Task<List<BaseServer>> GetAllAsync()
-            => await _context.ProxmoxServers.Where(x => !x.IsDeleted).Select(x => (BaseServer)x).ToListAsync();
+            => await GetBaseQuery().Select(x => (BaseServer)x).ToListAsync();
 
         public async Task<int> GetTotalCountAsync()
-            => await _context.ProxmoxServers.Where(x => !x.IsDeleted).CountAsync();
+            => await GetBaseQuery().CountAsync();
 
         public async Task<int> GetAliveCountAsync()
-            => await _context.ProxmoxServers.Where(x => x.Status == ServerStatus.Running).CountAsync();
+            => await GetBaseQuery().Where(x => x.Status == ServerStatus.Running).CountAsync();
+
+        private IQueryable<ProxmoxServer> GetBaseQuery()
+            => _context.ProxmoxServers.Where(x => !x.IsDeleted);
 
         #endregion
 
@@ -230,6 +233,30 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
                 double.Parse(lastData.HDDUsed!, CultureInfo.InvariantCulture), double.Parse(lastData.CPUUsed!, CultureInfo.InvariantCulture));
 
             return serverHealthModel;
+        }
+
+        public async Task UploadImage(long serverId, long imageId, string? initiatorUsername = null)
+        {
+            var server = await _context.ProxmoxServers
+                .FirstOrDefaultAsync(x => x.Id == serverId && !x.IsDeleted);
+            var image = await _imageManager.GetByIdAsync(imageId);
+
+            if (server is null || image is null || (server.ImageData is not null && server.ImageData.ImageIds.Contains(imageId)))
+                return;
+
+            var credentials = GetServerCredentials(server, initiatorUsername);
+
+            var client = new ProxmoxVirtualizationClient(server.Host, server.Port, credentials.Login, credentials.Password);
+
+            await client.InsertImage(Path.GetFileName(image.ImagePath), $"{_configuration["BaseUrl"]}{image.ImagePath}");
+
+            if (server.ImageData is not null)
+                server.ImageData.ImageIds.Add(imageId);
+            else
+                server.ImageData = new() { ImageIds = new() { imageId } };
+
+            _context.ProxmoxServers.Update(server);
+            await _context.SaveChangesAsync();
         }
     }
 }

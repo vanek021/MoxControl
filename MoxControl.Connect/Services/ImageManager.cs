@@ -1,10 +1,12 @@
 ﻿using Hangfire;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting.Internal;
 using MoxControl.Connect.Data;
 using MoxControl.Connect.Models.Entities;
 using MoxControl.Connect.Models.Enums;
 using MoxControl.Core.Services.BucketStorage;
+using MoxControl.Infrastructure.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,12 +21,14 @@ namespace MoxControl.Connect.Services
     {
         private readonly IBucket _bucket;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ConnectDatabase _connectDatabase;
 
-        public ImageManager(ConnectDatabase connectDatabase, IBucketStorageService bucketStorageService, IWebHostEnvironment webHostEnvironment) 
+        public ImageManager(ConnectDatabase connectDatabase, IBucketStorageService bucketStorageService, IWebHostEnvironment webHostEnvironment, IHttpContextAccessor httpContextAccessor) 
         {
             _connectDatabase = connectDatabase;
             _webHostEnvironment = webHostEnvironment;
+            _httpContextAccessor = httpContextAccessor;
             _bucket = bucketStorageService.GetBucket("isoimages");
         }
 
@@ -40,6 +44,9 @@ namespace MoxControl.Connect.Services
 
         public async Task<bool> CreateAsync(ISOImage image)
         {
+            if (image.StorageMethod == ImageStorageMethod.DownloadLink)
+                image.Status = ISOImageStatus.Delivering;
+
             _connectDatabase.ISOImages.Insert(image);
 
             try
@@ -47,7 +54,9 @@ namespace MoxControl.Connect.Services
                 await _connectDatabase.SaveChangesAsync();
                 
                 if (image.StorageMethod == ImageStorageMethod.Local)
-                    BackgroundJob.Enqueue<ImageManager>(x => x.HangfireDownloadImage(image.Id));
+                    BackgroundJob.Enqueue<ImageManager>(x => x.HangfireDownloadImage(image.Id, _httpContextAccessor.HttpContext.GetUsername()));
+                else
+                    BackgroundJob.Enqueue<HangfireConnectManager>(h => h.HangifreDeliverImageToAllServers(image.Id, _httpContextAccessor.HttpContext.GetUsername()));
 
                 return true;
             }
@@ -73,7 +82,7 @@ namespace MoxControl.Connect.Services
                 await _connectDatabase.SaveChangesAsync();
 
                 if (isNeedToDownload)
-                    BackgroundJob.Enqueue<ImageManager>(x => x.HangfireDownloadImage(image.Id));
+                    BackgroundJob.Enqueue<ImageManager>(x => x.HangfireDownloadImage(image.Id, _httpContextAccessor.HttpContext.GetUsername()));
 
                 return true;
             }
@@ -103,7 +112,7 @@ namespace MoxControl.Connect.Services
             }
         }
 
-        public async Task HangfireDownloadImage(long imageId)
+        public async Task HangfireDownloadImage(long imageId, string? initiatorUsername = null)
         {
             var image = await _connectDatabase.ISOImages.GetByIdAsync(imageId);
             var path = Path.Combine($"image{image.Id}", "image.iso");
@@ -129,10 +138,26 @@ namespace MoxControl.Connect.Services
 
                 image.DownloadSuccess = true;
                 image.ImagePath = _bucket.GetPublicURL(path);
+                image.Status = ISOImageStatus.Delivering;
 
                 _connectDatabase.ISOImages.Update(image);
                 await _connectDatabase.SaveChangesAsync();
+
+                BackgroundJob.Enqueue<HangfireConnectManager>(h => h.HangifreDeliverImageToAllServers(image.Id, _httpContextAccessor.HttpContext.GetUsername()));
             }
+        }
+
+        public async Task UpdateStatusAsync(long imageId, ISOImageStatus status)
+        {
+            var image = await _connectDatabase.ISOImages.GetByIdAsync(imageId);
+
+            if (image is null)
+                return;
+
+            image.Status = status;
+
+            _connectDatabase.ISOImages.Update(image);
+            await _connectDatabase.SaveChangesAsync();
         }
 
         private static bool IsNeedToDownload(ISOImage image, string? oldPath)

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MoxControl.Connect.Data;
 using MoxControl.Connect.Models.Entities;
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MoxControl.Connect.Data.Migrations
 {
     [DbContext(typeof(ConnectDbContext))]
-    partial class ConnectDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230519102238_AddServerDataFieldISOImagsTable")]
+    partial class AddServerDataFieldISOImagsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

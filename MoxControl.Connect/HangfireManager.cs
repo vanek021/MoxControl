@@ -2,6 +2,7 @@
 using MoxControl.Connect.Interfaces;
 using MoxControl.Connect.Interfaces.Factories;
 using MoxControl.Connect.Models.Enums;
+using MoxControl.Connect.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +15,12 @@ namespace MoxControl.Connect
     public class HangfireConnectManager
     {
         private readonly IConnectServiceFactory _connectServiceFactory;
+        private readonly ImageManager _imageManager;
 
-        public HangfireConnectManager(IConnectServiceFactory connectServiceFactory)
+        public HangfireConnectManager(IConnectServiceFactory connectServiceFactory, ImageManager imageManager)
         {
             _connectServiceFactory = connectServiceFactory;
+            _imageManager = imageManager;
         }
 
         public async Task HangfireSendServerHeartBeat(VirtualizationSystem virtualizationSystem, long serverId, string? initiatorUsername = null)
@@ -69,6 +72,25 @@ namespace MoxControl.Connect
         {
             var connectService = _connectServiceFactory.GetByVirtualizationSystem(virtualizationSystem);
             await connectService.Servers.SyncMachines(serverId, initiatorUsername);
+        }
+
+        public async Task HangifreDeliverImageToAllServers(long imageId, string? initiatorUsername = null)
+        {
+            var connectServices = _connectServiceFactory.GetAll();
+
+            foreach (var connectService in connectServices)
+            {
+                var servers = await connectService.Item2.Servers.GetAllAsync();
+                servers.ForEach(s => BackgroundJob.Enqueue<HangfireConnectManager>(h => h.HangfireDeliverImageToServer(connectService.Item1, s.Id, imageId, initiatorUsername)));
+            }
+
+            await _imageManager.UpdateStatusAsync(imageId, ISOImageStatus.ReadyToUse);
+        }
+
+        public async Task HangfireDeliverImageToServer(VirtualizationSystem virtualizationSystem, long serverId, long imageId, string? initiatorUsername = null)
+        {
+            var connectService = _connectServiceFactory.GetByVirtualizationSystem(virtualizationSystem);
+            await connectService.Servers.UploadImage(serverId, imageId, initiatorUsername);
         }
 
         public static void RegisterJobs()

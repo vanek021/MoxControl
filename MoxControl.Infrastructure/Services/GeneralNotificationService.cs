@@ -1,23 +1,27 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MoxControl.Data;
-using MoxControl.Infrastructure.Services;
 using MoxControl.Models.Entities.Notifications;
 using MoxControl.Models.Enums;
-using MoxControl.Services.Abtractions;
 using Sakura.AspNetCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace MoxControl.Services
+namespace MoxControl.Infrastructure.Services
 {
-    public class GeneralNotificationService : ServiceBase<GeneralNotification>
+    public class GeneralNotificationService
     {
-        public GeneralNotificationService(AppDbContext dbContext) : base(dbContext)
+        private readonly Database _db;
+        public GeneralNotificationService(Database db)
         {
-
+            _db = db;
         }
 
         private async Task<bool> AddNewNotifyAsync(GeneralNotifyData model)
         {
-            DbContext.GeneralNotifications.Add(new GeneralNotification()
+            _db.GeneralNotifications.Insert(new GeneralNotification()
             {
                 Title = model.Title,
                 Description = model.Description,
@@ -26,7 +30,7 @@ namespace MoxControl.Services
 
             try
             {
-                await DbContext.SaveChangesAsync();
+                await _db.SaveChangesAsync();
                 return true;
             }
             catch
@@ -43,17 +47,17 @@ namespace MoxControl.Services
 
         public async Task<List<GeneralNotification>> GetLastAsync(int count)
         {
-            return await DbContext.GeneralNotifications.OrderBy(n => n.CreatedAt).Take(count).ToListAsync();
+            return await _db.GeneralNotifications.GetLast(count);
         }
 
         public async Task<IPagedList<GeneralNotification>> GetPagedAsync(int page, int pageSize)
         {
-            return await DbContext.GeneralNotifications.OrderBy(n => n.CreatedAt).ToPagedListAsync(pageSize, page);
+            return await _db.GeneralNotifications.GetPagedAsync(page, pageSize);
         }
 
-        public async Task<GeneralNotification?> GetById(long id)
+        public async Task<GeneralNotification?> GetByIdAsync(long id)
         {
-            return await DbContext.GeneralNotifications.FirstOrDefaultAsync(n => n.Id == id);
+            return await _db.GeneralNotifications.GetByIdAsync(id);
         }
     }
 

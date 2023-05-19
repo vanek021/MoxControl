@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MoxControl.Core\MoxControl.Core.csproj" />
+    <ProjectReference Include="..\MoxControl.Data\MoxControl.Data.csproj" />
     <ProjectReference Include="..\MoxControl.Models\MoxControl.Models.csproj" />
   </ItemGroup>
 

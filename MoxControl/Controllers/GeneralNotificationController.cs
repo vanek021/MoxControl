@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MoxControl.Infrastructure.Services;
 using MoxControl.Services;
 
 namespace MoxControl.Controllers
@@ -22,7 +23,7 @@ namespace MoxControl.Controllers
 
 		public async Task<IActionResult> Details(long id)
 		{
-			var notification = await _generalNotificationService.GetById(id);
+			var notification = await _generalNotificationService.GetByIdAsync(id);
 
 			if (notification is null)
 				return NotFound();

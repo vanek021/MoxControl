@@ -37,7 +37,10 @@ namespace MoxControl.Data.Repositories
                 .Include(x => x.NotificationReceiver)
                 .ThenInclude(x => x.User)
                 .Where(x => x.NotificationReceiver.UserId == userId);
-            return userNotifications.Where(x => !x.WasViewed).ToListAsync();
+            return userNotifications
+                .Where(x => !x.WasViewed)
+                .OrderByDescending(x => x.CreatedAt)
+                .ToListAsync();
         }
 
         public Notification? GetNotificationById(long id)

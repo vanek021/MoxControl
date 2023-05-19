@@ -35,7 +35,7 @@ namespace MoxControl.Data.Repositories
         public Task<List<GeneralNotification>> GetLast(int count)
         {
             return ManyWithIncludes()
-                .OrderBy(n => n.CreatedAt)
+                .OrderByDescending(n => n.CreatedAt)
                 .Take(count)
                 .ToListAsync();
         }
@@ -43,7 +43,7 @@ namespace MoxControl.Data.Repositories
         public async Task<IPagedList<GeneralNotification>> GetPagedAsync(int page, int pageSize)
         {
             return await ManyWithIncludes()
-                .OrderBy(n => n.CreatedAt)
+                .OrderByDescending(n => n.CreatedAt)
                 .ToPagedListAsync(pageSize, page);
         }
     }

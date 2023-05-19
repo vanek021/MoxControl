@@ -27,17 +27,12 @@ namespace MoxControl.Connect.Services.InternalServices
             if (oldStatus == newStatus)
                 return;
 
-            var telegramChatId = _db.GeneralSettings.GetValueBySystemName(SettingConstants.TelegramChat);
-
-            if (string.IsNullOrEmpty(telegramChatId))
-                return;
-
             var notification = $"Изменился статус сервера! \n" +
                 $"Название сервера: {serverName} \n" +
                 $"Старый статус: {oldStatus.GetDisplayName()} \n" +
                 $"Новый статус: {newStatus.GetDisplayName()}";
 
-            await _telegramService.TelegramBotClient.SendTextMessageAsync(new ChatId(telegramChatId), notification);
+            await SendTelegramAlert(notification);
         }
     }
 }

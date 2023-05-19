@@ -24,11 +24,6 @@ namespace MoxControl.Connect.Services.InternalServices
         protected async Task SendTelegramMachineNotify(string serverName, string machineName, MachineStatus oldStatus, MachineStatus newStatus)
         {
             if (oldStatus == newStatus)
-                return; 
-
-            var telegramChatId = _db.GeneralSettings.GetValueBySystemName(SettingConstants.TelegramChat);
-
-            if (string.IsNullOrEmpty(telegramChatId))
                 return;
 
             var notification = $"Изменился статус виртуальной машины! \n" +
@@ -37,7 +32,7 @@ namespace MoxControl.Connect.Services.InternalServices
                 $"Старый статус: {oldStatus.GetDisplayName()} \n" +
                 $"Новый статус: {newStatus.GetDisplayName()}";
 
-            await _telegramService.TelegramBotClient.SendTextMessageAsync(new ChatId(telegramChatId), notification);
+            await SendTelegramAlert(notification);
         }
     }
 }

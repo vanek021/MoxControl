@@ -166,6 +166,7 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
 
                 var status = await proxmoxVirtualizationSystem.GetMachineStatus(machine.ProxmoxId.Value);
 
+                await SendTelegramMachineNotify(machine.Server.Name, machine.Name, machine.Status, status.Status.GetMachineStatus());
                 machine.Status = status.Status.GetMachineStatus();
             }
             catch

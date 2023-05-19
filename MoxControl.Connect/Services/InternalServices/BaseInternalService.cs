@@ -9,6 +9,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using MoxControl.Data;
+using MoxControl.Models.Constants;
+using MoxControl.Models.Entities.Notifications;
+using Telegram.Bot.Types;
+using Telegram.Bot;
 
 namespace MoxControl.Connect.Services.InternalServices
 {
@@ -16,6 +20,7 @@ namespace MoxControl.Connect.Services.InternalServices
     {
         protected readonly MoxControlUserManager _moxControlUserManager;
         protected readonly TelegramService _telegramService;
+        protected readonly GeneralNotificationService _generalNotificationService;
         protected readonly Database _db;
 
         public BaseInternalService(IServiceScopeFactory serviceScopeFactory) 
@@ -24,6 +29,7 @@ namespace MoxControl.Connect.Services.InternalServices
 
             _moxControlUserManager = scope.ServiceProvider.GetRequiredService<MoxControlUserManager>();
             _telegramService = scope.ServiceProvider.GetRequiredService<TelegramService>();
+            _generalNotificationService = scope.ServiceProvider.GetRequiredService<GeneralNotificationService>();
             _db = scope.ServiceProvider.GetRequiredService<Database>();
         }
 
@@ -52,6 +58,23 @@ namespace MoxControl.Connect.Services.InternalServices
                 Login = userName,
                 Password = password
             };
+        }
+
+        protected async Task SendTelegramAlert(string content)
+        {
+            var telegramChatId = _db.GeneralSettings.GetValueBySystemName(SettingConstants.TelegramChat);
+
+            if (string.IsNullOrEmpty(telegramChatId))
+                return;
+
+            try
+            {
+                await _telegramService.TelegramBotClient.SendTextMessageAsync(new ChatId(telegramChatId), content);
+            }
+            catch (Exception ex)
+            {
+                await _generalNotificationService.AddInternalServerErrorAsync(ex);
+            }
         }
     }
 }

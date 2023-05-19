@@ -135,6 +135,7 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
             }
             catch
             {
+                await SendTelegramServerNotify(server.Name, server.Status, ServerStatus.Unknown);
                 server.Status = ServerStatus.Unknown;
             }
             finally

@@ -37,5 +37,12 @@ namespace MoxControl.Data.Repositories
             return ManyWithIncludes()
                 .ToListAsync();
         }
+
+        public string? GetValueBySystemName(string systemName)
+        {
+            return ManyWithIncludes()
+                .SingleOrDefault(s => s.SystemName == systemName)?
+                .Value;
+        }
     }
 }

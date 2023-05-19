@@ -170,7 +170,7 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
             }
             catch
             {
-                // TODO
+                await SendTelegramMachineNotify(machine.Server.Name, machine.Name, machine.Status, MachineStatus.Unknown);
                 machine.Status = MachineStatus.Unknown;
             }
             finally

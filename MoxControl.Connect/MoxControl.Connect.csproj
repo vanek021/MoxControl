@@ -10,6 +10,7 @@
     <ProjectReference Include="..\MoxControl.Connect.Data\MoxControl.Connect.Data.csproj" />
     <ProjectReference Include="..\MoxControl.Connect.Models\MoxControl.Connect.Models.csproj" />
     <ProjectReference Include="..\MoxControl.Core\MoxControl.Core.csproj" />
+    <ProjectReference Include="..\MoxControl.Data\MoxControl.Data.csproj" />
   </ItemGroup>
 
 </Project>

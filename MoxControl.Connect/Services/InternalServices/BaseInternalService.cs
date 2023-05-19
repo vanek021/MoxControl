@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using MoxControl.Data;
 
 namespace MoxControl.Connect.Services.InternalServices
 {
@@ -15,6 +16,7 @@ namespace MoxControl.Connect.Services.InternalServices
     {
         protected readonly MoxControlUserManager _moxControlUserManager;
         protected readonly TelegramService _telegramService;
+        protected readonly Database _db;
 
         public BaseInternalService(IServiceScopeFactory serviceScopeFactory) 
         {
@@ -22,6 +24,7 @@ namespace MoxControl.Connect.Services.InternalServices
 
             _moxControlUserManager = scope.ServiceProvider.GetRequiredService<MoxControlUserManager>();
             _telegramService = scope.ServiceProvider.GetRequiredService<TelegramService>();
+            _db = scope.ServiceProvider.GetRequiredService<Database>();
         }
 
         protected virtual ServerCredentialsModel GetServerCredentials(BaseServer server, string? initiatorUsername = null)

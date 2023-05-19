@@ -57,6 +57,9 @@ namespace MoxControl.Connect.Proxmox
         public async Task InsertImage(string imageFileName, string imageUrl)
         {
             var result = await _pveClient.Nodes[_baseNode].Storage[_baseStorage].DownloadUrl.DownloadUrl("iso", imageFileName, imageUrl);
+
+            if (result.ResponseInError)
+                throw new Exception($"Не удалось загрузить образ {imageFileName} на {_pveClient.Host}:{_pveClient.Port}. {result.StatusCode}");
         }
 
         public async Task<BaseResult> ShutdownMachine(int machineId)

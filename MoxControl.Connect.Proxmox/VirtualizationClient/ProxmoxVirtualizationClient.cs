@@ -82,6 +82,12 @@ namespace MoxControl.Connect.Proxmox
             if (result.InError())
                 return new(false, result.GetError());
 
+            var taskId = ((string)JsonConvert
+                .SerializeObject(result.Response.data, Formatting.Indented))
+                .TrimStart('"').TrimEnd('"');
+
+            await _pveClient.WaitForTaskToFinish(taskId);
+
             return new(true);
         }
 
@@ -93,6 +99,12 @@ namespace MoxControl.Connect.Proxmox
 
             if (result.InError())
                 return new(false, result.GetError());
+
+            var taskId = ((string)JsonConvert
+                .SerializeObject(result.Response.data, Formatting.Indented))
+                .TrimStart('"').TrimEnd('"');
+
+            await _pveClient.WaitForTaskToFinish(taskId);
 
             return new(true);
 
@@ -107,8 +119,13 @@ namespace MoxControl.Connect.Proxmox
             if (result.InError())
                 return new(false, result.GetError());
 
-            return new(true);
+            var taskId = ((string)JsonConvert
+                .SerializeObject(result.Response.data, Formatting.Indented))
+                .TrimStart('"').TrimEnd('"');
 
+            await _pveClient.WaitForTaskToFinish(taskId);
+
+            return new(true);
         }
 
         public async Task<BaseResult> StartMachine(int machineId)
@@ -120,8 +137,13 @@ namespace MoxControl.Connect.Proxmox
             if (result.InError())
                 return new(false, result.GetError());
 
-            return new(true);
+            var taskId = ((string)JsonConvert
+                .SerializeObject(result.Response.data, Formatting.Indented))
+                .TrimStart('"').TrimEnd('"');
 
+            await _pveClient.WaitForTaskToFinish(taskId);
+
+            return new(true);
         }
 
         private async Task<List<RrddataItem>> GetNodeRrdata(string nodeName, string timeFrame = "hour", string cf = "AVERAGE")

@@ -10,7 +10,7 @@
             <div class="card-header">
                 <!--begin::Card title-->
                 <div class="card-title m-0">
-                    <h3 class="fw-bold m-0">Информация о ВМ: @Model.Name <span class="@Model.Status.GetMachineStatusColor()">@Model.Status.GetDisplayName()</span></h3>
+                    <h3 class="fw-bold m-0">Информация о ВМ: @Model.Name <span id="generalStatusSpan" class="@Model.Status.GetMachineStatusColor()">@Model.Status.GetDisplayName()</span></h3>
                 </div>
                 <!--end::Card title-->
                 <!--begin::Action-->
@@ -302,7 +302,7 @@
             var hardRebootBtn = $("#hardRebootButton");
 
             const rebootRequestUrl = "/Machine/Reboot";
-            var trebootBtn = $("#rebootButton");
+            var rebootBtn = $("#rebootButton");
 
             let formData = new FormData();
 
@@ -319,10 +319,19 @@
                     contentType: false,
                     processData: false,
                     withCredentials: true,
+                    beforeSend: function (xhr) {
+                        turnOnBtn.prop('disabled', true);
+                    },
                     success: function (result) {
                         var statusSpan = $("#statusSpan");
                         statusSpan.attr("class", "badge badge-light-success");
                         statusSpan.text("Запущена");
+
+                        var generalStatusSpan = $("#generalStatusSpan");
+                        generalStatusSpan.attr("class", "badge badge-light-success");
+                        generalStatusSpan.text("Запущена");
+
+                        turnOnBtn.prop('disabled', false);
                     }
                 });
 
@@ -338,10 +347,57 @@
                     contentType: false,
                     processData: false,
                     withCredentials: true,
+                    beforeSend: function (xhr) {
+                        turnOffBtn.prop('disabled', true);
+                    },
                     success: function (result) {
                         var statusSpan = $("#statusSpan");
                         statusSpan.attr("class", "badge badge-light-danger");
                         statusSpan.text("Остановлена");
+
+                        var generalStatusSpan = $("#generalStatusSpan");
+                        generalStatusSpan.attr("class", "badge badge-light-danger");
+                        generalStatusSpan.text("Остановлена");
+
+                        turnOffBtn.prop('disabled', false);
+                    }
+                });
+            });
+
+            hardRebootBtn.click(function (e) {
+                e.preventDefault();
+
+                $.ajax({
+                    type: "POST",
+                    url: hardRebootRequestUrl,
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    withCredentials: true,
+                    beforeSend: function (xhr) {
+                        hardRebootBtn.prop('disabled', true);
+                    },
+                    success: function (result) {
+                        hardRebootBtn.prop('disabled', false);
+                    }
+                });
+            });
+
+            rebootBtn.click(function (e) {
+                e.preventDefault();
+
+                $.ajax({
+                    type: "POST",
+                    url: rebootRequestUrl,
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    withCredentials: true,
+                    beforeSend: function (xhr) {
+                        rebootBtn.prop('disabled', true);
+                    },
+                    success: function (result) {
+                        rebootBtn.prop('disabled', false);
                     }
                 });
             });

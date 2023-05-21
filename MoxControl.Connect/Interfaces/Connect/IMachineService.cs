@@ -40,5 +40,7 @@ namespace MoxControl.Connect.Interfaces.Connect
         public Task<BaseResult> Reboot(long machineId, string? initiatorUsername = null);
 
         public Task<BaseResult> HardReboot(long machineId, string? initiatorUsername = null);
+
+        public Task<string?> GetConsoleSourceAsync(long id);
     }
 }

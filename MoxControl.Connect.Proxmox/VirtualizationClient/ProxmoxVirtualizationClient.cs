@@ -24,6 +24,7 @@ namespace MoxControl.Connect.Proxmox
 
         public async Task<List<RrddataItem>> GetServerRrddata(string timeframe = "hour", string cf = "AVERAGE")
         {
+            await OpenConsoleForMachine(101);
             await GetNodeMachines();
             return await GetNodeRrdata(_baseNode, timeframe, cf);
         }
@@ -60,6 +61,16 @@ namespace MoxControl.Connect.Proxmox
 
             if (result.ResponseInError)
                 throw new Exception($"Не удалось загрузить образ {imageFileName} на {_pveClient.Host}:{_pveClient.Port}. {result.StatusCode}");
+        }
+
+        public async Task OpenConsoleForMachine(int machineId)
+        {
+            var vm = await _pveClient.Nodes[_baseNode].Qemu[machineId].Vncproxy.Vncproxy();
+        }
+
+        public async Task CreateMachine()
+        {
+            var vm = await _pveClient.Nodes[_baseNode].Qemu.CreateVm(new Random().Next());
         }
 
         public async Task<BaseResult> ShutdownMachine(int machineId)

@@ -14,9 +14,11 @@ namespace MoxControl.ViewModels.MachineViewModels
             CreateMap<BaseMachine, MachineCreateEditViewModel>();
 
             CreateMap<BaseMachine, MachineDetailsViewModel>()
-                .ForMember(dest => dest.ServerId, opt => opt.Ignore())
-                .ForMember(dest => dest.ServerName, opt => opt.Ignore())
-                .ForMember(dest => dest.VirtualizationSystem, opt => opt.Ignore());
+                .ForMember(dest => dest.ServerId, opt => opt.MapFrom(src => src.Server.Id))
+                .ForMember(dest => dest.ServerName, opt => opt.MapFrom(src => src.Server.Name))
+                .ForMember(dest => dest.VirtualizationSystem, opt => opt.MapFrom(src => src.Server.VirtualizationSystem))
+                .ForMember(dest => dest.ServerHost, opt => opt.MapFrom(src => src.Server.Host))
+                .ForMember(dest => dest.ServerPort, opt => opt.MapFrom(src => src.Server.Port));
             CreateMap<MachineDetailsViewModel, BaseMachine>();
         }
     }

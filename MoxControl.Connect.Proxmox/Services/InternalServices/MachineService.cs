@@ -45,9 +45,6 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
         public async Task<int> GetAliveCountAsync()
             => await _context.ProxmoxMachines.Where(x => x.Status == MachineStatus.Running && !x.IsDeleted).CountAsync();
 
-        public async Task<BaseMachine?> GetAsync(long id)
-            => await _context.ProxmoxMachines.Where(x => !x.IsDeleted).Select(x => (BaseMachine)x).FirstOrDefaultAsync(m => m.Id == id);
-
         public async Task<List<BaseMachine>> GetAllAsync()
             => await _context.ProxmoxMachines.Where(x => !x.IsDeleted).Select(x => (BaseMachine)x).ToListAsync();
 
@@ -55,6 +52,37 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
             => await _context.ProxmoxMachines.Where(x => !x.IsDeleted).Include(x => x.Server).FirstOrDefaultAsync(m => m.Id == id);
 
         #endregion
+
+        public async Task<BaseMachine?> GetAsync(long id)
+        {
+            var machine = await _context.ProxmoxMachines
+                .Where(x => !x.IsDeleted)
+                .Include(x => x.Server)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (machine is null)
+                return null;
+
+            var baseMachine = (BaseMachine)machine;
+            baseMachine.Server = machine.Server;
+
+            return baseMachine;
+        }
+
+        public async Task<string?> GetConsoleSourceAsync(long id)
+        {
+            var machine = await _context.ProxmoxMachines
+                .Where(x => !x.IsDeleted)
+                .Include(x => x.Server)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (machine is null)
+                return null;
+
+            return $"https://{machine.Server.Host}:{machine.Server.Port}" +
+                $"/?console=kvm&novnc=1&vmid={machine.ProxmoxId}&vmname={machine.ProxmoxName}" +
+                $"&node={machine.Server.BaseNode}&resize=off&cmd=";
+        }
 
         public async Task<bool> CreateAsync(BaseMachine machine, long serverId, long? templateId = null)
         {

@@ -11,6 +11,12 @@ namespace MoxControl.ViewModels.MachineViewModels
         public long? ServerId { get; set; }
 
         public string? ServerName { get; set; }
+        
+        public string? ServerHost { get; set; }
+
+        public string? ConsoleHref { get; set; }
+        
+        public int? ServerPort { get; set; }
 
         public int RAMSize { get; set; }
 

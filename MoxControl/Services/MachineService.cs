@@ -118,15 +118,7 @@ namespace MoxControl.Services
                 return null;
 
             var viewModel = _mapper.Map<MachineDetailsViewModel>(machine);
-            viewModel.VirtualizationSystem = virtualizationSystem;
-
-            var server = await connectService.Servers.GetAsync(machine.ServerId);
-
-            if (server is not null)
-            {
-                viewModel.ServerName = server.Name;
-                viewModel.ServerId = server.Id;
-            }
+            viewModel.ConsoleHref = await connectService.Machines.GetConsoleSourceAsync(machineId);
 
             return viewModel;
         }

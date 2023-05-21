@@ -3,6 +3,10 @@
 
 @model ProxmoxServerSettingViewModel
 
+@{
+    ViewData["Title"] = "Настройки сервера Proxmox";
+}
+
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
     <div class="container-xxl" id="kt_content_container">
         <partial name="~/Views/Server/_ServerDetailsNavigationPartial.cshtml" model="@((VirtualizationSystem.Proxmox, Model.Id))" />

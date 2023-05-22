@@ -11,13 +11,6 @@ namespace MoxControl.Connect.Data.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<TemplateAvailableServerData>(
-                name: "AvailableServerData",
-                schema: "connect",
-                table: "Templates",
-                type: "jsonb",
-                nullable: true);
-
             migrationBuilder.AddColumn<int>(
                 name: "CPUCores",
                 schema: "connect",

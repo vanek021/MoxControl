@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MoxControl.Connect.Data;
-using MoxControl.Connect.Models.Entities;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
@@ -13,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MoxControl.Connect.Data.Migrations
 {
     [DbContext(typeof(ConnectDbContext))]
-    [Migration("20230519102238_AddServerDataFieldISOImagsTable")]
-    partial class AddServerDataFieldISOImagsTable
+    [Migration("20230522151538_FixTemplate")]
+    partial class FixTemplate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -105,6 +104,12 @@ namespace MoxControl.Connect.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
+                    b.Property<int>("CPUCores")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("CPUSockets")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -112,12 +117,18 @@ namespace MoxControl.Connect.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("HDDSize")
+                        .HasColumnType("integer");
+
                     b.Property<long>("ISOImageId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int>("RAMSize")
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");

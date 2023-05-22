@@ -86,5 +86,15 @@ namespace MoxControl.Extensions
                 _ => "badge badge-light",
             };
         }
+
+        public static string GetTemplateStatusColor(this TemplateStatus status)
+        {
+            return status switch
+            {
+                TemplateStatus.Initializing => "badge badge-primary",
+                TemplateStatus.ReadyToUse => "badge badge-light-success",
+                _ => "badge badge-light"
+            };
+        }
 	}
 }

@@ -83,9 +83,6 @@ namespace MoxControl.Connect.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<ImageServerData>("ServerData")
-                        .HasColumnType("jsonb");
-
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
@@ -107,9 +104,6 @@ namespace MoxControl.Connect.Data.Migrations
                         .HasColumnType("bigint");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.Property<TemplateAvailableServerData>("AvailableServerData")
-                        .HasColumnType("jsonb");
 
                     b.Property<int>("CPUCores")
                         .HasColumnType("integer");

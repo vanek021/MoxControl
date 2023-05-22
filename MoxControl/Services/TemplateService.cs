@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using MoxControl.Connect.Interfaces.Factories;
 using MoxControl.Connect.Models.Entities;
 using MoxControl.Connect.Services;
+using MoxControl.ViewModels.ImageViewModels;
 using MoxControl.ViewModels.TemplateViewModels;
 
 namespace MoxControl.Services
@@ -9,12 +11,14 @@ namespace MoxControl.Services
     public class TemplateService
     {
         private readonly IMapper _mapper;
+        private readonly IConnectServiceFactory _connectServiceFactory;
         private readonly TemplateManager _templateManager;
         private readonly ImageManager _imageManager;
 
-        public TemplateService(IMapper mapper, TemplateManager templateManager, ImageManager imageManager)
+        public TemplateService(IMapper mapper, IConnectServiceFactory connectServiceFactory, TemplateManager templateManager, ImageManager imageManager)
         {
             _mapper = mapper;
+            _connectServiceFactory = connectServiceFactory;
             _templateManager = templateManager;
             _imageManager = imageManager;
         }
@@ -38,7 +42,26 @@ namespace MoxControl.Services
             if (template is null)
                 return null;
 
-            return _mapper.Map<TemplateDetailsViewModel>(template);
+            var templateVm = _mapper.Map<TemplateDetailsViewModel>(template);
+
+            var connectServices = _connectServiceFactory.GetAll();
+
+            foreach (var connectService in connectServices)
+            {
+                var servers = await connectService.Item2.Servers.GetAllAsync();
+
+                foreach (var server in servers)
+                {
+                    var serverVm = _mapper.Map<TemplateServerViewModel>(server);
+
+                    if (server.TemplateData is not null && server.TemplateData.TemplateIds.Contains(template.Id))
+                        serverVm.IsTemplateInitialized = true;
+
+                    templateVm.Servers.Add(serverVm);
+                }
+            }
+
+            return templateVm;
         }
 
         public async Task<TemplateCreateEditViewModel> GetTemplateViewModelForCreateAsync()

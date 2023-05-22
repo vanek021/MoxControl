@@ -42,27 +42,15 @@ namespace MoxControl.Connect.Models.Entities
         public int CPUCores { get; set; }
 
         /// <summary>
+        /// Статус шаблона
+        /// </summary>
+        public TemplateStatus Status { get; set; }
+
+        /// <summary>
         /// Используемый образ
         /// </summary>
         [ForeignKey(nameof(ISOImageId))]
         public ISOImage ISOImage { get; set; }
         public long ISOImageId { get; set; }
-
-        /// <summary>
-        /// Сервера, на которых доступен для использования данный шаблон
-        /// </summary>
-        [Column(TypeName = "jsonb")]
-        public TemplateAvailableServerData? AvailableServerData { get; set; }
-    }
-
-    public class TemplateAvailableServerData
-    {
-        public List<TemplateAvailableServerDataItem> Items { get; set; } = new();
-    }
-
-    public class TemplateAvailableServerDataItem
-    {
-        public long ServerId { get; set; }
-        public VirtualizationSystem VirtualizationSystem { get; set; }
     }
 }

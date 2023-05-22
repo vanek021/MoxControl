@@ -66,9 +66,6 @@ namespace MoxControl.Connect.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<ImageServerData>("AvailableServerData")
-                        .HasColumnType("jsonb");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -107,9 +104,6 @@ namespace MoxControl.Connect.Data.Migrations
                         .HasColumnType("bigint");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.Property<TemplateAvailableServerData>("AvailableServerData")
-                        .HasColumnType("jsonb");
 
                     b.Property<int>("CPUCores")
                         .HasColumnType("integer");

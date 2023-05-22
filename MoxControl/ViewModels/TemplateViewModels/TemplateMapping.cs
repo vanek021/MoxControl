@@ -15,6 +15,9 @@ namespace MoxControl.ViewModels.TemplateViewModels
 
             CreateMap<Template, TemplateDetailsViewModel>();
             CreateMap<TemplateDetailsViewModel, Template>();
+
+            CreateMap<BaseServer, TemplateServerViewModel>();
+            CreateMap<TemplateServerViewModel, BaseServer>();
         }
     }
 }

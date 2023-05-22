@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MoxControl.Connect.Data;
-using MoxControl.Connect.Models.Entities;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
@@ -63,9 +62,6 @@ namespace MoxControl.Connect.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<ImageServerData>("AvailableServerData")
-                        .HasColumnType("jsonb");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -105,9 +101,6 @@ namespace MoxControl.Connect.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<TemplateAvailableServerData>("AvailableServerData")
-                        .HasColumnType("jsonb");
-
                     b.Property<int>("CPUCores")
                         .HasColumnType("integer");
 
@@ -132,6 +125,9 @@ namespace MoxControl.Connect.Data.Migrations
                         .HasColumnType("text");
 
                     b.Property<int>("RAMSize")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Status")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("UpdatedAt")

@@ -73,11 +73,23 @@ namespace MoxControl.Connect.Models.Entities
         /// </summary>
         [Column(TypeName = "jsonb")]
         public ImageData? ImageData { get; set; }
+
+        /// <summary>
+        /// Шаблоны, которые доступны на данном сервере
+        /// </summary>
+        [Column(TypeName = "jsonb")]
+        public TemplateData? TemplateData { get; set; }
     }
 
     public class ImageData
     {
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public List<long> ImageIds { get; set; } = new();
+    }
+
+    public class TemplateData
+    {
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public List<long> TemplateIds { get; set; } = new();
     }
 }

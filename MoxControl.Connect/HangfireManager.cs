@@ -16,11 +16,13 @@ namespace MoxControl.Connect
     {
         private readonly IConnectServiceFactory _connectServiceFactory;
         private readonly ImageManager _imageManager;
+        private readonly TemplateManager _templateManager;
 
-        public HangfireConnectManager(IConnectServiceFactory connectServiceFactory, ImageManager imageManager)
+        public HangfireConnectManager(IConnectServiceFactory connectServiceFactory, ImageManager imageManager, TemplateManager templateManager)
         {
             _connectServiceFactory = connectServiceFactory;
             _imageManager = imageManager;
+            _templateManager = templateManager;
         }
 
         public async Task HangfireSendServerHeartBeat(VirtualizationSystem virtualizationSystem, long serverId, string? initiatorUsername = null)
@@ -101,6 +103,8 @@ namespace MoxControl.Connect
             {
                 await connectService.Item2.Servers.HandleCreateTemplate(templateId, initiatorUsername);
             }
+
+            await _templateManager.MarkAsReadyToUseAsync(templateId);
         }
 
         public static void RegisterJobs()

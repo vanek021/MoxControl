@@ -1,16 +1,20 @@
 ﻿using Hangfire;
+using Microsoft.AspNetCore.Http;
 using MoxControl.Connect.Data;
 using MoxControl.Connect.Models.Entities;
+using MoxControl.Infrastructure.Extensions;
 
 namespace MoxControl.Connect.Services
 {
     public class TemplateManager
     {
         private readonly ConnectDatabase _connectDatabase;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public TemplateManager(ConnectDatabase connectDatabase)
+        public TemplateManager(ConnectDatabase connectDatabase, IHttpContextAccessor httpContextAccessor)
         {
             _connectDatabase = connectDatabase;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<int> GetTotalCount()
@@ -40,6 +44,7 @@ namespace MoxControl.Connect.Services
             try
             {
                 await _connectDatabase.SaveChangesAsync();
+                BackgroundJob.Enqueue<HangfireConnectManager>(h => h.HangfireHandleTemplateCreateForAllServers(template.Id, _httpContextAccessor.HttpContext.GetUsername()));
                 return true;
             }
             catch
@@ -81,6 +86,17 @@ namespace MoxControl.Connect.Services
             {
                 return false;
             }
+        }
+
+        public async Task MarkAsReadyToUseAsync(long templateId)
+        {
+            var template = await _connectDatabase.Templates.GetByIdAsync(templateId);
+
+            if (template is null)
+                return;
+
+            template.Status = Models.Enums.TemplateStatus.ReadyToUse;
+            await _connectDatabase.SaveChangesAsync();
         }
     }
 }

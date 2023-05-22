@@ -31,6 +31,16 @@ namespace MoxControl.Services
             return templateIndexVm;
         }
 
+        public async Task<TemplateDetailsViewModel?> GetTemplateDetailsViewModelAsync(long templateId)
+        {
+            var template = await _templateManager.GetByIdAsync(templateId);
+
+            if (template is null)
+                return null;
+
+            return _mapper.Map<TemplateDetailsViewModel>(template);
+        }
+
         public async Task<TemplateCreateEditViewModel> GetTemplateViewModelForCreateAsync()
         {
             var templateVm = new TemplateCreateEditViewModel();

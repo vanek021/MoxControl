@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MoxControl.Connect.Data;
+using MoxControl.Connect.Interfaces.Factories;
 using MoxControl.Connect.Models.Entities;
 using MoxControl.Connect.Services;
 using MoxControl.ViewModels.ImageViewModels;
@@ -10,11 +11,13 @@ namespace MoxControl.Services
     public class ImageService
     {
         private readonly IMapper _mapper;
+        private readonly IConnectServiceFactory _connectServiceFactory;
         private readonly ImageManager _imageManager;
 
-        public ImageService(IMapper mapper, ImageManager imageManager)
+        public ImageService(IMapper mapper, IConnectServiceFactory connectServiceFactory, ImageManager imageManager)
         {
             _mapper = mapper;
+            _connectServiceFactory = connectServiceFactory;
             _imageManager = imageManager;
         }
 
@@ -27,6 +30,35 @@ namespace MoxControl.Services
             imageIndexVm.Images = _mapper.Map<List<ImageViewModel>>(images);
 
             return imageIndexVm;
+        }
+
+        public async Task<ImageDetailsViewModel?> GetImageDetailsViewModelAsync(long imageId)
+        {
+            var image = await _imageManager.GetByIdAsync(imageId);
+
+            if (image is null)
+                return null;
+
+            var imageDetailsVm = _mapper.Map<ImageDetailsViewModel>(image);
+
+            var connectServices = _connectServiceFactory.GetAll();
+
+            foreach (var connectService in connectServices)
+            {
+                var servers = await connectService.Item2.Servers.GetAllAsync();
+                
+                foreach (var server in servers)
+                {
+                    var serverVm = _mapper.Map<ImageServerViewModel>(server);
+                    
+                    if (server.ImageData is not null && server.ImageData.ImageIds.Contains(image.Id))
+                        serverVm.IsImageDelivered = true;
+
+                    imageDetailsVm.Servers.Add(serverVm);
+                }
+            }
+
+            return imageDetailsVm;
         }
 
         public async Task<ImageViewModel> GetImageViewModelAsync(long id)

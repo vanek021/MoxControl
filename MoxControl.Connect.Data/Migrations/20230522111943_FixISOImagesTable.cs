@@ -1,31 +1,30 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
-using MoxControl.Connect.Models.Entities;
 
 #nullable disable
 
 namespace MoxControl.Connect.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class AddServerDataFieldISOImagsTable : Migration
+    public partial class FixISOImagesTable : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<ImageServerData>(
+            migrationBuilder.RenameColumn(
                 name: "ServerData",
                 schema: "connect",
                 table: "ISOImages",
-                type: "jsonb",
-                nullable: true);
+                newName: "AvailableServerData");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "ServerData",
+            migrationBuilder.RenameColumn(
+                name: "AvailableServerData",
                 schema: "connect",
-                table: "ISOImages");
+                table: "ISOImages",
+                newName: "ServerData");
         }
     }
 }

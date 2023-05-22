@@ -20,14 +20,31 @@ namespace MoxControl.Connect.Data.Repositories
 
         }
 
+        protected override IQueryable<Template> SingleWithIncludes()
+        {
+            return base.SingleWithIncludes();
+        }
+
+        protected override IQueryable<Template> ManyWithIncludes()
+        {
+            return SingleWithIncludes();
+        }
+
         public Task<List<Template>> GetAllAsync()
         {
-            return Table().ToListAsync();
+            return ManyWithIncludes().ToListAsync();
         }
 
         public Task<int> GetTotalCount()
         {
-            return Table().CountAsync();
+            return ManyWithIncludes().CountAsync();
+        }
+
+        public Task<Template?> GetByIdWithImageAsync(long id)
+        {
+            return ManyWithIncludes()
+                .Include(t => t.ISOImage)
+                .FirstOrDefaultAsync(t => t.Id == id);
         }
     }
 }

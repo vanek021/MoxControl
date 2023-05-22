@@ -1,4 +1,5 @@
 ﻿using Hangfire;
+using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MoxControl.Connect.Interfaces.Connect;
@@ -260,6 +261,26 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
 
             _context.ProxmoxServers.Update(server);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task HandleCreateTemplate(long templateId, string? initiatorUsername = null)
+        {
+            var template = await _templateManager.GetByIdWithImageAsync(templateId);
+            var servers = await GetBaseQuery().ToListAsync();
+
+            if (template is null) 
+                return;
+
+            foreach (var server in servers)
+                await HandleCreateTemplateForServer(server, template);
+        }
+
+        private async Task HandleCreateTemplateForServer(ProxmoxServer proxmoxServer, Template template, string? initiatorUsername = null)
+        {
+            var credentials = GetServerCredentials(proxmoxServer, initiatorUsername);
+            var client = new ProxmoxVirtualizationClient(proxmoxServer.Host, proxmoxServer.Port, credentials.Login, credentials.Password);
+
+
         }
     }
 }

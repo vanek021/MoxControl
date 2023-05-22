@@ -28,6 +28,11 @@ namespace MoxControl.Connect.Services
             return await _connectDatabase.Templates.GetByIdAsync(id);
         }
 
+        public async Task<Template?> GetByIdWithImageAsync(long id)
+        {
+            return await _connectDatabase.Templates.GetByIdWithImageAsync(id);
+        }
+
         public async Task<bool> CreateAsync(Template template)
         {
             _connectDatabase.Templates.Insert(template);

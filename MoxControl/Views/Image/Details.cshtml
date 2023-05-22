@@ -1,0 +1,147 @@
+﻿@using MoxControl.Infrastructure.Extensions;
+@using MoxControl.ViewModels.ImageViewModels;
+
+@model ImageDetailsViewModel
+
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+    <div class="container" id="kt_content_container">
+        <div class="card mb-5 mb-xl-10">
+            <!--begin::Card header-->
+            <div class="card-header">
+                <!--begin::Card title-->
+                <div class="card-title m-0">
+                    <h3 class="fw-bold m-0">Информация об образе: @Model.Name</h3>
+                </div>
+                <!--end::Card title-->
+            </div>
+            <!--begin::Card header-->
+            <!--begin::Body-->
+            <div class="card-body pt-5">
+                <!--begin::Row-->
+                <div class="row mb-6">
+                    <!--begin::Label-->
+                    <label class="col-lg-6 fw-semibold text-muted">Название</label>
+                    <!--end::Label-->
+                    <!--begin::Col-->
+                    <div class="col-lg-6">
+                        <span class="fw-bold fs-6 text-gray-80">@Model.Name</span>
+                    </div>
+                    <!--end::Col-->
+                </div>
+                <!--end::Row-->
+                <!--begin::Row-->
+                <div class="row mb-6">
+                    <!--begin::Label-->
+                    <label class="col-lg-6 fw-semibold text-muted">Описание</label>
+                    <!--end::Label-->
+                    <!--begin::Col-->
+                    <div class="col-lg-6">
+                        <span class="fw-bold fs-6 text-gray-80">@Model.Description</span>
+                    </div>
+                    <!--end::Col-->
+                </div>
+                <!--end::Row-->
+                <!--begin::Row-->
+                <div class="row mb-6">
+                    <!--begin::Label-->
+                    <label class="col-lg-6 fw-semibold text-muted">Способ хранения</label>
+                    <!--end::Label-->
+                    <!--begin::Col-->
+                    <div class="col-lg-6">
+                        <span class="fw-bold fs-6 text-gray-80">@Model.StorageMethod.GetDisplayName()</span>
+                    </div>
+                    <!--end::Col-->
+                </div>
+                <!--end::Row-->
+                <!--begin::Input group-->
+                <div class="row mb-6">
+                    <!--begin::Label-->
+                    <label class="col-lg-6 fw-semibold text-muted">Путь</label>
+                    <!--end::Label-->
+                    <!--begin::Col-->
+                    <div class="col-lg-6 fv-row">
+                        <span class="fw-bold text-gray-800 fs-6">@Model.ImagePath</span>
+                    </div>
+                    <!--end::Col-->
+                </div>
+                <!--end::Input group-->
+                <!--begin::Input group-->
+                <div class="row mb-6">
+                    <!--begin::Label-->
+                    <label class="col-lg-6 fw-semibold text-muted">Статус</label>
+                    <!--end::Label-->
+                    <!--begin::Col-->
+                    <div class="col-lg-6 fv-row">
+                        <span class="fw-bold text-gray-800 fs-6"><span class="@Model.Status.GetImageStatusColor()">@Model.Status.GetDisplayName()</span></span>
+                    </div>
+                    <!--end::Col-->
+                </div>
+                <!--end::Input group-->
+            </div>
+            <!--end::Body-->
+        </div>
+        <div class="card mb-5 mb-xl-10">
+            <!--begin::Card header-->
+            <div class="card-header">
+                <!--begin::Card title-->
+                <div class="card-title m-0">
+                    <h3 class="fw-bold m-0">Статус доставки образа</h3>
+                </div>
+                <!--end::Card title-->
+            </div>
+            <!--begin::Card header-->
+            <!--begin::Body-->
+            <div class="card-body pt-0">
+                <!--begin::Table container-->
+                <div id="kt_ecommerce_products_table_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                    <div class="table-responsive">
+                        <!--begin::Table-->
+                        <table class="table table-row-dashed table-row-gray-200 align-middle gs-0 gy-4">
+                            <!--begin::Table head-->
+                            <thead>
+                                <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                                    <th class="min-w-100px sorting_disabled">Название</th>
+                                    <th class="w-200px sorting_disabled">Система виртуализации</th>
+                                    <th class="w-200px sorting_disabled">Статус</th>
+                                </tr>
+                            </thead>
+                            <!--end::Table head-->
+                            <!--begin::Table body-->
+                            <tbody>
+                                @foreach (var server in @Model.Servers)
+                                {
+                                    <tr>
+                                        <td>
+                                            <span class="text-dark fw-bolder mb-1 fs-6">
+                                                @server.Name
+                                            </span>
+                                            <span class="text-muted fw-bold d-block">@server.Description</span>
+                                        </td>
+                                        <td class="pe-0">
+                                            <span class="text-dark fw-bolder mb-1 fs-6">
+                                                @server.VirtualizationSystem.GetDisplayName()
+                                            </span>
+                                        </td>
+                                        <td class="pe-0">
+                                            @if (server.IsImageDelivered)
+                                            {
+                                                <span class="text-success">Доставлен</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="text-danger">Не доставлен</span>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                            <!--end::Table body-->
+                        </table>
+                    </div>
+                </div>
+                <!--end::Table-->
+            </div>
+            <!--end::Body-->
+        </div>
+    </div>
+</div>

@@ -21,6 +21,12 @@ namespace MoxControl.Controllers
             return View(viewModel);
         }
 
+        public async Task<IActionResult> Details(long id)
+        {
+            var viewModel = await _imageService.GetImageDetailsViewModelAsync(id);
+            return View(viewModel);
+        }
+
         public IActionResult Create()
         {
             var viewModel = new ImageViewModel();

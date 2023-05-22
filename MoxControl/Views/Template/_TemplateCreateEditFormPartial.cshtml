@@ -4,45 +4,117 @@
 @model TemplateCreateEditViewModel
 
 <div class="card-body border-top p-9">
-    <!--begin::Input group-->
-    <div class="row mb-6" id="serverRootPassword">
-        <!--begin::Label-->
-        <label asp-for="Name" class="col-lg-4 col-form-label required fw-semibold fs-6"></label>
-        <!--end::Label-->
-        <!--begin::Col-->
-        <div class="col-lg-8 fv-row fv-plugins-icon-container">
-            <input asp-for="Name" class="form-control form-control-lg form-control-solid" placeholder="название">
-            <span asp-validation-for="Name" class="text-danger"></span>
+    <div class="pt-2">
+        <h4 class="mb-6 text-gray-900">
+            Общая информация
+        </h4>
+        <!--begin::Input group-->
+        <div class="row mb-6" id="serverRootPassword">
+            <!--begin::Label-->
+            <label asp-for="Name" class="col-lg-4 col-form-label required fw-semibold fs-6"></label>
+            <!--end::Label-->
+            <!--begin::Col-->
+            <div class="col-lg-8 fv-row fv-plugins-icon-container">
+                <input asp-for="Name" class="form-control form-control-lg form-control-solid" placeholder="название">
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <!--end::Col-->
         </div>
-        <!--end::Col-->
-    </div>
-    <!--end::Input group-->
-    <!--begin::Input group-->
-    <div class="row mb-6">
-        <!--begin::Label-->
-        <label asp-for="Description" class="col-lg-4 col-form-label fw-semibold fs-6"></label>
-        <!--end::Label-->
-        <!--begin::Col-->
-        <div class="col-lg-8 fv-row fv-plugins-icon-container">
-            <input asp-for="Description" class="form-control form-control-lg form-control-solid" placeholder="описание">
-            <span asp-validation-for="Description" class="text-danger"></span>
+        <!--end::Input group-->
+        <!--begin::Input group-->
+        <div class="row mb-6">
+            <!--begin::Label-->
+            <label asp-for="Description" class="col-lg-4 col-form-label fw-semibold fs-6"></label>
+            <!--end::Label-->
+            <!--begin::Col-->
+            <div class="col-lg-8 fv-row fv-plugins-icon-container">
+                <input asp-for="Description" class="form-control form-control-lg form-control-solid" placeholder="описание">
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <!--end::Col-->
         </div>
-        <!--end::Col-->
-    </div>
-    <!--end::Input group-->
-    <!--begin::Input group-->
-    <div class="row mb-6">
-        <!--begin::Label-->
-        <label asp-for="ISOImageId" class="col-lg-4 col-form-label  fw-semibold fs-6"></label>
-        <!--end::Label-->
-        <!--begin::Col-->
-        <div class="col-lg-8 fv-row">
-            <select asp-for="ISOImageId" asp-items="@Model.Images" class="form-control form-control-lg form-control-solid form-select"></select>
-            <span asp-validation-for="ISOImageId" class="text-danger"></span>
+        <!--end::Input group-->
+        <!--begin::Input group-->
+        <div class="row mb-6">
+            <!--begin::Label-->
+            <label asp-for="ISOImageId" class="col-lg-4 col-form-label  fw-semibold fs-6"></label>
+            <!--end::Label-->
+            <!--begin::Col-->
+            <div class="col-lg-8 fv-row">
+                <select asp-for="ISOImageId" asp-items="@Model.Images" class="form-control form-control-lg form-control-solid form-select"></select>
+                <span asp-validation-for="ISOImageId" class="text-danger"></span>
+            </div>
+            <!--end::Col-->
         </div>
-        <!--end::Col-->
+        <!--end::Input group-->
     </div>
-    <!--end::Input group-->
+    <div class="pt-2">
+        <h4 class="mb-6 text-gray-900">
+            Настройки CPU
+        </h4>
+        <!--begin::Input group-->
+        <div class="row mb-6">
+            <!--begin::Label-->
+            <label asp-for="CPUSockets" class="col-lg-4 col-form-label required fw-semibold fs-6"></label>
+            <!--end::Label-->
+            <!--begin::Col-->
+            <div class="col-lg-8 fv-row fv-plugins-icon-container">
+                <input asp-for="CPUSockets" class="form-control form-control-lg form-control-solid" placeholder="кол-во CPU сокетов">
+                <span asp-validation-for="CPUSockets" class="text-danger"></span>
+            </div>
+            <!--end::Col-->
+        </div>
+        <!--end::Input group-->
+        <!--begin::Input group-->
+        <div class="row mb-6">
+            <!--begin::Label-->
+            <label asp-for="CPUCores" class="col-lg-4 col-form-label required fw-semibold fs-6"></label>
+            <!--end::Label-->
+            <!--begin::Col-->
+            <div class="col-lg-8 fv-row fv-plugins-icon-container">
+                <input asp-for="CPUCores" class="form-control form-control-lg form-control-solid" placeholder="кол-во CPU ядер">
+                <span asp-validation-for="CPUCores" class="text-danger"></span>
+            </div>
+            <!--end::Col-->
+        </div>
+        <!--end::Input group-->
+    </div>
+    <div class="pt-2">
+        <h4 class="mb-6 text-gray-900">
+            Настройки HDD
+        </h4>
+        <!--begin::Input group-->
+        <div class="row mb-6">
+            <!--begin::Label-->
+            <label asp-for="HDDSize" class="col-lg-4 col-form-label required fw-semibold fs-6"></label>
+            <!--end::Label-->
+            <!--begin::Col-->
+            <div class="col-lg-8 fv-row fv-plugins-icon-container">
+                <input asp-for="HDDSize" class="form-control form-control-lg form-control-solid" placeholder="объем HDD">
+                <span asp-validation-for="HDDSize" class="text-danger"></span>
+            </div>
+            <!--end::Col-->
+        </div>
+        <!--end::Input group-->
+    </div>
+    <div class="pt-2">
+        <h4 class="mb-6 text-gray-900">
+            Настройки RAM
+        </h4>
+        <!--begin::Input group-->
+        <div class="row mb-6">
+            <!--begin::Label-->
+            <label asp-for="RAMSize" class="col-lg-4 col-form-label required fw-semibold fs-6"></label>
+            <!--end::Label-->
+            <!--begin::Col-->
+            <div class="col-lg-8 fv-row fv-plugins-icon-container">
+                <input asp-for="RAMSize" class="form-control form-control-lg form-control-solid" placeholder="объем RAM">
+                <span asp-validation-for="RAMSize" class="text-danger"></span>
+            </div>
+            <!--end::Col-->
+        </div>
+        <!--end::Input group-->
+    </div>
 </div>
 <!--begin::Actions-->
 <div class="card-footer d-flex justify-content-end py-6 px-9">

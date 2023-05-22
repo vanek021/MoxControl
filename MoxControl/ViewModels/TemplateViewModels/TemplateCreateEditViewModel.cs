@@ -20,6 +20,21 @@ namespace MoxControl.ViewModels.TemplateViewModels
         [Required]
         public long ISOImageId { get; set; }
 
+        [Display(Name = "Объем RAM, Мб")]
+        [Required]
+        public int RAMSize { get; set; }
+
+        [Display(Name = "Объем HDD, Гб")]
+        public int HDDSize { get; set; }
+
+        [Display(Name = "Количество сокетов")]
+        [Required]
+        public int CPUSockets { get; set; }
+
+        [Display(Name = "Количество ядер")]
+        [Required]
+        public int CPUCores { get; set; }
+
         [ValidateNever]
         public SelectList Images { get; set; } 
     }

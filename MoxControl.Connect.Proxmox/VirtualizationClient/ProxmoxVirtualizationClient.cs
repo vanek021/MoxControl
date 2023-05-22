@@ -73,6 +73,13 @@ namespace MoxControl.Connect.Proxmox
             var vm = await _pveClient.Nodes[_baseNode].Qemu.CreateVm(new Random().Next());
         }
 
+        public async Task CreateTemplateMachine(string name, string image, int cpuSockets, int cpuCores, int ramSize, int hddSize)
+        {
+            var machines = await GetNodeMachines();
+            var vmId = machines.Max(m => m.VMid) + 1;
+            var vm = await _pveClient.Nodes[_baseNode].Qemu.CreateVm(vmId, name: name, bootdisk: image, cpuunits: cpuSockets, cores: cpuCores, memory: ramSize, template: true);
+        }
+
         public async Task<BaseResult> ShutdownMachine(int machineId)
         {
             var vm = _pveClient.Nodes[_baseNode].Qemu[machineId];

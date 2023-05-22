@@ -9,6 +9,12 @@ namespace MoxControl.ViewModels.ImageViewModels
         {
             CreateMap<ImageViewModel, ISOImage>();
             CreateMap<ISOImage, ImageViewModel>();
+
+            CreateMap<ISOImage, ImageDetailsViewModel>();
+            CreateMap<ImageDetailsViewModel, ISOImage>();
+
+            CreateMap<BaseServer, ImageServerViewModel>();
+            CreateMap<ImageServerViewModel, BaseServer>();
         }
     }
 }

@@ -24,6 +24,7 @@ namespace MoxControl.Connect.Services.InternalServices
         protected readonly TelegramService _telegramService;
         protected readonly GeneralNotificationService _generalNotificationService;
         protected readonly ImageManager _imageManager;
+        protected readonly TemplateManager _templateManager;
         protected readonly Database _db;
 
         public BaseInternalService(IServiceScopeFactory serviceScopeFactory) 
@@ -35,6 +36,7 @@ namespace MoxControl.Connect.Services.InternalServices
             _telegramService = scope.ServiceProvider.GetRequiredService<TelegramService>();
             _generalNotificationService = scope.ServiceProvider.GetRequiredService<GeneralNotificationService>();
             _imageManager = scope.ServiceProvider.GetRequiredService<ImageManager>();
+            _templateManager = scope.ServiceProvider.GetRequiredService<TemplateManager>();
             _db = scope.ServiceProvider.GetRequiredService<Database>();
         }
 

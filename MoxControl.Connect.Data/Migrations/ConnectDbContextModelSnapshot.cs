@@ -63,6 +63,9 @@ namespace MoxControl.Connect.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
+                    b.Property<ImageServerData>("AvailableServerData")
+                        .HasColumnType("jsonb");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -79,9 +82,6 @@ namespace MoxControl.Connect.Data.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<ServerData>("ServerData")
-                        .HasColumnType("jsonb");
 
                     b.Property<int>("Status")
                         .HasColumnType("integer");
@@ -105,6 +105,15 @@ namespace MoxControl.Connect.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
+                    b.Property<TemplateAvailableServerData>("AvailableServerData")
+                        .HasColumnType("jsonb");
+
+                    b.Property<int>("CPUCores")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("CPUSockets")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -112,12 +121,18 @@ namespace MoxControl.Connect.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("HDDSize")
+                        .HasColumnType("integer");
+
                     b.Property<long>("ISOImageId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int>("RAMSize")
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");

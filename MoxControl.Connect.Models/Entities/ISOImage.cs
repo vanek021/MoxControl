@@ -20,12 +20,18 @@ namespace MoxControl.Connect.Models.Entities
         public ISOImageStatus Status { get; set; }
 
         [Column(TypeName = "jsonb")]
-        public ServerData? ServerData { get; set; }
+        public ImageServerData? AvailableServerData { get; set; }
     }
 
-    public class ServerData
+    public class ImageServerData
     {
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public List<long> ServerIds { get; set; } = new();
+        public List<ImageAvailableServerDataItem> Items { get; set; } = new();
+    }
+
+    public class ImageAvailableServerDataItem
+    {
+        public long ServerId { get; set; }
+        public VirtualizationSystem VirtualizationSystem { get; set; }
     }
 }

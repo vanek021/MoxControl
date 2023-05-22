@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MoxControl.Connect.Data.Migrations
 {
     [DbContext(typeof(ConnectDbContext))]
-    [Migration("20230519102238_AddServerDataFieldISOImagsTable")]
-    partial class AddServerDataFieldISOImagsTable
+    [Migration("20230522091225_ExtendedTemplatesTable")]
+    partial class ExtendedTemplatesTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -108,6 +108,15 @@ namespace MoxControl.Connect.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
+                    b.Property<TemplateAvailableServerData>("AvailableServerData")
+                        .HasColumnType("jsonb");
+
+                    b.Property<int>("CPUCores")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("CPUSockets")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -115,12 +124,18 @@ namespace MoxControl.Connect.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("HDDSize")
+                        .HasColumnType("integer");
+
                     b.Property<long>("ISOImageId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int>("RAMSize")
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");

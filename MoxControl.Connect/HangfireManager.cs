@@ -93,6 +93,16 @@ namespace MoxControl.Connect
             await connectService.Servers.UploadImage(serverId, imageId, initiatorUsername);
         }
 
+        public async Task HangfireHandleTemplateCreateForAllServers(long templateId, string? initiatorUsername = null)
+        {
+            var connectServices = _connectServiceFactory.GetAll();
+
+            foreach (var connectService in connectServices)
+            {
+                await connectService.Item2.Servers.HandleCreateTemplate(templateId, initiatorUsername);
+            }
+        }
+
         public static void RegisterJobs()
         {
             RecurringJob.AddOrUpdate<HangfireConnectManager>(x => x.HangfireSendHeartBeatToAllServers(), Cron.Hourly());

@@ -7,10 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Template\Details.cshtml" />
     <Content Remove="wwwroot\js\server\details.js" />
   </ItemGroup>
 
   <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Template\Details.cshtml" />
     <_ContentIncludedByDefault Remove="wwwroot\js\server\details.js" />
   </ItemGroup>
 
@@ -37,7 +39,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Views\Template\Details.cshtml" />
     <None Include="wwwroot\js\server\details.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Template\Details.cshtml" />
   </ItemGroup>
 
 </Project>

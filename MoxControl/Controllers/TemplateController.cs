@@ -22,6 +22,12 @@ namespace MoxControl.Controllers
             return View(templateIndexVm);
         }
 
+        public async Task<IActionResult> Details(long id)
+        {
+            var templateDetaisVm = await _templateService.GetTemplateDetailsViewModelAsync(id);
+            return View(templateDetaisVm);
+        }
+
         public async Task<IActionResult> Create()
         {
             var imageCreateVm = await _templateService.GetTemplateViewModelForCreateAsync();

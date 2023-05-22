@@ -157,7 +157,12 @@
                 </div>
                 <!--end::Card title-->
                 <!--begin::Action-->
-                <a href="/jet-html-pro/?page=account/settings" class="btn btn-sm btn-primary align-self-center">Добавить ВМ</a>
+                <a asp-controller="Machine" 
+                        asp-action="Create" 
+                        asp-route-virtualizationSystem="@Model.VirtualizationSystem" 
+                        asp-route-serverId="@Model.Id" class="btn btn-sm btn-primary align-self-center">
+                    Добавить ВМ
+                </a>
                 <!--end::Action-->
             </div>
             <!--begin::Card header-->
@@ -187,7 +192,12 @@
                                     {
                                         <tr data-machine-row data-machine-id="@machine.Id" data-virtualizationSystem="@Model.VirtualizationSystem">
                                             <td>
-                                                <a href="#" class="text-dark fw-bolder text-hover-primary mb-1 fs-6">@machine.Name</a>
+                                                <a asp-controller="Machine" 
+                                                        asp-action="Details" 
+                                                        asp-route-virtualizationSystem="@Model.VirtualizationSystem" 
+                                                        asp-route-id="@machine.Id" class="text-dark fw-bolder text-hover-primary mb-1 fs-6">
+                                                    @machine.Name
+                                                </a>
                                                 <span class="text-muted fw-bold d-block">@machine.Description</span>
                                             </td>
                                             <td>

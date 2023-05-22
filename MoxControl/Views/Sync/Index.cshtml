@@ -1,0 +1,109 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+    <div class="container-xxl" id="kt_content_container">
+        <div class="card mb-5 mb-xl-10">
+            <!--begin::Card header-->
+            <div class="card-header">
+                <!--begin::Card title-->
+                <div class="card-title m-0">
+                    <h3 class="fw-bold m-0">Информация о шаблоне: @Model.Name</h3>
+                </div>
+                <!--end::Card title-->
+            </div>
+            <!--begin::Card header-->
+            <!--begin::Body-->
+            <div class="card-body pt-5">
+                <!--begin::Row-->
+                <div class="row mb-6">
+                    <!--begin::Label-->
+                    <label class="col-lg-6 fw-semibold text-muted">Название</label>
+                    <!--end::Label-->
+                    <!--begin::Col-->
+                    <div class="col-lg-6">
+                        <span class="fw-bold fs-6 text-gray-80">@Model.Name</span>
+                    </div>
+                    <!--end::Col-->
+                </div>
+                <!--end::Row-->
+                <!--begin::Row-->
+                <div class="row mb-6">
+                    <!--begin::Label-->
+                    <label class="col-lg-6 fw-semibold text-muted">Описание</label>
+                    <!--end::Label-->
+                    <!--begin::Col-->
+                    <div class="col-lg-6">
+                        <span class="fw-bold fs-6 text-gray-80">@Model.Description</span>
+                    </div>
+                    <!--end::Col-->
+                </div>
+                <!--end::Row-->
+                <!--begin::Row-->
+                <div class="row mb-6">
+                    <!--begin::Label-->
+                    <label class="col-lg-6 fw-semibold text-muted">Кол-во сокетов</label>
+                    <!--end::Label-->
+                    <!--begin::Col-->
+                    <div class="col-lg-6">
+                        <span class="fw-bold fs-6 text-gray-80">@Model.CPUSockets</span>
+                    </div>
+                    <!--end::Col-->
+                </div>
+                <!--end::Row-->
+                <!--begin::Row-->
+                <div class="row mb-6">
+                    <!--begin::Label-->
+                    <label class="col-lg-6 fw-semibold text-muted">Кол-во ядер</label>
+                    <!--end::Label-->
+                    <!--begin::Col-->
+                    <div class="col-lg-6">
+                        <span class="fw-bold fs-6 text-gray-80">@Model.CPUCores</span>
+                    </div>
+                    <!--end::Col-->
+                </div>
+                <!--end::Row-->
+                <!--begin::Row-->
+                <div class="row mb-6">
+                    <!--begin::Label-->
+                    <label class="col-lg-6 fw-semibold text-muted">Размер оперативной памяти, в Мб</label>
+                    <!--end::Label-->
+                    <!--begin::Col-->
+                    <div class="col-lg-6">
+                        <span class="fw-bold fs-6 text-gray-80">@Model.RAMSize</span>
+                    </div>
+                    <!--end::Col-->
+                </div>
+                <!--end::Row-->
+                <!--begin::Row-->
+                <div class="row mb-6">
+                    <!--begin::Label-->
+                    <label class="col-lg-6 fw-semibold text-muted">Размер жесткого диска, вГб</label>
+                    <!--end::Label-->
+                    <!--begin::Col-->
+                    <div class="col-lg-6">
+                        <span class="fw-bold fs-6 text-gray-80">@Model.HDDSize</span>
+                    </div>
+                    <!--end::Col-->
+                </div>
+                <!--end::Row-->
+                <!--begin::Input group-->
+                <div class="row mb-6">
+                    <!--begin::Label-->
+                    <label class="col-lg-6 fw-semibold text-muted">Статус</label>
+                    <!--end::Label-->
+                    <!--begin::Col-->
+                    <div class="col-lg-6 fv-row">
+                        <span class="fw-bold text-gray-800 fs-6"><span class="@Model.Status.GetTemplateStatusColor()">@Model.Status.GetDisplayName()</span></span>
+                    </div>
+                    <!--end::Col-->
+                </div>
+                <!--end::Input group-->
+            </div>
+            <!--end::Body-->
+        </div>
+    </div>
+</div>

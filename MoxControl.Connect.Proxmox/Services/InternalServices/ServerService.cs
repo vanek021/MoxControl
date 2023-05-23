@@ -9,6 +9,8 @@ using MoxControl.Connect.Models.Entities;
 using MoxControl.Connect.Models.Enums;
 using MoxControl.Connect.Proxmox.Data;
 using MoxControl.Connect.Proxmox.Models.Entities;
+using MoxControl.Connect.Proxmox.Models.Enums;
+using MoxControl.Connect.Proxmox.VirtualizationClient.DTOs;
 using MoxControl.Connect.Proxmox.VirtualizationClient.Helpers;
 using MoxControl.Connect.Services.InternalServices;
 using MoxControl.Infrastructure.Services;
@@ -170,9 +172,18 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
 
             var credentials = GetServerCredentials(server, initiatorUsername);
 
-            var proxmoxVirtualizationSystem = new ProxmoxVirtualizationClient(server.Host, server.Port, credentials.Login, credentials.Password);
+            List<MachineListItem> machines = new();
 
-            var machines = await proxmoxVirtualizationSystem.GetNodeMachines();
+            try
+            {
+                var proxmoxVirtualizationSystem = new ProxmoxVirtualizationClient(server.Host, server.Port, credentials.Login, credentials.Password);
+                machines = await proxmoxVirtualizationSystem.GetNodeMachines();
+            }
+            catch (Exception ex)
+            {
+                await _generalNotificationService.AddInternalServerErrorAsync(ex);
+                return;
+            }
 
             foreach (var machine in machines)
             {
@@ -272,15 +283,50 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
                 return;
 
             foreach (var server in servers)
-                await HandleCreateTemplateForServer(server, template);
+            {
+                try
+                {
+                    await HandleCreateTemplateForServer(server, template);
+
+                    server.TemplateData ??= new TemplateData();
+                    server.TemplateData.TemplateIds.Add(templateId);
+
+                    _context.ProxmoxServers.Update(server);
+                    await _context.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    await _generalNotificationService.AddInternalServerErrorAsync(ex);
+                }
+            }
         }
 
         private async Task HandleCreateTemplateForServer(ProxmoxServer proxmoxServer, Template template, string? initiatorUsername = null)
         {
             var credentials = GetServerCredentials(proxmoxServer, initiatorUsername);
+
             var client = new ProxmoxVirtualizationClient(proxmoxServer.Host, proxmoxServer.Port, credentials.Login, credentials.Password);
 
+            var status = await client.CreateTemplateMachine(template.Name, Path.GetFileName(template.ISOImage.ImagePath), 
+                template.CPUSockets, template.CPUCores, template.RAMSize, template.HDDSize);
 
+            var templateMachine = new TemplateMachine()
+            {
+                CPUCores = template.CPUCores,
+                RAMSize = template.RAMSize,
+                HDDSize = template.HDDSize,
+                CPUSockets = template.CPUSockets,
+                Status = TemplateMachineStatus.Converted,
+                Name = template.Name,
+                ProxmoxId = (int)status.VMid,
+                ProxmoxName = status.Name,
+                ServerId = proxmoxServer.Id,
+                TemplateId = template.Id,
+                Description = $"Template machine for Template: {template.Name}"
+            };
+
+            _context.Add(templateMachine);
+            await _context.SaveChangesAsync();
         }
     }
 }

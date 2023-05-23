@@ -115,7 +115,7 @@ namespace MoxControl.Connect.Services
         public async Task HangfireDownloadImage(long imageId, string? initiatorUsername = null)
         {
             var image = await _connectDatabase.ISOImages.GetByIdAsync(imageId);
-            var path = Path.Combine($"image{image.Id}", "image.iso");
+            var path = Path.Combine($"image{image.Id}", Path.GetFileName(image.ImagePath));
             if (!string.IsNullOrEmpty(image.ImagePath))
             {
                 if (_bucket.ContainsObject(path))
@@ -143,7 +143,7 @@ namespace MoxControl.Connect.Services
                 _connectDatabase.ISOImages.Update(image);
                 await _connectDatabase.SaveChangesAsync();
 
-                BackgroundJob.Enqueue<HangfireConnectManager>(h => h.HangifreDeliverImageToAllServers(image.Id, _httpContextAccessor.HttpContext.GetUsername()));
+                BackgroundJob.Enqueue<HangfireConnectManager>(h => h.HangifreDeliverImageToAllServers(image.Id, initiatorUsername));
             }
         }
 

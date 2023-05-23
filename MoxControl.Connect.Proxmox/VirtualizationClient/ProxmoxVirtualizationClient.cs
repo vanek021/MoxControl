@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using System;
 using MoxControl.Connect.Proxmox.VirtualizationClient.DTOs;
 using MoxControl.Connect.Models.Result;
+using MoxControl.Connect.Proxmox.VirtualizationClient.Helpers;
 
 namespace MoxControl.Connect.Proxmox
 {
@@ -73,11 +74,48 @@ namespace MoxControl.Connect.Proxmox
             var vm = await _pveClient.Nodes[_baseNode].Qemu.CreateVm(new Random().Next());
         }
 
-        public async Task CreateTemplateMachine(string name, string image, int cpuSockets, int cpuCores, int ramSize, int hddSize)
+        public async Task<MachineStatus> CreateTemplateMachine(string name, string image, int cpuSockets, int cpuCores, int ramSize, int hddSize)
+        {
+            var createMachineResult = await CreateMachine(name, image, cpuSockets, cpuCores, ramSize, hddSize);
+
+            await _pveClient.WaitForTaskToFinish(createMachineResult.UniqueTaskId);
+
+            var result = await _pveClient.Nodes[_baseNode].Qemu[createMachineResult.VmId].Template.Template();
+
+            await _pveClient.WaitForTaskToFinish(result.GetUniqueTaskId());
+
+            return await GetMachineStatus(createMachineResult.VmId);
+        }
+
+        private async Task<CreateMachineResult> CreateMachine(string name, string image, int cpuSockets, int cpuCores, int ramSize, int hddSize)
         {
             var machines = await GetNodeMachines();
             var vmId = machines.Max(m => m.VMid) + 1;
-            var vm = await _pveClient.Nodes[_baseNode].Qemu.CreateVm(vmId, name: name, bootdisk: image, cpuunits: cpuSockets, cores: cpuCores, memory: ramSize, template: true);
+
+            var ideConfig = new Dictionary<int, string>
+            {
+                { 2, $"local:iso/{image},media=cdrom" }
+            };
+
+            var scsiConfig = new Dictionary<int, string>
+            {
+                { 0, $"local-lvm:{hddSize},iothread=1" }
+            };
+
+            var result = await _pveClient.Nodes[_baseNode].Qemu.CreateVm(vmId,
+                name: name.Replace(" ", "-"),
+                cpuunits: cpuSockets,
+                cores: cpuCores,
+                memory: ramSize,
+                kvm: false,
+                ideN: ideConfig,
+                scsiN: scsiConfig,
+                scsihw: "virtio-scsi-single",
+                boot: "order=ide2;scsi0");
+
+            var taskId = result.GetUniqueTaskId();
+
+            return new CreateMachineResult(taskId, vmId);
         }
 
         public async Task<BaseResult> ShutdownMachine(int machineId)

@@ -25,6 +25,8 @@ namespace MoxControl.Connect.Models
             CPUUsedPercent = (int)(cpuUsed * 100);
         }
 
+        public BaseHealthModel() { }
+
         public long MemoryTotal { get; set; }
         public long MemoryUsed { get; set; }
         public int MemoryUsedPercent { get; set; }

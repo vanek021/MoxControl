@@ -166,6 +166,12 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
 
             var client = new ProxmoxVirtualizationClient(machine.Server.Host, machine.Server.Port, credentials.Login, credentials.Password);
 
+            var machineStatus = await client.GetMachineStatus(machine.ProxmoxId.Value);
+            var status = machineStatus.Status.GetMachineStatus();
+
+            if (status != MachineStatus.Running)
+                return null;
+
             var rrddataItems = await client.GetMachineRrddata(machine.ProxmoxId.Value);
             var lastData = rrddataItems.LastOrDefault();
 

@@ -10,11 +10,11 @@ namespace MoxControl.Connect.Data.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.RenameColumn(
-                name: "ServerData",
-                schema: "connect",
-                table: "ISOImages",
-                newName: "AvailableServerData");
+            //migrationBuilder.RenameColumn(
+            //    name: "ServerData",
+            //    schema: "connect",
+            //    table: "ISOImages",
+            //    newName: "AvailableServerData");
         }
 
         /// <inheritdoc />

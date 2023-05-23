@@ -62,6 +62,7 @@ namespace MoxControl.Services
             var machineCreateEditVm = new MachineCreateEditViewModel
             {
                 Templates = await GetTemplatesSelectListAsync(),
+                Images = await GetImagesSelectListAsync(virtualizationSystem, serverId),
                 VirtualizationSystem = virtualizationSystem,
                 ServerId = serverId
             };
@@ -81,6 +82,7 @@ namespace MoxControl.Services
             var machineCreateEditVm = _mapper.Map<MachineCreateEditViewModel>(machine);
 
             machineCreateEditVm.Templates = await GetTemplatesSelectListAsync();
+            machineCreateEditVm.Images = await GetImagesSelectListAsync(virtualizationSystem, machine.Server.Id);
 
             return machineCreateEditVm;
         }
@@ -126,9 +128,17 @@ namespace MoxControl.Services
         public async Task<SelectList> GetTemplatesSelectListAsync()
         {
             var templates = await _templateManager.GetAllAsync();
-            long def = default;
             var selectItems = templates.Select(x => new { Name = x.Name, Value = x.Id });
-            selectItems = selectItems.Prepend(new { Name = "Нет", Value = def });
+            selectItems = selectItems.Prepend(new { Name = "Нет", Value = default(long) });
+            return new SelectList(selectItems, "Value", "Name");
+        }
+
+        public async Task<SelectList> GetImagesSelectListAsync(VirtualizationSystem virtualizationSystem, long serverId)
+        {
+            var connectService = _connectServiceFactory.GetByVirtualizationSystem(virtualizationSystem);
+            var availableImages = await connectService.Servers.GetAvailableImages(serverId);
+            var selectItems = availableImages.Select(x => new { Name = x.Name, Value = x.Id });
+            selectItems = selectItems.Prepend(new { Name = "Нет", Value = default(long) });
             return new SelectList(selectItems, "Value", "Name");
         }
 

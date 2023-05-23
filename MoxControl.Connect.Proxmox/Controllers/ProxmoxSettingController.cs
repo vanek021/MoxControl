@@ -30,7 +30,9 @@ namespace MoxControl.Connect.Proxmox.Controllers
             var serverVm = new ProxmoxServerSettingViewModel()
             {
                 Id = server.Id,
-                BaseNode = server.BaseNode
+                BaseNode = server.BaseNode,
+                BaseStorage = server.BaseStorage,
+                Realm = server.Realm
             };
 
             return View("Index", serverVm);
@@ -46,6 +48,8 @@ namespace MoxControl.Connect.Proxmox.Controllers
                 return NotFound();
 
             server.BaseNode = viewModel.BaseNode;
+            server.BaseStorage = viewModel.BaseStorage;
+            server.Realm = viewModel.Realm;
 
             await _connectProxmoxDbContext.SaveChangesAsync();
 

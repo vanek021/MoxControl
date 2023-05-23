@@ -35,6 +35,11 @@ namespace MoxControl.Connect.Models.Entities
         public long? TemplateId { get; set; }
 
         /// <summary>
+        /// Образ, использованный при создании машины. Используется, если не выбран шаблон
+        /// </summary>
+        public long? ImageId { get; set; }
+
+        /// <summary>
         /// Оперативная память, в Мб
         /// </summary>
         public int RAMSize { get; set; }

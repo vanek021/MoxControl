@@ -113,6 +113,11 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
             }
         }
 
+        private async Task HangfireCreateAsync(long machineId)
+        {
+
+        }
+
         public async Task<bool> UpdateAsync(BaseMachine machineModel)
         {
             var machine = await _context.ProxmoxMachines.FirstOrDefaultAsync(m => m.Id == machineModel.Id && !m.IsDeleted);
@@ -164,7 +169,7 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
 
             var credentials = GetServerCredentials(machine.Server, initiatorUsername);
 
-            var client = new ProxmoxVirtualizationClient(machine.Server.Host, machine.Server.Port, credentials.Login, credentials.Password);
+            var client = new ProxmoxVirtualizationClient(machine.Server.Host, machine.Server.Port, credentials.Login, credentials.Password, machine.Server.Realm, machine.Server.BaseNode, machine.Server.BaseStorage);
 
             var machineStatus = await client.GetMachineStatus(machine.ProxmoxId.Value);
             var status = machineStatus.Status.GetMachineStatus();

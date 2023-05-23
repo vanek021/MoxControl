@@ -13,15 +13,16 @@ $(document).ready(function () {
 
 function processTemplateType(str) {
     if (str != 0) {
-        console.log($("#ramSection"));
         $("#ramSection").hide();
         $("#hddSection").hide();
         $("#cpuSection").hide();
+        $("#imageSection").hide();
     }
     else {
         $("#ramSection").show();
         $("#hddSection").show();
         $("#cpuSection").show();
+        $("#imageSection").show();
     }
 }
 

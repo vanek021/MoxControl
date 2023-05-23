@@ -15,10 +15,10 @@ namespace MoxControl.Connect.Proxmox
         private readonly string _baseStorage;
         private readonly PveClient _pveClient;
 
-        public ProxmoxVirtualizationClient(string host, int port, string login, string password, string baseNode = "pve", string baseStorage = "local")
+        public ProxmoxVirtualizationClient(string host, int port, string login, string password, string realm = "pam", string baseNode = "pve", string baseStorage = "local")
         {
             _pveClient = new PveClient(host, port);
-            _pveClient.Login(login, password).GetAwaiter().GetResult();
+            var result = _pveClient.Login(login, password, realm).GetAwaiter().GetResult();
             _baseNode = baseNode;
             _baseStorage = baseStorage;
         }

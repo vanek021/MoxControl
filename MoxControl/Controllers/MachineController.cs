@@ -55,6 +55,7 @@ namespace MoxControl.Controllers
             }
 
             viewModel.Templates = await _machineService.GetTemplatesSelectListAsync();
+            viewModel.Images = await _machineService.GetImagesSelectListAsync(viewModel.VirtualizationSystem, viewModel.ServerId);
             ModelState.AddModelError(string.Empty, "Что-то пошло не так, проверьте правильность введенных данных");
             return View(viewModel);
         }
@@ -84,6 +85,7 @@ namespace MoxControl.Controllers
             }
 
             viewModel.Templates = await _machineService.GetTemplatesSelectListAsync();
+            viewModel.Images = await _machineService.GetImagesSelectListAsync(viewModel.VirtualizationSystem, viewModel.ServerId);
             ModelState.AddModelError(string.Empty, "Что-то пошло не так, проверьте правильность введенных данных");
             return View(viewModel);
         }

@@ -38,5 +38,7 @@ namespace MoxControl.Connect.Interfaces.Connect
         public Task SyncMachines(long serverId, string? initiatorUsername = null);
 
         public Task HandleCreateTemplate(long templateId, string? initiatorUsername = null);
+
+        public Task<List<ISOImage>> GetAvailableImages(long serverId);
     }
 }

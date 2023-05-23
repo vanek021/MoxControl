@@ -200,7 +200,7 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
                     dbMachine.RAMSize = Convert.ToInt32(machine.MemoryTotal / (1024 * 1024));
                     dbMachine.HDDSize = Convert.ToInt32(machine.HDDTotal / (1024 * 1024));
                     _context.ProxmoxMachines.Update(dbMachine);
-                    
+
                 }
                 else
                 {
@@ -232,7 +232,7 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
 
             var credentials = GetServerCredentials(server, initiatorUsername);
 
-            var client = new ProxmoxVirtualizationClient(server.Host, server.Port, credentials.Login, credentials.Password);
+            var client = new ProxmoxVirtualizationClient(server.Host, server.Port, credentials.Login, credentials.Password, server.Realm, server.BaseNode, server.BaseStorage);
 
             var rrddataItems = await client.GetServerRrddata();
             var lastData = rrddataItems.LastOrDefault();
@@ -279,7 +279,7 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
             var template = await _templateManager.GetByIdWithImageAsync(templateId);
             var servers = await GetBaseQuery().ToListAsync();
 
-            if (template is null) 
+            if (template is null)
                 return;
 
             foreach (var server in servers)
@@ -307,7 +307,7 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
 
             var client = new ProxmoxVirtualizationClient(proxmoxServer.Host, proxmoxServer.Port, credentials.Login, credentials.Password);
 
-            var status = await client.CreateTemplateMachine(template.Name, Path.GetFileName(template.ISOImage.ImagePath), 
+            var status = await client.CreateTemplateMachine(template.Name, Path.GetFileName(template.ISOImage.ImagePath),
                 template.CPUSockets, template.CPUCores, template.RAMSize, template.HDDSize);
 
             var templateMachine = new TemplateMachine()
@@ -327,6 +327,17 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
 
             _context.Add(templateMachine);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<ISOImage>> GetAvailableImages(long serverId)
+        {
+            var server = await GetBaseQuery().FirstOrDefaultAsync(s => s.Id == serverId);
+
+            if (server is null || server.ImageData is null)
+                return new();
+
+            var images = await _imageManager.GetAllAsync();
+            return images.Where(i => server.ImageData.ImageIds.Contains(i.Id)).ToList();
         }
     }
 }

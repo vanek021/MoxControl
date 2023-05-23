@@ -22,8 +22,15 @@ namespace MoxControl.ViewModels.MachineViewModels
         [Required]
         public long TemplateId { get; set; }
 
+        [Display(Name = "Образ")]
+        [Required]
+        public long ImageId { get; set; }
+
         [ValidateNever]
         public SelectList Templates { get; set; }
+
+        [ValidateNever]
+        public SelectList Images { get; set; }
 
         [Display(Name = "Объем RAM, Мб")]
         [Required]

@@ -1,4 +1,5 @@
-﻿@using MoxControl.ViewModels.TemplateViewModels;
+﻿@using MoxControl.Infrastructure.Extensions;
+@using MoxControl.ViewModels.TemplateViewModels;
 
 @model TemplateIndexViewModel
 
@@ -46,6 +47,7 @@
                                 <thead>
                                     <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
                                         <th class="w-200px sorting_disabled">Название</th>
+                                        <th class="min-w-100px sorting_disabled">Статус</th>
                                         <th class="min-w-100px sorting_disabled">Описание</th>
                                         <th class="text-end min-w-70px sorting_disabled" style="width: 120.387px;">Действия</th>
                                     </tr>
@@ -62,6 +64,9 @@
                                                          asp-route-id="@template.Id" class="text-dark fw-bolder mb-1 fs-6">
                                                     @template.Name
                                                 </a>
+                                            </td>
+                                            <td class="pe-0">
+                                                <span class="@template.Status.GetTemplateStatusColor()">@template.Status.GetDisplayName()</span>
                                             </td>
                                             <td>
                                                 <span class="text-dark fw-bolder mb-1 fs-6">

@@ -69,12 +69,6 @@ app.UseAuthorization();
 
 app.UseDbLogs();
 
-app.MapHangfireDashboard(options: new DashboardOptions
-{
-    Authorization = new[] { new HangfireDashboardAuthorizeFilter() },
-    IgnoreAntiforgeryToken = true
-});
-
 app.MapControllerRoute(
     name: "areaRoute",
     pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
@@ -83,7 +77,12 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-app.UseHangfireDashboard();
+app.UseHangfireDashboard("/hangfire", new DashboardOptions
+{
+    Authorization = new[] { new HangfireDashboardAuthorizeFilter() },
+    IgnoreAntiforgeryToken = true
+});
+
 
 app.UseConnect();
 

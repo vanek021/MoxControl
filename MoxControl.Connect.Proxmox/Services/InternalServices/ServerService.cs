@@ -185,7 +185,7 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
                 return;
             }
 
-            foreach (var machine in machines)
+            foreach (var machine in machines.Where(m => m.Template == default))
             {
                 var dbMachine = server.Machines.FirstOrDefault(m => m.ProxmoxId.HasValue && m.ProxmoxId.Value == machine.VMid);
 

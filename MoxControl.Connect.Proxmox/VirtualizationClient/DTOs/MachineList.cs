@@ -40,5 +40,8 @@ namespace MoxControl.Connect.Proxmox.VirtualizationClient.DTOs
 
         [JsonProperty("mem")]
         public string? MemoryUsed { get; set; }
+
+        [JsonProperty("template")]
+        public int Template { get; set; }
     }
 }

@@ -126,7 +126,9 @@ namespace MoxControl.Services
         public async Task<SelectList> GetTemplatesSelectListAsync()
         {
             var templates = await _templateManager.GetAllAsync();
+            long def = default;
             var selectItems = templates.Select(x => new { Name = x.Name, Value = x.Id });
+            selectItems = selectItems.Prepend(new { Name = "Нет", Value = def });
             return new SelectList(selectItems, "Value", "Name");
         }
 

@@ -6,6 +6,7 @@ using System;
 using MoxControl.Connect.Proxmox.VirtualizationClient.DTOs;
 using MoxControl.Connect.Models.Result;
 using MoxControl.Connect.Proxmox.VirtualizationClient.Helpers;
+using System.Runtime.CompilerServices;
 
 namespace MoxControl.Connect.Proxmox
 {
@@ -25,7 +26,6 @@ namespace MoxControl.Connect.Proxmox
 
         public async Task<List<RrddataItem>> GetServerRrddata(string timeframe = "hour", string cf = "AVERAGE")
         {
-            await OpenConsoleForMachine(101);
             await GetNodeMachines();
             return await GetNodeRrdata(_baseNode, timeframe, cf);
         }
@@ -64,19 +64,9 @@ namespace MoxControl.Connect.Proxmox
                 throw new Exception($"Не удалось загрузить образ {imageFileName} на {_pveClient.Host}:{_pveClient.Port}. {result.StatusCode}");
         }
 
-        public async Task OpenConsoleForMachine(int machineId)
+        public async Task<MachineStatus> CreateTemplateMachine(string name, string image, int cpuSockets, int cpuCores, int ramSize, int hddSize, string disksStorage, string imageStorage)
         {
-            var vm = await _pveClient.Nodes[_baseNode].Qemu[machineId].Vncproxy.Vncproxy();
-        }
-
-        public async Task CreateMachine()
-        {
-            var vm = await _pveClient.Nodes[_baseNode].Qemu.CreateVm(new Random().Next());
-        }
-
-        public async Task<MachineStatus> CreateTemplateMachine(string name, string image, int cpuSockets, int cpuCores, int ramSize, int hddSize)
-        {
-            var createMachineResult = await CreateMachine(name, image, cpuSockets, cpuCores, ramSize, hddSize);
+            var createMachineResult = await CreateMachine(name, image, cpuSockets, cpuCores, ramSize, hddSize, disksStorage, imageStorage);
 
             await _pveClient.WaitForTaskToFinish(createMachineResult.UniqueTaskId);
 
@@ -87,19 +77,19 @@ namespace MoxControl.Connect.Proxmox
             return await GetMachineStatus(createMachineResult.VmId);
         }
 
-        public async Task<CreateMachineResult> CreateMachine(string name, string image, int cpuSockets, int cpuCores, int ramSize, int hddSize)
+        public async Task<CreateMachineResult> CreateMachine(string name, string image, int cpuSockets, int cpuCores, int ramSize, int hddSize, string disksStorage, string imageStorage)
         {
             var machines = await GetNodeMachines();
-            var vmId = machines.Max(m => m.VMid) + 1;
+            var vmId = machines.Count == 0 ? 100 : machines.Max(m => m.VMid) + 1;
 
             var ideConfig = new Dictionary<int, string>
             {
-                { 2, $"local:iso/{image},media=cdrom" }
+                { 2, $"{imageStorage}:iso/{image},media=cdrom" }
             };
 
             var scsiConfig = new Dictionary<int, string>
             {
-                { 0, $"local-lvm:{hddSize},iothread=1" }
+                { 0, $"{disksStorage}:{hddSize},iothread=1" }
             };
 
             var result = await _pveClient.Nodes[_baseNode].Qemu.CreateVm(vmId,

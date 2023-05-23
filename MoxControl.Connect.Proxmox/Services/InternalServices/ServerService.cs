@@ -135,7 +135,7 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
 
             try
             {
-                var proxmoxVirtualizationSystem = new ProxmoxVirtualizationClient(server.Host, server.Port, credentials.Login, credentials.Password);
+                var proxmoxVirtualizationSystem = new ProxmoxVirtualizationClient(server.Host, server.Port, credentials.Login, credentials.Password, server.Realm, server.BaseNode, server.BaseStorage);
 
                 server.Status = ServerStatus.Running;
             }
@@ -176,7 +176,7 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
 
             try
             {
-                var proxmoxVirtualizationSystem = new ProxmoxVirtualizationClient(server.Host, server.Port, credentials.Login, credentials.Password);
+                var proxmoxVirtualizationSystem = new ProxmoxVirtualizationClient(server.Host, server.Port, credentials.Login, credentials.Password, server.Realm, server.BaseNode, server.BaseStorage);
                 machines = await proxmoxVirtualizationSystem.GetNodeMachines();
             }
             catch (Exception ex)
@@ -198,7 +198,7 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
                     dbMachine.Stage = MachineStage.Using;
                     dbMachine.CPUCores = machine.CPUs;
                     dbMachine.RAMSize = Convert.ToInt32(machine.MemoryTotal / (1024 * 1024));
-                    dbMachine.HDDSize = Convert.ToInt32(machine.HDDTotal / (1024 * 1024));
+                    dbMachine.HDDSize = Convert.ToInt32(machine.HDDTotal / (1024 * 1024 * 1024));
                     _context.ProxmoxMachines.Update(dbMachine);
 
                 }
@@ -214,7 +214,7 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
                         Stage = MachineStage.Using,
                         CPUCores = machine.CPUs,
                         RAMSize = Convert.ToInt32(machine.MemoryTotal / (1024 * 1024)),
-                        HDDSize = Convert.ToInt32(machine.HDDTotal / (1024 * 1024)),
+                        HDDSize = Convert.ToInt32(machine.HDDTotal / (1024 * 1024 * 1024)),
                         ServerId = serverId
                     };
                     _context.ProxmoxMachines.Add(newMachine);
@@ -258,7 +258,7 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
 
             var credentials = GetServerCredentials(server, initiatorUsername);
 
-            var client = new ProxmoxVirtualizationClient(server.Host, server.Port, credentials.Login, credentials.Password);
+            var client = new ProxmoxVirtualizationClient(server.Host, server.Port, credentials.Login, credentials.Password, server.Realm, server.BaseNode, server.BaseStorage);
 
             var imageName = Path.GetFileName(image.ImagePath);
             var imagePath = image.StorageMethod == ImageStorageMethod.Local ? $"{_configuration["BaseUrl"]}{image.ImagePath}" : image.ImagePath;
@@ -305,10 +305,10 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
         {
             var credentials = GetServerCredentials(proxmoxServer, initiatorUsername);
 
-            var client = new ProxmoxVirtualizationClient(proxmoxServer.Host, proxmoxServer.Port, credentials.Login, credentials.Password);
+            var client = new ProxmoxVirtualizationClient(proxmoxServer.Host, proxmoxServer.Port, credentials.Login, credentials.Password, proxmoxServer.Realm, proxmoxServer.BaseNode, proxmoxServer.BaseStorage);
 
             var status = await client.CreateTemplateMachine(template.Name, Path.GetFileName(template.ISOImage.ImagePath),
-                template.CPUSockets, template.CPUCores, template.RAMSize, template.HDDSize);
+                template.CPUSockets, template.CPUCores, template.RAMSize, template.HDDSize, proxmoxServer.BaseDisksStorage, proxmoxServer.BaseStorage);
 
             var templateMachine = new TemplateMachine()
             {

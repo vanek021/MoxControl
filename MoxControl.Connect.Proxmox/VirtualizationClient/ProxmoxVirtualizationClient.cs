@@ -18,7 +18,7 @@ namespace MoxControl.Connect.Proxmox
         public ProxmoxVirtualizationClient(string host, int port, string login, string password, string realm = "pam", string baseNode = "pve", string baseStorage = "local")
         {
             _pveClient = new PveClient(host, port);
-            var result = _pveClient.Login(login, password, realm).GetAwaiter().GetResult();
+            _pveClient.Login(login, password, realm).GetAwaiter().GetResult();
             _baseNode = baseNode;
             _baseStorage = baseStorage;
         }
@@ -87,7 +87,7 @@ namespace MoxControl.Connect.Proxmox
             return await GetMachineStatus(createMachineResult.VmId);
         }
 
-        private async Task<CreateMachineResult> CreateMachine(string name, string image, int cpuSockets, int cpuCores, int ramSize, int hddSize)
+        public async Task<CreateMachineResult> CreateMachine(string name, string image, int cpuSockets, int cpuCores, int ramSize, int hddSize)
         {
             var machines = await GetNodeMachines();
             var vmId = machines.Max(m => m.VMid) + 1;

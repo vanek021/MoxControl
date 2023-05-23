@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting.Server;
+﻿using Hangfire;
+using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MoxControl.Connect.Interfaces.Connect;
@@ -8,12 +9,14 @@ using MoxControl.Connect.Models.Enums;
 using MoxControl.Connect.Models.Result;
 using MoxControl.Connect.Proxmox.Data;
 using MoxControl.Connect.Proxmox.Models.Entities;
+using MoxControl.Connect.Proxmox.VirtualizationClient.DTOs;
 using MoxControl.Connect.Proxmox.VirtualizationClient.Helpers;
 using MoxControl.Connect.Services.InternalServices;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -43,7 +46,7 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
             => await _context.ProxmoxMachines.Where(x => x.TemplateId.HasValue && !x.IsDeleted).Select(x => (BaseMachine)x).ToListAsync();
 
         public async Task<int> GetAliveCountAsync()
-            => await _context.ProxmoxMachines.Where(x => x.Status == MachineStatus.Running && !x.IsDeleted).CountAsync();
+            => await _context.ProxmoxMachines.Where(x => x.Status == Connect.Models.Enums.MachineStatus.Running && !x.IsDeleted).CountAsync();
 
         public async Task<List<BaseMachine>> GetAllAsync()
             => await _context.ProxmoxMachines.Where(x => !x.IsDeleted).Select(x => (BaseMachine)x).ToListAsync();
@@ -84,14 +87,13 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
                 $"&node={machine.Server.BaseNode}&resize=off&cmd=";
         }
 
-        public async Task<bool> CreateAsync(BaseMachine machine, long serverId, long? templateId = null)
+        public async Task<bool> CreateAsync(BaseMachine machine, long serverId, long? templateId = null, long? imageId = null, string? initiatorUsername = null)
         {
             var proxmoxMachine = new ProxmoxMachine()
             {
                 Name = machine.Name,
                 Description = machine.Description,
                 ServerId = serverId,
-                TemplateId = templateId,
                 RAMSize = machine.RAMSize,
                 HDDSize = machine.HDDSize,
                 CPUCores = machine.CPUCores,
@@ -100,22 +102,89 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
                 Stage = machine.Stage,
             };
 
+            if (templateId.HasValue && templateId.Value != default)
+            {
+                var template = await _templateManager.GetByIdAsync(templateId.Value);
+
+                if (template is null)
+                    return false;
+
+                proxmoxMachine.TemplateId = template.Id;
+                proxmoxMachine.RAMSize = template.RAMSize;
+                proxmoxMachine.HDDSize = template.HDDSize;
+                proxmoxMachine.CPUCores = template.CPUCores;
+                proxmoxMachine.CPUSockets = template.CPUSockets;
+            }
+            else if (imageId.HasValue && imageId.Value != default)
+            {
+                var image = await _imageManager.GetByIdAsync(imageId.Value);
+
+                if (image is null)
+                    return false;
+
+                proxmoxMachine.ImageId = image.Id;
+            }
+
             _context.ProxmoxMachines.Add(proxmoxMachine);
 
             try
             {
                 await _context.SaveChangesAsync();
+                BackgroundJob.Enqueue<HangfireConnectManager>(h => h.HangfireProccessCreateMachineAsync(VirtualizationSystem.Proxmox, proxmoxMachine.Id, initiatorUsername));
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
+                await _generalNotificationService.AddInternalServerErrorAsync(ex);
                 return false;
             }
         }
 
-        private async Task HangfireCreateAsync(long machineId)
+        public async Task ProcessCreateAsync(long machineId, string? initiatorUsername = null)
         {
+            var machine = await _context.ProxmoxMachines
+                .Include(m => m.Server)
+                .FirstOrDefaultAsync(m => m.Id == machineId && !m.IsDeleted);
 
+            if (machine is null)
+                return;
+
+            var credentials = GetServerCredentials(machine.Server, initiatorUsername);
+            var client = new ProxmoxVirtualizationClient(machine.Server.Host, machine.Server.Port, credentials.Login, credentials.Password, machine.Server.Realm, machine.Server.BaseNode, machine.Server.BaseStorage);
+
+            var templateId = machine.TemplateId ?? default;
+            var imageId = machine.ImageId ?? default;
+
+            CreateMachineResult? createMachineResult;
+
+            if (templateId != default)
+            {
+                var template = await _templateManager.GetByIdWithImageAsync(templateId);
+
+                if (template is null)
+                    return;
+
+                createMachineResult = await client.CreateMachine(machine.Name, Path.GetFileName(template.ISOImage.ImagePath), machine.CPUSockets, machine.CPUCores, machine.RAMSize, machine.HDDSize);
+            }
+            else
+            {
+                var image = await _imageManager.GetByIdAsync(imageId);
+
+                if (image is null)
+                    return;
+
+                createMachineResult = await client.CreateMachine(machine.Name, Path.GetFileName(image.ImagePath), machine.CPUSockets, machine.CPUCores, machine.RAMSize, machine.HDDSize);
+            }
+
+            if (createMachineResult is not null)
+            {
+                machine.ProxmoxId = createMachineResult.VmId;
+                machine.Stage = MachineStage.Using;
+                machine.Status = Connect.Models.Enums.MachineStatus.Stopped;
+
+                _context.ProxmoxMachines.Update(machine);
+                await _context.SaveChangesAsync();
+            }
         }
 
         public async Task<bool> UpdateAsync(BaseMachine machineModel)
@@ -174,7 +243,7 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
             var machineStatus = await client.GetMachineStatus(machine.ProxmoxId.Value);
             var status = machineStatus.Status.GetMachineStatus();
 
-            if (status != MachineStatus.Running)
+            if (status != Connect.Models.Enums.MachineStatus.Running)
                 return null;
 
             var rrddataItems = await client.GetMachineRrddata(machine.ProxmoxId.Value);
@@ -210,8 +279,8 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
             }
             catch
             {
-                await SendTelegramMachineNotify(machine.Server.Name, machine.Name, machine.Status, MachineStatus.Unknown);
-                machine.Status = MachineStatus.Unknown;
+                await SendTelegramMachineNotify(machine.Server.Name, machine.Name, machine.Status, Connect.Models.Enums.MachineStatus.Unknown);
+                machine.Status = Connect.Models.Enums.MachineStatus.Unknown;
             }
             finally
             {
@@ -239,7 +308,7 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
 
                 if (result.Success)
                 {
-                    machine.Status = MachineStatus.Stopped;
+                    machine.Status = Connect.Models.Enums.MachineStatus.Stopped;
                     _context.ProxmoxMachines.Update(machine);
                     await _context.SaveChangesAsync();
                 }
@@ -271,7 +340,7 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
 
                 if (result.Success)
                 {
-                    machine.Status = MachineStatus.Running;
+                    machine.Status = Connect.Models.Enums.MachineStatus.Running;
                     _context.ProxmoxMachines.Update(machine);
                     await _context.SaveChangesAsync();
                 }

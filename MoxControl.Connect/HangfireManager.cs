@@ -107,6 +107,13 @@ namespace MoxControl.Connect
             await _templateManager.MarkAsReadyToUseAsync(templateId);
         }
 
+        public async Task HangfireProccessCreateMachineAsync(VirtualizationSystem virtualizationSystem, long machineId, string? initiatorUsername = null)
+        {
+            var connectService = _connectServiceFactory.GetByVirtualizationSystem(virtualizationSystem);
+
+            await connectService.Machines.ProcessCreateAsync(machineId, initiatorUsername);
+        }
+
         public static void RegisterJobs()
         {
             RecurringJob.AddOrUpdate<HangfireConnectManager>(x => x.HangfireSendHeartBeatToAllServers(), Cron.Hourly());

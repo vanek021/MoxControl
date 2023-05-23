@@ -19,7 +19,7 @@ namespace MoxControl.Connect.Interfaces.Connect
 
         public Task<int> GetAliveCountAsync();
 
-        public Task<bool> CreateAsync(BaseMachine machine, long serverId, long? templateId = null);
+        public Task<bool> CreateAsync(BaseMachine machine, long serverId, long? templateId = null, long? imageId = null, string? initiatorUsername = null);
 
         public Task<bool> UpdateAsync(BaseMachine machine);
 
@@ -42,5 +42,7 @@ namespace MoxControl.Connect.Interfaces.Connect
         public Task<BaseResult> HardReboot(long machineId, string? initiatorUsername = null);
 
         public Task<string?> GetConsoleSourceAsync(long id);
+
+        public Task ProcessCreateAsync(long machineId, string? initiatorUsername = null);
     }
 }

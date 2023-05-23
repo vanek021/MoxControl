@@ -6,6 +6,7 @@ using MoxControl.Connect.Models.Entities;
 using MoxControl.Connect.Models.Enums;
 using MoxControl.Connect.Models.Result;
 using MoxControl.Connect.Services;
+using MoxControl.Infrastructure.Extensions;
 using MoxControl.ViewModels.MachineViewModels;
 using MoxControl.ViewModels.ServerViewModels;
 using static System.Net.Mime.MediaTypeNames;
@@ -92,7 +93,7 @@ namespace MoxControl.Services
             var connectService = _connectServiceFactory.GetByVirtualizationSystem(viewModel.VirtualizationSystem);
             var machine = _mapper.Map<BaseMachine>(viewModel);
             
-            var result = await connectService.Machines.CreateAsync(machine, viewModel.ServerId, viewModel.TemplateId);
+            var result = await connectService.Machines.CreateAsync(machine, viewModel.ServerId, viewModel.TemplateId, viewModel.ImageId, _httpContextAccessor.HttpContext.GetUsername());
 
             return result;
         }

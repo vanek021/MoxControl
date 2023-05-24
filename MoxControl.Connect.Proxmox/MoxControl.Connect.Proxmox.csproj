@@ -12,7 +12,9 @@
   </ItemGroup>
   
   <ItemGroup>
-    <EmbeddedResource Include="Views\ProxmoxSetting\Index.cshtml" />
+    <EmbeddedResource Include="Views\ProxmoxSetting\Index.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   
   <ItemGroup>

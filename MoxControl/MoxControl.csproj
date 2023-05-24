@@ -7,16 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Views\Template\Details.cshtml" />
-    <Content Remove="wwwroot\js\server\details.js" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="Views\Template\Details.cshtml" />
-    <_ContentIncludedByDefault Remove="wwwroot\js\server\details.js" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Common" Version="7.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.2">
       <PrivateAssets>all</PrivateAssets>
@@ -32,19 +22,6 @@
     <ProjectReference Include="..\MoxControl.Core\MoxControl.Core.csproj" />
     <ProjectReference Include="..\MoxControl.Data\MoxControl.Data.csproj" />
     <ProjectReference Include="..\MoxControl.Infrastructure\MoxControl.Infrastructure.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\media\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Views\Template\Details.cshtml" />
-    <None Include="wwwroot\js\server\details.js" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Views\Template\Details.cshtml" />
   </ItemGroup>
 
 </Project>

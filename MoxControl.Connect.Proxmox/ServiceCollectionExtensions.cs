@@ -30,7 +30,7 @@ namespace MoxControl.Connect.Proxmox
                 .AddRazorRuntimeCompilation();
 
             serviceCollection.Configure<MvcRazorRuntimeCompilationOptions>(options =>
-            { options.FileProviders.Add(new EmbeddedFileProvider(assembly, "MoxControl.Connect.Proxmox")); });
+            { options.FileProviders.Add(new EmbeddedFileProvider(assembly)); });
 
             return serviceCollection;
         }

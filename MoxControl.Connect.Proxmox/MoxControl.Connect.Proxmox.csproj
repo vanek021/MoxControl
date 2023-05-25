@@ -8,13 +8,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Views\_ViewImports.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Corsinvest.ProxmoxVE.Api" Version="7.4.0" />
   </ItemGroup>
   
   <ItemGroup>
-    <Content Include="Views\ProxmoxSetting\Index.cshtml">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Content>
+    <EmbeddedResource Include="Views\ProxmoxSetting\Index.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\_ViewImports.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   
   <ItemGroup>

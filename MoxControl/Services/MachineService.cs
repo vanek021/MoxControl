@@ -35,7 +35,7 @@ namespace MoxControl.Services
         {
             var machineIndexVm = new MachineIndexViewModel();
 
-            var connectServices = _connectServiceFactory.GetAll();
+            var connectServices = _connectServiceFactory.GetAllObsolete();
 
             foreach (var connectService in connectServices)
             {

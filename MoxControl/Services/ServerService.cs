@@ -70,7 +70,7 @@ namespace MoxControl.Services
         {
             var serverIndexVm = new ServerIndexViewModel();
 
-            var connectServices = _connectServiceFactory.GetAll();
+            var connectServices = _connectServiceFactory.GetAllObsolete();
 
             foreach(var connectService in connectServices)
             {

@@ -10,7 +10,7 @@ using System.Runtime.CompilerServices;
 
 namespace MoxControl.Connect.Proxmox
 {
-    public class ProxmoxVirtualizationClient : IVirtualizationSystemClient
+    public class ProxmoxVirtualizationClient
     {
         private readonly string _baseNode;
         private readonly string _baseStorage;

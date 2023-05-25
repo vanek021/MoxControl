@@ -33,7 +33,7 @@ namespace MoxControl.Connect
 
         public async Task HangfireSendHeartBeatToAllServers()
         {
-            var connectServices = _connectServiceFactory.GetAll();
+            var connectServices = _connectServiceFactory.GetAllObsolete();
 
             foreach (var connectService in connectServices)
             {
@@ -50,7 +50,7 @@ namespace MoxControl.Connect
 
         public async Task HangfireSendHeartBeatToAllMachines()
         {
-            var connectServices = _connectServiceFactory.GetAll();
+            var connectServices = _connectServiceFactory.GetAllObsolete();
 
             foreach (var connectService in connectServices)
             {
@@ -61,7 +61,7 @@ namespace MoxControl.Connect
 
         public async Task HangfireSyncMachinesForAllServers()
         {
-            var connectServices = _connectServiceFactory.GetAll();
+            var connectServices = _connectServiceFactory.GetAllObsolete();
 
             foreach (var connectService in connectServices)
             {
@@ -78,7 +78,7 @@ namespace MoxControl.Connect
 
         public async Task HangifreDeliverImageToAllServers(long imageId, string? initiatorUsername = null)
         {
-            var connectServices = _connectServiceFactory.GetAll();
+            var connectServices = _connectServiceFactory.GetAllObsolete();
 
             foreach (var connectService in connectServices)
             {
@@ -97,7 +97,7 @@ namespace MoxControl.Connect
 
         public async Task HangfireHandleTemplateCreateForAllServers(long templateId, string? initiatorUsername = null)
         {
-            var connectServices = _connectServiceFactory.GetAll();
+            var connectServices = _connectServiceFactory.GetAllObsolete();
 
             foreach (var connectService in connectServices)
             {

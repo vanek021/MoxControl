@@ -16,7 +16,7 @@ namespace MoxControl.Connect.Factory
     {
         private readonly Dictionary<VirtualizationSystem, IConnectService> _services = new();
 
-        public ConnectServiceFactory(IServiceScopeFactory serviceScopeFactory) 
+        public ConnectServiceFactory(IServiceScopeFactory serviceScopeFactory)
         {
             var proxmoxService = new ProxmoxConnectService();
             proxmoxService.Initialize(serviceScopeFactory).GetAwaiter().GetResult();
@@ -30,15 +30,22 @@ namespace MoxControl.Connect.Factory
 
             var result = _services[virtualizationSystem];
 
-            if (result is null)
-                throw new Exception();
+			return result is null ? throw new Exception() : result;
+		}
 
-            return result;
+        [Obsolete]
+		public List<(VirtualizationSystem, IConnectService)> GetAllObsolete()
+        {
+            return _services
+                .Select(x => (x.Key, x.Value))
+                .ToList();
         }
 
-        public List<(VirtualizationSystem, IConnectService)> GetAll()
+        public List<IConnectServiceItem> GetAll()
         {
-            return _services.Select(x => (x.Key, x.Value)).ToList();
+            return _services
+                .Select(s => new ConnectServiceItem(s.Key, s.Value) as IConnectServiceItem)
+                .ToList();
         }
     }
 }

@@ -33,7 +33,7 @@ namespace MoxControl.Services
 
         private async Task<List<SystemSummaryViewModel>> GetSystemSummaryViewModelsAsync()
         {
-            var connectServices = _connectServiceFactory.GetAll();
+            var connectServices = _connectServiceFactory.GetAllObsolete();
             var result = new List<SystemSummaryViewModel>();
 
             foreach (var connectService in connectServices)
@@ -55,7 +55,7 @@ namespace MoxControl.Services
         {
             var templates = await _templateManager.GetAllAsync();
             var usedTemplatesIds = new List<long>();
-            var connectServices = _connectServiceFactory.GetAll();
+            var connectServices = _connectServiceFactory.GetAllObsolete();
 
             foreach (var connectService in connectServices)
             {
@@ -90,7 +90,7 @@ namespace MoxControl.Services
         private async Task<SummaryCardViewModel> GetServerSummaryCardViewModelAsync()
         {
             var serversBySystem = new Dictionary<VirtualizationSystem, int>();
-            var connectServices = _connectServiceFactory.GetAll();
+            var connectServices = _connectServiceFactory.GetAllObsolete();
 
             foreach (var connectService in connectServices)
             {

@@ -41,7 +41,7 @@ namespace MoxControl.Services
 
             var imageDetailsVm = _mapper.Map<ImageDetailsViewModel>(image);
 
-            var connectServices = _connectServiceFactory.GetAll();
+            var connectServices = _connectServiceFactory.GetAllObsolete();
 
             foreach (var connectService in connectServices)
             {

@@ -44,11 +44,11 @@ namespace MoxControl.Services
 
             var templateVm = _mapper.Map<TemplateDetailsViewModel>(template);
 
-            var connectServices = _connectServiceFactory.GetAll();
+            var connectServiceItems = _connectServiceFactory.GetAll();
 
-            foreach (var connectService in connectServices)
+            foreach (var connectServiceItem in connectServiceItems)
             {
-                var servers = await connectService.Item2.Servers.GetAllAsync();
+                var servers = await connectServiceItem.Service.Servers.GetAllAsync();
 
                 foreach (var server in servers)
                 {

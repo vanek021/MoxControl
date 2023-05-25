@@ -1,0 +1,19 @@
+﻿@model ErrorViewModel
+
+@{
+	ViewData["Title"] = $"Ошибка {Model.StatusCode}";
+	Layout = "_ErrorLayout";
+}
+
+<div class="d-flex flex-column flex-center flex-column-fluid p-10">
+	<!--begin::Illustration-->
+	<img src="~/assets/media/illustrations/coding.png" alt="" class="mw-100 mb-10 h-lg-450px">
+	<!--end::Illustration-->
+	<!--begin::Message-->
+	<h1 class="fw-semibold mb-10" style="font-size: 35px; color: black;">Ошибка @Model.StatusCode</h1>
+	<span class="fw-semibold mb-10" style="font-weight: 500; font-size: 25px; color: black;">@Model.Description</span>
+	<!--end::Message-->
+	<!--begin::Link-->
+	<a asp-controller="Home" asp-action="Index" class="btn btn-primary">На главную</a>
+	<!--end::Link-->
+</div>

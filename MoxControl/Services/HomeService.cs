@@ -59,7 +59,7 @@ namespace MoxControl.Services
 
             foreach (var connectService in connectServices)
             {
-                var machinesWithTemplate = await connectService.Item2.Machines.GetAllWithTemplate();
+                var machinesWithTemplate = await connectService.Item2.Machines.GetAllWithTemplateAsync();
                 machinesWithTemplate.ForEach(x => usedTemplatesIds.Add(x.TemplateId!.Value));
             }
 

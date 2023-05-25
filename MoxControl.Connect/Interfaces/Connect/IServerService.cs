@@ -23,22 +23,22 @@ namespace MoxControl.Connect.Interfaces.Connect
 
         public Task<List<BaseServer>> GetAllAsync();
 
-        public Task SendHeartBeat(long serverId, string? initiatorUsername = null);
+        public Task SendHeartBeatAsync(long serverId, string? initiatorUsername = null);
 
-        public Task SendHeartBeatToAll();
+        public Task SendHeartBeatToAllAsync();
 
-        public Task<ServerHealthModel?> GetHealthModel(long serverId, string? initiatorUsername = null);
+        public Task<ServerHealthModel?> GetHealthModelAsync(long serverId, string? initiatorUsername = null);
 
         public Task<int> GetTotalCountAsync();
 
         public Task<int> GetAliveCountAsync();
 
-        public Task UploadImage(long serverId, long imageId, string? initiatorUsername = null);
+        public Task UploadImageAsync(long serverId, long imageId, string? initiatorUsername = null);
 
-        public Task SyncMachines(long serverId, string? initiatorUsername = null);
+        public Task SyncMachinesAsync(long serverId, string? initiatorUsername = null);
 
-        public Task HandleCreateTemplate(long templateId, string? initiatorUsername = null);
+        public Task HandleCreateTemplateAsync(long templateId, string? initiatorUsername = null);
 
-        public Task<List<ISOImage>> GetAvailableImages(long serverId);
+        public Task<List<ISOImage>> GetAvailableImagesAsync(long serverId);
     }
 }

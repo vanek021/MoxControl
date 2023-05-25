@@ -92,7 +92,7 @@ namespace MoxControl.Services
             var connectService = _connectServiceFactory.GetByVirtualizationSystem(virtualizationSystem);
 
             var server = await connectService.Servers.GetAsync(id);
-            var machines = await connectService.Machines.GetAllByServer(id);
+            var machines = await connectService.Machines.GetAllByServerAsync(id);
 
             var serverDetailsVm = _mapper.Map<ServerDetailsViewModel>(server);
             serverDetailsVm.Machines = _mapper.Map<List<MachineViewModel>>(machines);
@@ -104,7 +104,7 @@ namespace MoxControl.Services
         {
             var connectService = _connectServiceFactory.GetByVirtualizationSystem(virtualizationSystem);
 
-            var healthModel = await connectService.Servers.GetHealthModel(serverId, _httpContextAccessor?.HttpContext?.User?.Identity?.Name);
+            var healthModel = await connectService.Servers.GetHealthModelAsync(serverId, _httpContextAccessor?.HttpContext?.User?.Identity?.Name);
 
             return healthModel;
         }

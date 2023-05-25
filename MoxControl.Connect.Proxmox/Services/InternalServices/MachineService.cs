@@ -37,22 +37,25 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
         #region lambdas
 
         public async Task<int> GetTotalCountAsync()
-            => await _context.ProxmoxMachines.Where(m => !m.IsDeleted).CountAsync();
+            => await GetBaseQuery().CountAsync();
 
-        public async Task<List<BaseMachine>> GetAllByServer(long id)
-            => await _context.ProxmoxMachines.Where(x => x.ServerId == id && !x.IsDeleted).Select(x => (BaseMachine)x).ToListAsync();
+        public async Task<List<BaseMachine>> GetAllByServerAsync(long id)
+            => await GetBaseQuery().Where(x => x.ServerId == id).Select(x => (BaseMachine)x).ToListAsync();
 
-        public async Task<List<BaseMachine>> GetAllWithTemplate()
-            => await _context.ProxmoxMachines.Where(x => x.TemplateId.HasValue && !x.IsDeleted).Select(x => (BaseMachine)x).ToListAsync();
+        public async Task<List<BaseMachine>> GetAllWithTemplateAsync()
+            => await GetBaseQuery().Where(x => x.TemplateId.HasValue).Select(x => (BaseMachine)x).ToListAsync();
 
         public async Task<int> GetAliveCountAsync()
-            => await _context.ProxmoxMachines.Where(x => x.Status == Connect.Models.Enums.MachineStatus.Running && !x.IsDeleted).CountAsync();
+            => await GetBaseQuery().Where(x => x.Status == Connect.Models.Enums.MachineStatus.Running).CountAsync();
 
         public async Task<List<BaseMachine>> GetAllAsync()
-            => await _context.ProxmoxMachines.Where(x => !x.IsDeleted).Select(x => (BaseMachine)x).ToListAsync();
+            => await GetBaseQuery().Select(x => (BaseMachine)x).ToListAsync();
 
         private async Task<ProxmoxMachine?> GetWithServerAsync(long id)
-            => await _context.ProxmoxMachines.Where(x => !x.IsDeleted).Include(x => x.Server).FirstOrDefaultAsync(m => m.Id == id);
+            => await GetBaseQuery().Include(x => x.Server).FirstOrDefaultAsync(m => m.Id == id);
+
+        private IQueryable<ProxmoxMachine> GetBaseQuery()
+            => _context.ProxmoxMachines.Where(m => !m.IsDeleted);
 
         #endregion
 
@@ -74,8 +77,7 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
 
         public async Task<string?> GetConsoleSourceAsync(long id)
         {
-            var machine = await _context.ProxmoxMachines
-                .Where(x => !x.IsDeleted)
+            var machine = await GetBaseQuery()
                 .Include(x => x.Server)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
@@ -142,9 +144,7 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
 
         public async Task ProcessCreateAsync(long machineId, string? initiatorUsername = null)
         {
-            var machine = await _context.ProxmoxMachines
-                .Include(m => m.Server)
-                .FirstOrDefaultAsync(m => m.Id == machineId && !m.IsDeleted);
+            var machine = await GetWithServerAsync(machineId);
 
             if (machine is null)
                 return;
@@ -229,7 +229,7 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
             return true;
         }
 
-        public async Task<MachineHealthModel?> GetHealthModel(long machineId, string? initiatorUsername = null)
+        public async Task<MachineHealthModel?> GetHealthModelAsync(long machineId, string? initiatorUsername = null)
         {
             var machine = await _context.ProxmoxMachines.Include(m => m.Server).FirstOrDefaultAsync(m => m.Id == machineId);
 
@@ -259,7 +259,7 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
             return machineHealthModel;
         }
 
-        public async Task SendHeartBeat(long machineId, string? initiatorUsername = null)
+        public async Task SendHeartBeatAsync(long machineId, string? initiatorUsername = null)
         {
             var machine = await _context.ProxmoxMachines.Include(m => m.Server).FirstOrDefaultAsync(x => x.Id == machineId && !x.IsDeleted);
 
@@ -289,7 +289,7 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
             }
         }
 
-        public async Task<BaseResult> TurnOff(long machineId, string? initiatorUsername = null)
+        public async Task<BaseResult> TurnOffAsync(long machineId, string? initiatorUsername = null)
         {
             var machine = await GetWithServerAsync(machineId);
 
@@ -321,7 +321,7 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
             }
         }
 
-        public async Task<BaseResult> TurnOn(long machineId, string? initiatorUsername = null)
+        public async Task<BaseResult> TurnOnAsync(long machineId, string? initiatorUsername = null)
         {
             var machine = await GetWithServerAsync(machineId);
 
@@ -353,7 +353,7 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
             }
         }
 
-        public async Task<BaseResult> Reboot(long machineId, string? initiatorUsername = null)
+        public async Task<BaseResult> RebootAsync(long machineId, string? initiatorUsername = null)
         {
             var machine = await GetWithServerAsync(machineId);
 
@@ -378,7 +378,7 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
             }
         }
 
-        public async Task<BaseResult> HardReboot(long machineId, string? initiatorUsername = null)
+        public async Task<BaseResult> HardRebootAsync(long machineId, string? initiatorUsername = null)
         {
             var machine = await GetWithServerAsync(machineId);
 

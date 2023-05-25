@@ -11,9 +11,9 @@ namespace MoxControl.Connect.Interfaces.Connect
 {
     public interface IMachineService
     {
-        public Task<List<BaseMachine>> GetAllByServer(long serverId);
+        public Task<List<BaseMachine>> GetAllByServerAsync(long serverId);
 
-        public Task<List<BaseMachine>> GetAllWithTemplate();
+        public Task<List<BaseMachine>> GetAllWithTemplateAsync();
 
         public Task<int> GetTotalCountAsync();
 
@@ -27,19 +27,19 @@ namespace MoxControl.Connect.Interfaces.Connect
 
         public Task<BaseMachine?> GetAsync(long id);
 
-        public Task<MachineHealthModel?> GetHealthModel(long machineId, string? initiatorUsername = null);
+        public Task<MachineHealthModel?> GetHealthModelAsync(long machineId, string? initiatorUsername = null);
 
-        public Task SendHeartBeat(long machineId, string? initiatorUsername = null);
+        public Task SendHeartBeatAsync(long machineId, string? initiatorUsername = null);
 
         public Task<List<BaseMachine>> GetAllAsync();
 
-        public Task<BaseResult> TurnOff(long machineId, string? initiatorUsername = null);
+        public Task<BaseResult> TurnOffAsync(long machineId, string? initiatorUsername = null);
 
-        public Task<BaseResult> TurnOn(long machineId, string? initiatorUsername = null);
+        public Task<BaseResult> TurnOnAsync(long machineId, string? initiatorUsername = null);
 
-        public Task<BaseResult> Reboot(long machineId, string? initiatorUsername = null);
+        public Task<BaseResult> RebootAsync(long machineId, string? initiatorUsername = null);
 
-        public Task<BaseResult> HardReboot(long machineId, string? initiatorUsername = null);
+        public Task<BaseResult> HardRebootAsync(long machineId, string? initiatorUsername = null);
 
         public Task<string?> GetConsoleSourceAsync(long id);
 

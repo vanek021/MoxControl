@@ -28,7 +28,7 @@ namespace MoxControl.Connect
         public async Task HangfireSendServerHeartBeat(VirtualizationSystem virtualizationSystem, long serverId, string? initiatorUsername = null)
         {
             var connectService = _connectServiceFactory.GetByVirtualizationSystem(virtualizationSystem);
-            await connectService.Servers.SendHeartBeat(serverId, initiatorUsername);
+            await connectService.Servers.SendHeartBeatAsync(serverId, initiatorUsername);
         }
 
         public async Task HangfireSendHeartBeatToAllServers()
@@ -45,7 +45,7 @@ namespace MoxControl.Connect
         public async Task HangfireSendMachineHeartBeat(VirtualizationSystem virtualizationSystem, long machineId, string? initiatorUsername = null)
         {
             var connectService = _connectServiceFactory.GetByVirtualizationSystem(virtualizationSystem);
-            await connectService.Machines.SendHeartBeat(machineId, initiatorUsername);
+            await connectService.Machines.SendHeartBeatAsync(machineId, initiatorUsername);
         }
 
         public async Task HangfireSendHeartBeatToAllMachines()
@@ -73,7 +73,7 @@ namespace MoxControl.Connect
         public async Task HangfireSyncServerMachines(VirtualizationSystem virtualizationSystem, long serverId, string? initiatorUsername = null)
         {
             var connectService = _connectServiceFactory.GetByVirtualizationSystem(virtualizationSystem);
-            await connectService.Servers.SyncMachines(serverId, initiatorUsername);
+            await connectService.Servers.SyncMachinesAsync(serverId, initiatorUsername);
         }
 
         public async Task HangifreDeliverImageToAllServers(long imageId, string? initiatorUsername = null)
@@ -92,7 +92,7 @@ namespace MoxControl.Connect
         public async Task HangfireDeliverImageToServer(VirtualizationSystem virtualizationSystem, long serverId, long imageId, string? initiatorUsername = null)
         {
             var connectService = _connectServiceFactory.GetByVirtualizationSystem(virtualizationSystem);
-            await connectService.Servers.UploadImage(serverId, imageId, initiatorUsername);
+            await connectService.Servers.UploadImageAsync(serverId, imageId, initiatorUsername);
         }
 
         public async Task HangfireHandleTemplateCreateForAllServers(long templateId, string? initiatorUsername = null)
@@ -101,7 +101,7 @@ namespace MoxControl.Connect
 
             foreach (var connectService in connectServices)
             {
-                await connectService.Item2.Servers.HandleCreateTemplate(templateId, initiatorUsername);
+                await connectService.Item2.Servers.HandleCreateTemplateAsync(templateId, initiatorUsername);
             }
 
             await _templateManager.MarkAsReadyToUseAsync(templateId);

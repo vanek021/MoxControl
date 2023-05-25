@@ -124,7 +124,7 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
             return true;
         }
 
-        public async Task SendHeartBeat(long serverId, string? initiatorUsername = null)
+        public async Task SendHeartBeatAsync(long serverId, string? initiatorUsername = null)
         {
             var server = await _context.ProxmoxServers.FirstOrDefaultAsync(x => x.Id == serverId && !x.IsDeleted);
 
@@ -151,17 +151,17 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
             }
         }
 
-        public async Task SendHeartBeatToAll()
+        public async Task SendHeartBeatToAllAsync()
         {
             var serverIds = await _context.ProxmoxServers.Where(x => !x.IsDeleted).Select(x => x.Id).ToListAsync();
 
             foreach (var serverId in serverIds)
             {
-                await SendHeartBeat(serverId);
+                await SendHeartBeatAsync(serverId);
             }
         }
 
-        public async Task SyncMachines(long serverId, string? initiatorUsername = null)
+        public async Task SyncMachinesAsync(long serverId, string? initiatorUsername = null)
         {
             var server = await _context.ProxmoxServers
                 .Include(s => s.Machines)
@@ -223,7 +223,7 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
             }
         }
 
-        public async Task<ServerHealthModel?> GetHealthModel(long serverId, string? initiatorUsername = null)
+        public async Task<ServerHealthModel?> GetHealthModelAsync(long serverId, string? initiatorUsername = null)
         {
             var server = await _context.ProxmoxServers.FirstOrDefaultAsync(x => x.Id == serverId && !x.IsDeleted);
 
@@ -247,7 +247,7 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
             return serverHealthModel;
         }
 
-        public async Task UploadImage(long serverId, long imageId, string? initiatorUsername = null)
+        public async Task UploadImageAsync(long serverId, long imageId, string? initiatorUsername = null)
         {
             var server = await _context.ProxmoxServers
                 .FirstOrDefaultAsync(x => x.Id == serverId && !x.IsDeleted);
@@ -274,7 +274,7 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
             await _context.SaveChangesAsync();
         }
 
-        public async Task HandleCreateTemplate(long templateId, string? initiatorUsername = null)
+        public async Task HandleCreateTemplateAsync(long templateId, string? initiatorUsername = null)
         {
             var template = await _templateManager.GetByIdWithImageAsync(templateId);
             var servers = await GetBaseQuery().ToListAsync();
@@ -329,7 +329,7 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<ISOImage>> GetAvailableImages(long serverId)
+        public async Task<List<ISOImage>> GetAvailableImagesAsync(long serverId)
         {
             var server = await GetBaseQuery().FirstOrDefaultAsync(s => s.Id == serverId);
 

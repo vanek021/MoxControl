@@ -48,7 +48,7 @@ namespace MoxControl.Services
                         Server = _mapper.Map<ServerViewModel>(server)
                     };
 
-                    var machines = await connectService.Item2.Machines.GetAllByServer(server.Id);
+                    var machines = await connectService.Item2.Machines.GetAllByServerAsync(server.Id);
                     machineListVm.Machines = _mapper.Map<List<MachineViewModel>>(machines);
 
                     machineIndexVm.MachineLists.Add(machineListVm);
@@ -113,7 +113,7 @@ namespace MoxControl.Services
             var connectService = _connectServiceFactory.GetByVirtualizationSystem(virtualizationSystem);
 
             var username = _httpContextAccessor?.HttpContext?.User?.Identity?.Name;
-            await connectService.Machines.SendHeartBeat(machineId, username);
+            await connectService.Machines.SendHeartBeatAsync(machineId, username);
 
             var machine = await connectService.Machines.GetAsync(machineId);
 
@@ -137,7 +137,7 @@ namespace MoxControl.Services
         public async Task<SelectList> GetImagesSelectListAsync(VirtualizationSystem virtualizationSystem, long serverId)
         {
             var connectService = _connectServiceFactory.GetByVirtualizationSystem(virtualizationSystem);
-            var availableImages = await connectService.Servers.GetAvailableImages(serverId);
+            var availableImages = await connectService.Servers.GetAvailableImagesAsync(serverId);
             var selectItems = availableImages.Select(x => new { Name = x.Name, Value = x.Id });
             selectItems = selectItems.Prepend(new { Name = "Нет", Value = default(long) });
             return new SelectList(selectItems, "Value", "Name");
@@ -147,7 +147,7 @@ namespace MoxControl.Services
         {
             var connectService = _connectServiceFactory.GetByVirtualizationSystem(virtualizationSystem);
 
-            var healthModel = await connectService.Machines.GetHealthModel(machineId, _httpContextAccessor?.HttpContext?.User?.Identity?.Name);
+            var healthModel = await connectService.Machines.GetHealthModelAsync(machineId, _httpContextAccessor?.HttpContext?.User?.Identity?.Name);
 
             return healthModel;
         }
@@ -156,7 +156,7 @@ namespace MoxControl.Services
         {
             var connectService = _connectServiceFactory.GetByVirtualizationSystem(virtualizationSystem);
 
-            var result = await connectService.Machines.TurnOn(machineId);
+            var result = await connectService.Machines.TurnOnAsync(machineId);
 
             if (!result.Success)
                 await WriteErrorNotification(result);
@@ -168,7 +168,7 @@ namespace MoxControl.Services
         {
             var connectService = _connectServiceFactory.GetByVirtualizationSystem(virtualizationSystem);
 
-            var result = await connectService.Machines.TurnOff(machineId);
+            var result = await connectService.Machines.TurnOffAsync(machineId);
 
             if (!result.Success)
                 await WriteErrorNotification(result);
@@ -180,7 +180,7 @@ namespace MoxControl.Services
         {
             var connectService = _connectServiceFactory.GetByVirtualizationSystem(virtualizationSystem);
 
-            var result = await connectService.Machines.Reboot(machineId);
+            var result = await connectService.Machines.RebootAsync(machineId);
 
             if (!result.Success)
                 await WriteErrorNotification(result);
@@ -192,7 +192,7 @@ namespace MoxControl.Services
         {
             var connectService = _connectServiceFactory.GetByVirtualizationSystem(virtualizationSystem);
 
-            var result = await connectService.Machines.HardReboot(machineId);
+            var result = await connectService.Machines.HardRebootAsync(machineId);
 
             if (!result.Success)
                 await WriteErrorNotification(result);

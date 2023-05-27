@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MoxControl.Connect.Data;
 using MoxControl.Connect.Proxmox.Models.Entities;
 
 namespace MoxControl.Connect.Proxmox.Data

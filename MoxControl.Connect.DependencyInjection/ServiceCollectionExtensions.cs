@@ -1,22 +1,13 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ApplicationParts;
-using Microsoft.AspNetCore.Mvc.Razor;
-using Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.FileProviders;
 using MoxControl.Connect.Data;
 using MoxControl.Connect.Data.Seeds;
 using MoxControl.Connect.Factory;
 using MoxControl.Connect.Interfaces.Factories;
 using MoxControl.Connect.Proxmox;
-using MoxControl.Connect.Proxmox.Controllers;
-using MoxControl.Connect.Proxmox.Data;
-using MoxControl.Connect.Proxmox.Services;
 using MoxControl.Connect.Services;
 using MoxControl.Core.Extensions;
-using System.Reflection;
 
 namespace MoxControl.Connect.DependencyInjection
 {

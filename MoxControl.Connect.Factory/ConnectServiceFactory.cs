@@ -3,12 +3,6 @@ using MoxControl.Connect.Interfaces;
 using MoxControl.Connect.Interfaces.Factories;
 using MoxControl.Connect.Models.Enums;
 using MoxControl.Connect.Proxmox.Services;
-using MoxControl.Connect.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MoxControl.Connect.Factory
 {
@@ -30,11 +24,11 @@ namespace MoxControl.Connect.Factory
 
             var result = _services[virtualizationSystem];
 
-			return result is null ? throw new Exception() : result;
-		}
+            return result is null ? throw new Exception() : result;
+        }
 
         [Obsolete]
-		public List<(VirtualizationSystem, IConnectService)> GetAllObsolete()
+        public List<(VirtualizationSystem, IConnectService)> GetAllObsolete()
         {
             return _services
                 .Select(x => (x.Key, x.Value))

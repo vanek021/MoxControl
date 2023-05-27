@@ -1,5 +1,4 @@
 ﻿using MoxControl.Connect.Models.Enums;
-using Sakura.AspNetCore;
 
 namespace MoxControl.ViewModels.ServerViewModels
 {

@@ -1,13 +1,7 @@
 ﻿using MoxControl.Core.DataAnnotations;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 using MoxControl.Core.Interfaces;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using IDKEY = System.Int64;
 
 namespace MoxControl.Core.Models

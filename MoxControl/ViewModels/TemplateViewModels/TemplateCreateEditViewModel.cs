@@ -36,6 +36,6 @@ namespace MoxControl.ViewModels.TemplateViewModels
         public int CPUCores { get; set; }
 
         [ValidateNever]
-        public SelectList Images { get; set; } 
+        public SelectList Images { get; set; }
     }
 }

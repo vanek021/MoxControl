@@ -3,11 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using MoxControl.Connect.Models.Enums;
 using MoxControl.Connect.Proxmox.Data;
 using MoxControl.Connect.Proxmox.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MoxControl.Connect.Proxmox.Controllers
 {

@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MoxControl.Connect.Models.Enums;
 using MoxControl.Services;
 using MoxControl.ViewModels.ImageViewModels;
-using MoxControl.ViewModels.ServerViewModels;
 
 namespace MoxControl.Controllers
 {

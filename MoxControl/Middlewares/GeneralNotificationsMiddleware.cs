@@ -1,5 +1,4 @@
 ﻿using MoxControl.Infrastructure.Services;
-using MoxControl.Services;
 
 namespace MoxControl.Middlewares
 {

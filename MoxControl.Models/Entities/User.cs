@@ -1,10 +1,5 @@
 ﻿using MoxControl.Core.Models;
 using MoxControl.Models.Entities.Notifications;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MoxControl.Models.Entities
 {

@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using MoxControl.Models;
 using MoxControl.Services;
-using System.Diagnostics;
 
 namespace MoxControl.Controllers
 {
@@ -13,7 +11,7 @@ namespace MoxControl.Controllers
     {
         private readonly HomeService _homeService;
         private readonly ILogger<HomeController> _logger;
-        
+
         public HomeController(ILogger<HomeController> logger, HomeService homeService)
         {
             _homeService = homeService;
@@ -46,7 +44,7 @@ namespace MoxControl.Controllers
                 ReturnUrl = "/Home/Index",
                 StatusCode = statusCode,
                 Description = ReasonPhrases.GetReasonPhrase(statusCode)
-			};
+            };
             model.Title = $"Error {model.StatusCode}";
             return View(model);
         }

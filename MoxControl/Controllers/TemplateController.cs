@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MoxControl.Services;
-using MoxControl.ViewModels.ImageViewModels;
 using MoxControl.ViewModels.TemplateViewModels;
 
 namespace MoxControl.Controllers

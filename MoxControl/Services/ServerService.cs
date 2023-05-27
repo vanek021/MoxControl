@@ -1,16 +1,9 @@
 ﻿using AutoMapper;
-using Hangfire;
-using MoxControl.Connect.Factory;
 using MoxControl.Connect.Interfaces.Factories;
 using MoxControl.Connect.Models;
 using MoxControl.Connect.Models.Enums;
-using MoxControl.Connect.Proxmox.Models;
-using MoxControl.Data;
-using MoxControl.Services.Abtractions;
-using MoxControl.Services.Models;
 using MoxControl.ViewModels.MachineViewModels;
 using MoxControl.ViewModels.ServerViewModels;
-using System.Drawing;
 
 namespace MoxControl.Services
 {
@@ -31,9 +24,9 @@ namespace MoxControl.Services
         {
             var connectService = _connectServiceFactory.GetByVirtualizationSystem(viewModel.VirtualizationSystem);
 
-            var result = await connectService.Servers.CreateAsync(viewModel.Host, viewModel.Port, viewModel.AuthorizationType, viewModel.Name, 
+            var result = await connectService.Servers.CreateAsync(viewModel.Host, viewModel.Port, viewModel.AuthorizationType, viewModel.Name,
                 viewModel.Description, viewModel.RootLogin, viewModel.RootPassword, _httpContextAccessor?.HttpContext?.User?.Identity?.Name);
-            
+
             return result;
         }
 
@@ -72,7 +65,7 @@ namespace MoxControl.Services
 
             var connectServices = _connectServiceFactory.GetAllObsolete();
 
-            foreach(var connectService in connectServices)
+            foreach (var connectService in connectServices)
             {
                 var servers = await connectService.Item2.Servers.GetAllAsync();
                 var serversVm = _mapper.Map<List<ServerViewModel>>(servers);

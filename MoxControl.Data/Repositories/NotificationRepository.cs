@@ -2,13 +2,7 @@
 using MoxControl.Core.Attributes;
 using MoxControl.Core.Interfaces;
 using MoxControl.Core.Repositories;
-using MoxControl.Models.Entities;
 using MoxControl.Models.Entities.Notifications;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MoxControl.Data.Repositories
 {

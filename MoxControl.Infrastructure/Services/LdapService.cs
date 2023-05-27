@@ -4,13 +4,6 @@ using MoxControl.Core.Models;
 using MoxControl.Infrastructure.Configurations;
 using MoxControl.Models.Entities;
 using Novell.Directory.Ldap;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace MoxControl.Infrastructure.Services
 {
@@ -38,7 +31,7 @@ namespace MoxControl.Infrastructure.Services
 
             var attributes = LDAPAttributeHelpers.GetUserAttributes();
 
-            var userResult = connection.Search(_adConfig.SearchBase, LdapConnection.ScopeSub, searchFilter, attributes, false);         
+            var userResult = connection.Search(_adConfig.SearchBase, LdapConnection.ScopeSub, searchFilter, attributes, false);
 
             try
             {
@@ -68,7 +61,7 @@ namespace MoxControl.Infrastructure.Services
 
                             await _userManager.CreateAsync(currentUser, password);
                         }
-                        
+
                         else
                         {
                             currentUser.FirstName = user.GetAttribute(LDAPAttributeConstants.GivenName).StringValue;

@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
-using MoxControl.Connect.Data;
 using MoxControl.Connect.Interfaces.Factories;
 using MoxControl.Connect.Models.Entities;
 using MoxControl.Connect.Services;
 using MoxControl.ViewModels.ImageViewModels;
-using MoxControl.ViewModels.ServerViewModels;
 
 namespace MoxControl.Services
 {
@@ -46,11 +44,11 @@ namespace MoxControl.Services
             foreach (var connectService in connectServices)
             {
                 var servers = await connectService.Item2.Servers.GetAllAsync();
-                
+
                 foreach (var server in servers)
                 {
                     var serverVm = _mapper.Map<ImageServerViewModel>(server);
-                    
+
                     if (server.ImageData is not null && server.ImageData.ImageIds.Contains(image.Id))
                         serverVm.IsImageDelivered = true;
 

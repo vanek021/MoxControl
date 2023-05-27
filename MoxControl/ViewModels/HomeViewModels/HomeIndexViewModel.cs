@@ -4,7 +4,7 @@ namespace MoxControl.ViewModels.HomeViewModels
 {
     public class HomeIndexViewModel
     {
-        public HomeIndexViewModel(SummaryCardViewModel serversSummary, SummaryCardViewModel imagesSummary, 
+        public HomeIndexViewModel(SummaryCardViewModel serversSummary, SummaryCardViewModel imagesSummary,
             SummaryCardViewModel templatesSummary, List<SystemSummaryViewModel> systemSummaries)
         {
             ServersSummary = serversSummary;
@@ -39,7 +39,7 @@ namespace MoxControl.ViewModels.HomeViewModels
 
     public class SystemSummaryViewModel
     {
-        public SystemSummaryViewModel(VirtualizationSystem virtualizationSystem,  int totalServers, int totalMachines, 
+        public SystemSummaryViewModel(VirtualizationSystem virtualizationSystem, int totalServers, int totalMachines,
             int serversAlive, int machinesAlive, DateTime? lastServersCheck)
         {
             VirtualizationSystem = virtualizationSystem;

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MoxControl.Infrastructure.Configurations
+﻿namespace MoxControl.Infrastructure.Configurations
 {
     public class ADConfig
     {

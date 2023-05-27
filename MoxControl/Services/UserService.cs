@@ -14,7 +14,7 @@ namespace MoxControl.Services
         private readonly RoleManager<BaseRole> _roleManager;
         private readonly IMapper _mapper;
 
-        public UserService(UserManager<User> userManager, RoleManager<BaseRole> roleManager, IMapper mapper) 
+        public UserService(UserManager<User> userManager, RoleManager<BaseRole> roleManager, IMapper mapper)
         {
             _userManager = userManager;
             _roleManager = roleManager;

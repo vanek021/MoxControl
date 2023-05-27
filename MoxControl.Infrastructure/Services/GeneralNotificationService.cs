@@ -1,13 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MoxControl.Data;
+﻿using MoxControl.Data;
 using MoxControl.Models.Entities.Notifications;
 using MoxControl.Models.Enums;
 using Sakura.AspNetCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MoxControl.Infrastructure.Services
 {

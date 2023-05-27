@@ -1,19 +1,11 @@
 ﻿using Hangfire;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Hosting.Internal;
 using MoxControl.Connect.Data;
 using MoxControl.Connect.Models.Entities;
 using MoxControl.Connect.Models.Enums;
 using MoxControl.Core.Services.BucketStorage;
 using MoxControl.Infrastructure.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MoxControl.Connect.Services
 {
@@ -24,7 +16,7 @@ namespace MoxControl.Connect.Services
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ConnectDatabase _connectDatabase;
 
-        public ImageManager(ConnectDatabase connectDatabase, IBucketStorageService bucketStorageService, IWebHostEnvironment webHostEnvironment, IHttpContextAccessor httpContextAccessor) 
+        public ImageManager(ConnectDatabase connectDatabase, IBucketStorageService bucketStorageService, IWebHostEnvironment webHostEnvironment, IHttpContextAccessor httpContextAccessor)
         {
             _connectDatabase = connectDatabase;
             _webHostEnvironment = webHostEnvironment;
@@ -52,7 +44,7 @@ namespace MoxControl.Connect.Services
             try
             {
                 await _connectDatabase.SaveChangesAsync();
-                
+
                 if (image.StorageMethod == ImageStorageMethod.Local)
                     BackgroundJob.Enqueue<ImageManager>(x => x.HangfireDownloadImage(image.Id, _httpContextAccessor.HttpContext.GetUsername()));
                 else

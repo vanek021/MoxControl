@@ -1,5 +1,4 @@
-﻿using MoxControl.Connect.Models.Enums;
-using MoxControl.ViewModels.ServerViewModels;
+﻿using MoxControl.ViewModels.ServerViewModels;
 
 namespace MoxControl.ViewModels.MachineViewModels
 {

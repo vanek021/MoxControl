@@ -1,5 +1,4 @@
 ﻿using Hangfire;
-using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MoxControl.Connect.Interfaces.Connect;
@@ -12,14 +11,7 @@ using MoxControl.Connect.Proxmox.Models.Entities;
 using MoxControl.Connect.Proxmox.VirtualizationClient.DTOs;
 using MoxControl.Connect.Proxmox.VirtualizationClient.Helpers;
 using MoxControl.Connect.Services.InternalServices;
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace MoxControl.Connect.Proxmox.Services.InternalServices
 {

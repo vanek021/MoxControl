@@ -1,6 +1,4 @@
-﻿using Sakura.AspNetCore;
-
-namespace MoxControl.ViewModels.ServerViewModels
+﻿namespace MoxControl.ViewModels.ServerViewModels
 {
     public class ServerIndexViewModel
     {

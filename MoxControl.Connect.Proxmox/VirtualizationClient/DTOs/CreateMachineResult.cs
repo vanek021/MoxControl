@@ -1,11 +1,4 @@
-﻿using Corsinvest.ProxmoxVE.Api;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MoxControl.Connect.Proxmox.VirtualizationClient.DTOs
+﻿namespace MoxControl.Connect.Proxmox.VirtualizationClient.DTOs
 {
     public class CreateMachineResult
     {

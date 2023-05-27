@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
-using MoxControl.Connect.Models.Entities;
 
 #nullable disable
 

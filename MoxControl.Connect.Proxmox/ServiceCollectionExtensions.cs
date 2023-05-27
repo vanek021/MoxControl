@@ -4,12 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using MoxControl.Connect.Proxmox.Controllers;
 using MoxControl.Connect.Proxmox.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MoxControl.Connect.Proxmox
 {

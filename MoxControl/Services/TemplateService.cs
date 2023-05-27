@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using MoxControl.Connect.Interfaces.Factories;
 using MoxControl.Connect.Models.Entities;
 using MoxControl.Connect.Services;
-using MoxControl.ViewModels.ImageViewModels;
 using MoxControl.ViewModels.TemplateViewModels;
 
 namespace MoxControl.Services

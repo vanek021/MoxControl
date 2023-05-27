@@ -1,17 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using MoxControl.Connect.Models;
-using MoxControl.Connect.Models.Entities;
 using MoxControl.Connect.Models.Enums;
 using MoxControl.Infrastructure.Extensions;
-using MoxControl.Infrastructure.Services;
-using MoxControl.Models.Constants;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Telegram.Bot.Types;
-using Telegram.Bot;
 
 namespace MoxControl.Connect.Services.InternalServices
 {

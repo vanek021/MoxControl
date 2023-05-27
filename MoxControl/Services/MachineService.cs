@@ -9,7 +9,6 @@ using MoxControl.Connect.Services;
 using MoxControl.Infrastructure.Extensions;
 using MoxControl.ViewModels.MachineViewModels;
 using MoxControl.ViewModels.ServerViewModels;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace MoxControl.Services
 {
@@ -21,7 +20,7 @@ namespace MoxControl.Services
         private readonly TemplateManager _templateManager;
         private readonly NotificationService _notificationService;
 
-        public MachineService(IConnectServiceFactory connectServiceFactory, IHttpContextAccessor httpContextAccessor, 
+        public MachineService(IConnectServiceFactory connectServiceFactory, IHttpContextAccessor httpContextAccessor,
             IMapper mapper, TemplateManager templateManager, NotificationService notificationService)
         {
             _connectServiceFactory = connectServiceFactory;
@@ -92,7 +91,7 @@ namespace MoxControl.Services
         {
             var connectService = _connectServiceFactory.GetByVirtualizationSystem(viewModel.VirtualizationSystem);
             var machine = _mapper.Map<BaseMachine>(viewModel);
-            
+
             var result = await connectService.Machines.CreateAsync(machine, viewModel.ServerId, viewModel.TemplateId, viewModel.ImageId, _httpContextAccessor.HttpContext.GetUsername());
 
             return result;

@@ -93,7 +93,7 @@ namespace MoxControl.Controllers
         {
             var serverHealthModel = await _serverService.GetServerHealthModelAsync(virtualizationSystem, id);
 
-            if (serverHealthModel is null) 
+            if (serverHealthModel is null)
                 return NotFound();
 
             return serverHealthModel;

@@ -1,13 +1,9 @@
-﻿using MoxControl.Connect.Interfaces;
-using Corsinvest.ProxmoxVE.Api;
-using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
-using System;
-using MoxControl.Connect.Proxmox.VirtualizationClient.DTOs;
+﻿using Corsinvest.ProxmoxVE.Api;
 using MoxControl.Connect.Models.Result;
-using MoxControl.Connect.Proxmox.VirtualizationClient.Helpers;
-using System.Runtime.CompilerServices;
 using MoxControl.Connect.Proxmox.Models.Entities;
+using MoxControl.Connect.Proxmox.VirtualizationClient.DTOs;
+using MoxControl.Connect.Proxmox.VirtualizationClient.Helpers;
+using Newtonsoft.Json;
 
 namespace MoxControl.Connect.Proxmox
 {
@@ -25,7 +21,7 @@ namespace MoxControl.Connect.Proxmox
             _baseStorage = baseStorage;
         }
 
-        public ProxmoxVirtualizationClient(string login, string password, ProxmoxServer server) 
+        public ProxmoxVirtualizationClient(string login, string password, ProxmoxServer server)
             : this(server.Host, server.Port, login, password, server.Realm, server.BaseNode, server.BaseStorage)
         {
 

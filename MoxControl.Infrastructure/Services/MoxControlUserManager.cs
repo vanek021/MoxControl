@@ -5,11 +5,7 @@ using Microsoft.Extensions.Options;
 using MoxControl.Core.Data;
 using MoxControl.Core.Services.BucketStorage;
 using MoxControl.Models.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace MoxControl.Infrastructure.Services
 {
@@ -49,7 +45,7 @@ namespace MoxControl.Infrastructure.Services
         private void WriteProtectedPasswordFile(string? userId, string password)
         {
             var protectedPassword = _dataProtector.Protect(password);
-            
+
             var passwordPath = Path.Combine($"user-{userId}", "data", "password");
             if (_bucket.ContainsObject(passwordPath))
                 _bucket.DeleteObject(passwordPath);

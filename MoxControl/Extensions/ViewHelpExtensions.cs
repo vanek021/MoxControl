@@ -56,25 +56,25 @@ namespace MoxControl.Extensions
 
         public static string GetGeneralNotificationColor(this GeneralNotificationType type)
         {
-			return type switch
-			{
-				GeneralNotificationType.Error => "badge-light-danger",
-				GeneralNotificationType.Warning => "badge-light-warning",
-				GeneralNotificationType.Info => "badge-light-info",
-				GeneralNotificationType.Success => "badge-light-success",
-				GeneralNotificationType.InternalServerError => "badge-light-danger",
-				_ => "badge badge-light",
-			};
-		}
+            return type switch
+            {
+                GeneralNotificationType.Error => "badge-light-danger",
+                GeneralNotificationType.Warning => "badge-light-warning",
+                GeneralNotificationType.Info => "badge-light-info",
+                GeneralNotificationType.Success => "badge-light-success",
+                GeneralNotificationType.InternalServerError => "badge-light-danger",
+                _ => "badge badge-light",
+            };
+        }
 
-		public static string GetNotificationColor(this NotificationType type)
-		{
-			return type switch
-			{
-				NotificationType.Common => "badge-light-success",
-				_ => "badge badge-light",
-			};
-		}
+        public static string GetNotificationColor(this NotificationType type)
+        {
+            return type switch
+            {
+                NotificationType.Common => "badge-light-success",
+                _ => "badge badge-light",
+            };
+        }
 
         public static string GetImageStatusColor(this ISOImageStatus status)
         {
@@ -96,5 +96,5 @@ namespace MoxControl.Extensions
                 _ => "badge badge-light"
             };
         }
-	}
+    }
 }

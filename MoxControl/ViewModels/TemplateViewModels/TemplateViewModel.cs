@@ -1,5 +1,4 @@
 ﻿using MoxControl.Connect.Models.Enums;
-using System.ComponentModel.DataAnnotations;
 
 namespace MoxControl.ViewModels.TemplateViewModels
 {

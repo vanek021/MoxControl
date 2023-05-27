@@ -1,21 +1,14 @@
 using Hangfire;
 using Hangfire.PostgreSql;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.FileProviders;
 using MoxControl.Connect;
 using MoxControl.Connect.DependencyInjection;
-using MoxControl.Connect.Proxmox;
-using MoxControl.Connect.Proxmox.Data;
 using MoxControl.Core.Extensions;
 using MoxControl.Data;
 using MoxControl.Extensions;
 using MoxControl.Infrastructure.Extensions;
 using MoxControl.Middlewares;
 using MoxControl.Models.Entities;
-using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 

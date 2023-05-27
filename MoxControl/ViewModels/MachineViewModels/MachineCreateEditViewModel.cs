@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MoxControl.Connect.Models.Enums;
 using System.ComponentModel.DataAnnotations;
-using System.Xml.Linq;
 
 namespace MoxControl.ViewModels.MachineViewModels
 {

@@ -2,7 +2,6 @@
 using MoxControl.Connect.Data;
 using MoxControl.Connect.Models.Enums;
 using MoxControl.Data;
-using MoxControl.Models.Entities.Settings;
 using MoxControl.ViewModels.SettingViewModels;
 
 namespace MoxControl.Services

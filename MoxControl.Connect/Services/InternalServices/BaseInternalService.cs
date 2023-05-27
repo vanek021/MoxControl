@@ -1,19 +1,13 @@
-﻿using MoxControl.Connect.Models.Entities;
-using MoxControl.Connect.Models.Enums;
-using MoxControl.Connect.Models;
-using MoxControl.Infrastructure.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MoxControl.Connect.Models;
+using MoxControl.Connect.Models.Entities;
+using MoxControl.Connect.Models.Enums;
 using MoxControl.Data;
+using MoxControl.Infrastructure.Services;
 using MoxControl.Models.Constants;
-using MoxControl.Models.Entities.Notifications;
-using Telegram.Bot.Types;
 using Telegram.Bot;
-using Microsoft.Extensions.Configuration;
+using Telegram.Bot.Types;
 
 namespace MoxControl.Connect.Services.InternalServices
 {
@@ -27,7 +21,7 @@ namespace MoxControl.Connect.Services.InternalServices
         protected readonly TemplateManager _templateManager;
         protected readonly Database _db;
 
-        public BaseInternalService(IServiceScopeFactory serviceScopeFactory) 
+        public BaseInternalService(IServiceScopeFactory serviceScopeFactory)
         {
             var scope = serviceScopeFactory.CreateScope();
 

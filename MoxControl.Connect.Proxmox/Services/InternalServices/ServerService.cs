@@ -67,8 +67,9 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
                 BackgroundJob.Enqueue<HangfireConnectManager>(x => x.SendServerHeartBeatAsync(VirtualizationSystem.Proxmox, server.Id, initiatorUsername));
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
+                await _generalNotificationService.AddInternalServerErrorAsync(ex);
                 return false;
             }
         }
@@ -97,8 +98,9 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
                 BackgroundJob.Enqueue<HangfireConnectManager>(x => x.SendServerHeartBeatAsync(VirtualizationSystem.Proxmox, server.Id, initiatorUsername));
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
+                await _generalNotificationService.AddInternalServerErrorAsync(ex);
                 return false;
             }
         }
@@ -111,9 +113,17 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
                 return false;
 
             server.IsDeleted = true;
-            await _context.SaveChangesAsync();
 
-            return true;
+            try
+            {
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                await _generalNotificationService.AddInternalServerErrorAsync(ex);
+                return false;
+            }
         }
 
         public async Task SendHeartBeatAsync(long serverId, string? initiatorUsername = null)
@@ -148,9 +158,7 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
             var serverIds = await _context.ProxmoxServers.Where(x => !x.IsDeleted).Select(x => x.Id).ToListAsync();
 
             foreach (var serverId in serverIds)
-            {
                 await SendHeartBeatAsync(serverId);
-            }
         }
 
         public async Task SyncMachinesAsync(long serverId, string? initiatorUsername = null)
@@ -257,10 +265,9 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
 
             await client.InsertImage(imageName, imagePath);
 
-            if (server.ImageData is not null)
-                server.ImageData.ImageIds.Add(imageId);
-            else
-                server.ImageData = new() { ImageIds = new() { imageId } };
+            server.ImageData ??= new ImageData();
+            
+            server.ImageData.ImageIds.Add(imageId);
 
             _context.ProxmoxServers.Update(server);
             await _context.SaveChangesAsync();

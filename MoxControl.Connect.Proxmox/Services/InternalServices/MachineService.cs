@@ -124,7 +124,7 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
             try
             {
                 await _context.SaveChangesAsync();
-                BackgroundJob.Enqueue<HangfireConnectManager>(h => h.HangfireProccessCreateMachineAsync(VirtualizationSystem.Proxmox, proxmoxMachine.Id, initiatorUsername));
+                BackgroundJob.Enqueue<HangfireConnectManager>(h => h.ProccessCreateMachineAsync(VirtualizationSystem.Proxmox, proxmoxMachine.Id, initiatorUsername));
                 return true;
             }
             catch (Exception ex)

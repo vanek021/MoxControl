@@ -64,7 +64,7 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
             try
             {
                 await _context.SaveChangesAsync();
-                BackgroundJob.Enqueue<HangfireConnectManager>(x => x.HangfireSendServerHeartBeat(VirtualizationSystem.Proxmox, server.Id, initiatorUsername));
+                BackgroundJob.Enqueue<HangfireConnectManager>(x => x.SendServerHeartBeatAsync(VirtualizationSystem.Proxmox, server.Id, initiatorUsername));
                 return true;
             }
             catch
@@ -94,7 +94,7 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
             try
             {
                 await _context.SaveChangesAsync();
-                BackgroundJob.Enqueue<HangfireConnectManager>(x => x.HangfireSendServerHeartBeat(VirtualizationSystem.Proxmox, server.Id, initiatorUsername));
+                BackgroundJob.Enqueue<HangfireConnectManager>(x => x.SendServerHeartBeatAsync(VirtualizationSystem.Proxmox, server.Id, initiatorUsername));
                 return true;
             }
             catch

@@ -44,7 +44,7 @@ namespace MoxControl.Connect.Services
             try
             {
                 await _connectDatabase.SaveChangesAsync();
-                BackgroundJob.Enqueue<HangfireConnectManager>(h => h.HangfireHandleTemplateCreateForAllServers(template.Id, _httpContextAccessor.HttpContext.GetUsername()));
+                BackgroundJob.Enqueue<HangfireConnectManager>(h => h.HandleTemplateCreateForAllServersAsync(template.Id, _httpContextAccessor.HttpContext.GetUsername()));
                 return true;
             }
             catch

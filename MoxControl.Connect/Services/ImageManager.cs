@@ -48,7 +48,7 @@ namespace MoxControl.Connect.Services
                 if (image.StorageMethod == ImageStorageMethod.Local)
                     BackgroundJob.Enqueue<ImageManager>(x => x.HangfireDownloadImage(image.Id, _httpContextAccessor.HttpContext.GetUsername()));
                 else
-                    BackgroundJob.Enqueue<HangfireConnectManager>(h => h.HangifreDeliverImageToAllServers(image.Id, _httpContextAccessor.HttpContext.GetUsername()));
+                    BackgroundJob.Enqueue<HangfireConnectManager>(h => h.DeliverImageToAllServersAsync(image.Id, _httpContextAccessor.HttpContext.GetUsername()));
 
                 return true;
             }
@@ -139,7 +139,7 @@ namespace MoxControl.Connect.Services
                 _connectDatabase.ISOImages.Update(image);
                 await _connectDatabase.SaveChangesAsync();
 
-                BackgroundJob.Enqueue<HangfireConnectManager>(h => h.HangifreDeliverImageToAllServers(image.Id, initiatorUsername));
+                BackgroundJob.Enqueue<HangfireConnectManager>(h => h.DeliverImageToAllServersAsync(image.Id, initiatorUsername));
             }
         }
 

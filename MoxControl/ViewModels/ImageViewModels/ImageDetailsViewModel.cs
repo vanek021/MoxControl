@@ -2,6 +2,7 @@
 
 namespace MoxControl.ViewModels.ImageViewModels
 {
+#pragma warning disable CS8618
     public class ImageDetailsViewModel
     {
         public long Id { get; set; }
@@ -12,4 +13,5 @@ namespace MoxControl.ViewModels.ImageViewModels
         public ISOImageStatus Status { get; set; }
         public List<ImageServerViewModel> Servers { get; set; } = new();
     }
+#pragma warning restore CS8618
 }

@@ -4,7 +4,7 @@ namespace MoxControl.Core.Interfaces
 {
     public interface IReadableRepository<T> where T : class, IEntity
     {
-        T GetById(IDKEY id);
+        T? GetById(IDKEY id);
         IEnumerable<T> GetManyByIds(IEnumerable<IDKEY> idKeysList);
         bool Contains(IDKEY id);
     }

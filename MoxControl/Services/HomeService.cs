@@ -33,19 +33,19 @@ namespace MoxControl.Services
 
         private async Task<List<SystemSummaryViewModel>> GetSystemSummaryViewModelsAsync()
         {
-            var connectServices = _connectServiceFactory.GetAllObsolete();
+            var connectServiceItems = _connectServiceFactory.GetAll();
             var result = new List<SystemSummaryViewModel>();
 
-            foreach (var connectService in connectServices)
+            foreach (var connectServiceItem in connectServiceItems)
             {
-                var totalServers = await connectService.Item2.Servers.GetTotalCountAsync();
-                var totalMachines = await connectService.Item2.Machines.GetTotalCountAsync();
-                var aliveServers = await connectService.Item2.Servers.GetAliveCountAsync();
-                var aliveMachines = await connectService.Item2.Machines.GetAliveCountAsync();
-                var connectSetting = await _connectDatabase.ConnectSettings.GetByVirtualizationSystemAsync(connectService.Item1);
+                var totalServers = await connectServiceItem.Service.Servers.GetTotalCountAsync();
+                var totalMachines = await connectServiceItem.Service.Machines.GetTotalCountAsync();
+                var aliveServers = await connectServiceItem.Service.Servers.GetAliveCountAsync();
+                var aliveMachines = await connectServiceItem.Service.Machines.GetAliveCountAsync();
+                var connectSetting = await _connectDatabase.ConnectSettings.GetByVirtualizationSystemAsync(connectServiceItem.VirtualizationSystem);
                 var lastServersCheck = connectSetting.LastServersCheck;
 
-                result.Add(new SystemSummaryViewModel(connectService.Item1, totalServers, totalMachines, aliveServers, aliveMachines, lastServersCheck));
+                result.Add(new SystemSummaryViewModel(connectServiceItem.VirtualizationSystem, totalServers, totalMachines, aliveServers, aliveMachines, lastServersCheck));
             }
 
             return result;
@@ -55,11 +55,11 @@ namespace MoxControl.Services
         {
             var templates = await _templateManager.GetAllAsync();
             var usedTemplatesIds = new List<long>();
-            var connectServices = _connectServiceFactory.GetAllObsolete();
+            var connectServiceItems = _connectServiceFactory.GetAll();
 
-            foreach (var connectService in connectServices)
+            foreach (var connectServiceItem in connectServiceItems)
             {
-                var machinesWithTemplate = await connectService.Item2.Machines.GetAllWithTemplateAsync();
+                var machinesWithTemplate = await connectServiceItem.Service.Machines.GetAllWithTemplateAsync();
                 machinesWithTemplate.ForEach(x => usedTemplatesIds.Add(x.TemplateId!.Value));
             }
 
@@ -90,17 +90,17 @@ namespace MoxControl.Services
         private async Task<SummaryCardViewModel> GetServerSummaryCardViewModelAsync()
         {
             var serversBySystem = new Dictionary<VirtualizationSystem, int>();
-            var connectServices = _connectServiceFactory.GetAllObsolete();
+            var connectServiceItems = _connectServiceFactory.GetAll();
 
-            foreach (var connectService in connectServices)
+            foreach (var connectServiceItem in connectServiceItems)
             {
-                serversBySystem.Add(connectService.Item1, 0);
-                var servers = await connectService.Item2.Servers.GetAllAsync();
+                serversBySystem.Add(connectServiceItem.VirtualizationSystem, 0);
+                var servers = await connectServiceItem.Service.Servers.GetAllAsync();
 
-                servers.ForEach(x => serversBySystem[connectService.Item1]++);
+                servers.ForEach(x => serversBySystem[connectServiceItem.VirtualizationSystem]++);
             }
 
-            var totalCount = serversBySystem.Keys.Count();
+            var totalCount = serversBySystem.Keys.Count;
             var totalServers = serversBySystem.Values.Sum();
 
             var maxValue = 0;

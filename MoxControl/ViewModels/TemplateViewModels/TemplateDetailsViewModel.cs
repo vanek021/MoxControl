@@ -2,6 +2,7 @@
 
 namespace MoxControl.ViewModels.TemplateViewModels
 {
+#pragma warning disable CS8618
     public class TemplateDetailsViewModel
     {
         public long Id { get; set; }
@@ -14,4 +15,5 @@ namespace MoxControl.ViewModels.TemplateViewModels
         public TemplateStatus Status { get; set; }
         public List<TemplateServerViewModel> Servers { get; set; } = new();
     }
+#pragma warning restore CS8618
 }

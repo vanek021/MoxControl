@@ -2,6 +2,7 @@
 
 namespace MoxControl.ViewModels.MachineViewModels
 {
+#pragma warning disable CS8618
     public class MachineViewModel
     {
         public long Id { get; set; }
@@ -12,4 +13,5 @@ namespace MoxControl.ViewModels.MachineViewModels
 
         public MachineStatus Status { get; set; }
     }
+#pragma warning restore CS8618
 }

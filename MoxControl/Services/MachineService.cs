@@ -34,11 +34,11 @@ namespace MoxControl.Services
         {
             var machineIndexVm = new MachineIndexViewModel();
 
-            var connectServices = _connectServiceFactory.GetAllObsolete();
+            var connectServiceItems = _connectServiceFactory.GetAll();
 
-            foreach (var connectService in connectServices)
+            foreach (var connectServiceItem in connectServiceItems)
             {
-                var servers = await connectService.Item2.Servers.GetAllAsync();
+                var servers = await connectServiceItem.Service.Servers.GetAllAsync();
 
                 foreach (var server in servers)
                 {
@@ -47,7 +47,7 @@ namespace MoxControl.Services
                         Server = _mapper.Map<ServerViewModel>(server)
                     };
 
-                    var machines = await connectService.Item2.Machines.GetAllByServerAsync(server.Id);
+                    var machines = await connectServiceItem.Service.Machines.GetAllByServerAsync(server.Id);
                     machineListVm.Machines = _mapper.Map<List<MachineViewModel>>(machines);
 
                     machineIndexVm.MachineLists.Add(machineListVm);
@@ -128,7 +128,7 @@ namespace MoxControl.Services
         public async Task<SelectList> GetTemplatesSelectListAsync()
         {
             var templates = await _templateManager.GetAllAsync();
-            var selectItems = templates.Select(x => new { Name = x.Name, Value = x.Id });
+            var selectItems = templates.Select(x => new { x.Name, Value = x.Id });
             selectItems = selectItems.Prepend(new { Name = "Нет", Value = default(long) });
             return new SelectList(selectItems, "Value", "Name");
         }
@@ -137,7 +137,7 @@ namespace MoxControl.Services
         {
             var connectService = _connectServiceFactory.GetByVirtualizationSystem(virtualizationSystem);
             var availableImages = await connectService.Servers.GetAvailableImagesAsync(serverId);
-            var selectItems = availableImages.Select(x => new { Name = x.Name, Value = x.Id });
+            var selectItems = availableImages.Select(x => new { x.Name, Value = x.Id });
             selectItems = selectItems.Prepend(new { Name = "Нет", Value = default(long) });
             return new SelectList(selectItems, "Value", "Name");
         }

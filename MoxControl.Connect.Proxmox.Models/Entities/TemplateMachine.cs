@@ -13,6 +13,6 @@ namespace MoxControl.Connect.Proxmox.Models.Entities
         public string? ProxmoxName { get; set; }
         public int? ProxmoxId { get; set; }
 
-        public TemplateMachineStatus Status { get; set; }
+        public new TemplateMachineStatus Status { get; set; }
     }
 }

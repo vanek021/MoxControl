@@ -10,7 +10,7 @@ namespace MoxControl.Core.Repositories
         {
         }
 
-        public virtual T GetById(IDKEY id)
+        public virtual T? GetById(IDKEY id)
         {
             return SingleWithIncludes().FirstOrDefault(x => x.Id == id);
         }
@@ -30,14 +30,14 @@ namespace MoxControl.Core.Repositories
         public virtual bool Contains(T entity)
         {
             if (entity == null)
-                throw new ArgumentNullException("entity");
+                throw new ArgumentNullException(nameof(entity));
 
             return Table().Any(x => x.Id == entity.Id);
         }
 
         #region Async
 
-        public virtual Task<T> GetByIdAsync(IDKEY id)
+        public virtual Task<T?> GetByIdAsync(IDKEY id)
         {
             return SingleWithIncludes().FirstOrDefaultAsync(x => x.Id == id);
         }
@@ -57,7 +57,7 @@ namespace MoxControl.Core.Repositories
         public virtual Task<bool> ContainsAsync(T entity)
         {
             if (entity == null)
-                throw new ArgumentNullException("entity");
+                throw new ArgumentNullException(nameof(entity));
 
             return Table().AnyAsync(x => x.Id == entity.Id);
         }

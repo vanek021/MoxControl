@@ -48,7 +48,7 @@ namespace MoxControl.Core.Internal
             };
         }
 
-        protected override BaseUserToken CreateUserToken(TUser user, string loginProvider, string name, string value)
+        protected override BaseUserToken CreateUserToken(TUser user, string loginProvider, string name, string? value)
         {
             return new BaseUserToken()
             {

@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MoxControl.ViewModels.ServerViewModels
 {
+#pragma warning disable CS8618
     public class ServerViewModel
     {
         public long Id { get; set; }
@@ -39,4 +40,5 @@ namespace MoxControl.ViewModels.ServerViewModels
 
         public ServerStatus Status { get; set; }
     }
+#pragma warning restore CS8618
 }

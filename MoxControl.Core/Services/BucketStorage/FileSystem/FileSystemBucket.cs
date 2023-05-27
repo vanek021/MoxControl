@@ -23,24 +23,20 @@
         public void ReadObject(string fileName, Stream readStream)
         {
             string path = GetFullFilePath(fileName);
-            using (var file = File.OpenRead(path))
-            {
-                file.CopyTo(readStream);
-            }
+            using var file = File.OpenRead(path);
+            file.CopyTo(readStream);
         }
 
         public void WriteObject(string fileName, Stream writeStream)
         {
             string path = GetFullFilePath(fileName);
 
-            string dir = Path.GetDirectoryName(path);
+            string dir = Path.GetDirectoryName(path)!;
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
 
-            using (var file = File.OpenWrite(path))
-            {
-                writeStream.CopyTo(file);
-            }
+            using var file = File.OpenWrite(path);
+            writeStream.CopyTo(file);
         }
 
         public void DeleteObject(string fileName)

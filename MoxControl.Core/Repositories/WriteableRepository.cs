@@ -30,7 +30,7 @@ namespace MoxControl.Core.Repositories
 
         public virtual void Delete(IDKEY id)
         {
-            T entity = Table().Find(id);
+            T entity = Table().Find(id)!;
             Table().Remove(entity);
         }
 

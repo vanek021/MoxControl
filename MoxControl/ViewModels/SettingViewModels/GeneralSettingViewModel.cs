@@ -2,6 +2,7 @@
 
 namespace MoxControl.ViewModels.SettingViewModels
 {
+#pragma warning disable CS8618
     public class GeneralSettingViewModel
     {
         public long Id { get; set; }
@@ -15,4 +16,5 @@ namespace MoxControl.ViewModels.SettingViewModels
         [Display(Name = "Значение")]
         public string Value { get; set; }
     }
+#pragma warning restore CS8618
 }

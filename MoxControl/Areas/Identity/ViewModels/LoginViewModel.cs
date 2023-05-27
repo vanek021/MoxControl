@@ -2,6 +2,7 @@
 
 namespace MoxControl.Areas.Identity.ViewModels
 {
+#pragma warning disable CS8618
     public class LoginViewModel
     {
         [Required]
@@ -14,4 +15,5 @@ namespace MoxControl.Areas.Identity.ViewModels
         [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
     }
+#pragma warning restore CS8618
 }

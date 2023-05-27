@@ -107,6 +107,10 @@ namespace MoxControl.Connect.Services
         public async Task HangfireDownloadImage(long imageId, string? initiatorUsername = null)
         {
             var image = await _connectDatabase.ISOImages.GetByIdAsync(imageId);
+
+            if (image is null)
+                return;
+
             var path = Path.Combine($"image{image.Id}", Path.GetFileName(image.ImagePath));
             if (!string.IsNullOrEmpty(image.ImagePath))
             {
@@ -119,7 +123,7 @@ namespace MoxControl.Connect.Services
 
                 var fullPath = Path.Combine(_webHostEnvironment.WebRootPath, "uploads", path);
 
-                var directoryPath = Path.GetDirectoryName(fullPath);
+                string directoryPath = Path.GetDirectoryName(fullPath)!;
 
                 if (!Directory.Exists(directoryPath))
                     Directory.CreateDirectory(directoryPath);

@@ -13,7 +13,9 @@ namespace MoxControl.Connect.Proxmox.Data.Migrations
 {
     [DbContext(typeof(ConnectProxmoxDbContext))]
     [Migration("20230319094827_init")]
+#pragma warning disable CS8981 // Имя типа содержит только строчные символы ASCII. Такие имена могут резервироваться для языка.
     partial class init
+#pragma warning restore CS8981 // Имя типа содержит только строчные символы ASCII. Такие имена могут резервироваться для языка.
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

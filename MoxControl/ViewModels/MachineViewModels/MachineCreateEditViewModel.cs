@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MoxControl.ViewModels.MachineViewModels
 {
+#pragma warning disable CS8618
     public class MachineCreateEditViewModel
     {
         public long Id { get; set; }
@@ -50,4 +51,5 @@ namespace MoxControl.ViewModels.MachineViewModels
 
         public VirtualizationSystem VirtualizationSystem { get; set; }
     }
+#pragma warning restore CS8618
 }

@@ -74,6 +74,10 @@ namespace MoxControl.Services
         public async Task<bool> UpdateGeneralSetting(GeneralSettingViewModel viewModel)
         {
             var setting = await _database.GeneralSettings.GetByIdAsync(viewModel.Id);
+
+            if (setting is null)
+                return false;
+
             setting.Value = viewModel.Value;
 
             try

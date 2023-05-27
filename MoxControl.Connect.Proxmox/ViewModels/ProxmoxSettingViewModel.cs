@@ -2,6 +2,7 @@
 
 namespace MoxControl.Connect.Proxmox.ViewModels
 {
+#pragma warning disable CS8618
     public class ProxmoxServerSettingViewModel
     {
         public long Id { get; set; }
@@ -12,4 +13,5 @@ namespace MoxControl.Connect.Proxmox.ViewModels
         [Display(Name = "Realm")]
         public string Realm { get; set; }
     }
+#pragma warning restore CS8618
 }

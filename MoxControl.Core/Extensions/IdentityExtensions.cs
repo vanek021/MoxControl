@@ -11,24 +11,21 @@ namespace MoxControl.Core.Extensions
 {
     public static class IdentityExtensions
     {
-        public static void AddApplicationIdentity<TContext>(this IServiceCollection services, Action<IdentityOptions> setupAction = null)
+        public static void AddApplicationIdentity<TContext>(this IServiceCollection services, Action<IdentityOptions>? setupAction = null)
             where TContext : DbContext
         {
-            if (setupAction == null)
+            // Default Ability configuration
+            setupAction ??= options =>
             {
-                // Default Ability configuration
-                setupAction = options =>
-                {
-                    options.User.RequireUniqueEmail = true;
-                    options.Password.RequireDigit = false;
-                    options.Password.RequireLowercase = false;
-                    options.Password.RequireUppercase = false;
-                    options.Password.RequireNonAlphanumeric = false;
-                    options.Password.RequiredLength = 6;
+                options.User.RequireUniqueEmail = true;
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequiredLength = 6;
 
-                    options.Stores.MaxLengthForKeys = 128;
-                };
-            }
+                options.Stores.MaxLengthForKeys = 128;
+            };
 
             ReflectionTools.CallGenericStaticMethodForDbContextType<TContext>(typeof(IdentityExtensions), nameof(RegisterStores), new object[] { services, setupAction });
         }

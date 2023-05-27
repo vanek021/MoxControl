@@ -63,16 +63,16 @@ namespace MoxControl.Services
         {
             var serverIndexVm = new ServerIndexViewModel();
 
-            var connectServices = _connectServiceFactory.GetAllObsolete();
+            var connectServiceItems = _connectServiceFactory.GetAll();
 
-            foreach (var connectService in connectServices)
+            foreach (var connectServiceItem in connectServiceItems)
             {
-                var servers = await connectService.Item2.Servers.GetAllAsync();
+                var servers = await connectServiceItem.Service.Servers.GetAllAsync();
                 var serversVm = _mapper.Map<List<ServerViewModel>>(servers);
 
                 serverIndexVm.ServerLists.Add(new ServerListViewModel()
                 {
-                    VirtualizationSystem = connectService.Item1,
+                    VirtualizationSystem = connectServiceItem.VirtualizationSystem,
                     Servers = serversVm
                 });
             }

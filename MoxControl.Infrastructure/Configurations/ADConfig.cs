@@ -1,5 +1,6 @@
 ﻿namespace MoxControl.Infrastructure.Configurations
 {
+#pragma warning disable CS8618
     public class ADConfig
     {
         public string Server { get; set; }
@@ -18,4 +19,5 @@
         public string SearchFilter { get; set; } = string.Empty;
         public string GroupSearchFilter { get; set; } = string.Empty;
     }
+#pragma warning restore CS8618
 }

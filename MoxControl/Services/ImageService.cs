@@ -23,9 +23,10 @@ namespace MoxControl.Services
         {
             var images = await _imageManager.GetAllAsync();
 
-            var imageIndexVm = new ImageIndexViewModel();
-
-            imageIndexVm.Images = _mapper.Map<List<ImageViewModel>>(images);
+            var imageIndexVm = new ImageIndexViewModel
+            {
+                Images = _mapper.Map<List<ImageViewModel>>(images)
+            };
 
             return imageIndexVm;
         }
@@ -39,11 +40,11 @@ namespace MoxControl.Services
 
             var imageDetailsVm = _mapper.Map<ImageDetailsViewModel>(image);
 
-            var connectServices = _connectServiceFactory.GetAllObsolete();
+            var connectServiceItems = _connectServiceFactory.GetAll();
 
-            foreach (var connectService in connectServices)
+            foreach (var connectServiceItem in connectServiceItems)
             {
-                var servers = await connectService.Item2.Servers.GetAllAsync();
+                var servers = await connectServiceItem.Service.Servers.GetAllAsync();
 
                 foreach (var server in servers)
                 {

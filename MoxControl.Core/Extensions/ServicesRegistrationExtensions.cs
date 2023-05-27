@@ -34,11 +34,11 @@ namespace MoxControl.Core.Extensions
             return services;
         }
 
-        public static IServiceCollection AddBaseDbContext<TContext>(this IServiceCollection services, Action<DbContextOptionsBuilder> optionsAction = null)
+        public static IServiceCollection AddBaseDbContext<TContext>(this IServiceCollection services, Action<DbContextOptionsBuilder>? optionsAction = null)
             where TContext : DbContext
         {
             services.AddDbContext<TContext>(optionsAction);
-            services.AddScoped<DbContext>(x => x.GetService<TContext>());
+            services.AddScoped<DbContext>(x => x.GetService<TContext>()!);
 
             ReflectionTools.CallGenericStaticMethodForDbContextType<TContext>(typeof(ServicesRegistrationExtensions), nameof(RegisterGenericBaseAbilityContext), new object[] { services });
 
@@ -76,7 +76,7 @@ namespace MoxControl.Core.Extensions
             where TUser : BaseUser
             where TRole : BaseRole
         {
-            services.AddScoped<BaseDbContext<TUser, TRole>>(x => x.GetService<TContext>());
+            services.AddScoped<BaseDbContext<TUser, TRole>>(x => x.GetService<TContext>()!);
         }
     }
 }

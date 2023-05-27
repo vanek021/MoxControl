@@ -26,12 +26,12 @@ namespace MoxControl.Connect
 
         public async Task HangfireSendHeartBeatToAllServers()
         {
-            var connectServices = _connectServiceFactory.GetAllObsolete();
+            var connectServiceItems = _connectServiceFactory.GetAll();
 
-            foreach (var connectService in connectServices)
+            foreach (var connectServiceItem in connectServiceItems)
             {
-                var servers = await connectService.Item2.Servers.GetAllAsync();
-                servers.ForEach(s => BackgroundJob.Enqueue<HangfireConnectManager>(h => h.HangfireSendServerHeartBeat(connectService.Item1, s.Id, null)));
+                var servers = await connectServiceItem.Service.Servers.GetAllAsync();
+                servers.ForEach(s => BackgroundJob.Enqueue<HangfireConnectManager>(h => h.HangfireSendServerHeartBeat(connectServiceItem.VirtualizationSystem, s.Id, null)));
             }
         }
 
@@ -43,23 +43,23 @@ namespace MoxControl.Connect
 
         public async Task HangfireSendHeartBeatToAllMachines()
         {
-            var connectServices = _connectServiceFactory.GetAllObsolete();
+            var connectServiceItems = _connectServiceFactory.GetAll();
 
-            foreach (var connectService in connectServices)
+            foreach (var connectServiceItem in connectServiceItems)
             {
-                var machines = await connectService.Item2.Machines.GetAllAsync();
-                machines.ForEach(m => BackgroundJob.Enqueue<HangfireConnectManager>(h => h.HangfireSendMachineHeartBeat(connectService.Item1, m.Id, null)));
+                var machines = await connectServiceItem.Service.Machines.GetAllAsync();
+                machines.ForEach(m => BackgroundJob.Enqueue<HangfireConnectManager>(h => h.HangfireSendMachineHeartBeat(connectServiceItem.VirtualizationSystem, m.Id, null)));
             }
         }
 
         public async Task HangfireSyncMachinesForAllServers()
         {
-            var connectServices = _connectServiceFactory.GetAllObsolete();
+            var connectServiceItems = _connectServiceFactory.GetAll();
 
-            foreach (var connectService in connectServices)
+            foreach (var connectServiceItem in connectServiceItems)
             {
-                var servers = await connectService.Item2.Servers.GetAllAsync();
-                servers.ForEach(s => BackgroundJob.Enqueue<HangfireConnectManager>(h => HangfireSyncServerMachines(connectService.Item1, s.Id, null)));
+                var servers = await connectServiceItem.Service.Servers.GetAllAsync();
+                servers.ForEach(s => BackgroundJob.Enqueue<HangfireConnectManager>(h => HangfireSyncServerMachines(connectServiceItem.VirtualizationSystem, s.Id, null)));
             }
         }
 
@@ -71,12 +71,12 @@ namespace MoxControl.Connect
 
         public async Task HangifreDeliverImageToAllServers(long imageId, string? initiatorUsername = null)
         {
-            var connectServices = _connectServiceFactory.GetAllObsolete();
+            var connectServiceItems = _connectServiceFactory.GetAll();
 
-            foreach (var connectService in connectServices)
+            foreach (var connectServiceItem in connectServiceItems)
             {
-                var servers = await connectService.Item2.Servers.GetAllAsync();
-                servers.ForEach(s => BackgroundJob.Enqueue<HangfireConnectManager>(h => h.HangfireDeliverImageToServer(connectService.Item1, s.Id, imageId, initiatorUsername)));
+                var servers = await connectServiceItem.Service.Servers.GetAllAsync();
+                servers.ForEach(s => BackgroundJob.Enqueue<HangfireConnectManager>(h => h.HangfireDeliverImageToServer(connectServiceItem.VirtualizationSystem, s.Id, imageId, initiatorUsername)));
             }
 
             await _imageManager.UpdateStatusAsync(imageId, ISOImageStatus.ReadyToUse);
@@ -90,11 +90,11 @@ namespace MoxControl.Connect
 
         public async Task HangfireHandleTemplateCreateForAllServers(long templateId, string? initiatorUsername = null)
         {
-            var connectServices = _connectServiceFactory.GetAllObsolete();
+            var connectServiceItems = _connectServiceFactory.GetAll();
 
-            foreach (var connectService in connectServices)
+            foreach (var connectServiceItem in connectServiceItems)
             {
-                await connectService.Item2.Servers.HandleCreateTemplateAsync(templateId, initiatorUsername);
+                await connectServiceItem.Service.Servers.HandleCreateTemplateAsync(templateId, initiatorUsername);
             }
 
             await _templateManager.MarkAsReadyToUseAsync(templateId);

@@ -27,14 +27,6 @@ namespace MoxControl.Connect.Factory
             return result is null ? throw new Exception() : result;
         }
 
-        [Obsolete]
-        public List<(VirtualizationSystem, IConnectService)> GetAllObsolete()
-        {
-            return _services
-                .Select(x => (x.Key, x.Value))
-                .ToList();
-        }
-
         public List<IConnectServiceItem> GetAll()
         {
             return _services

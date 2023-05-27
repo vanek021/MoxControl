@@ -6,9 +6,6 @@ namespace MoxControl.Connect.Interfaces.Factories
     {
         public IConnectService GetByVirtualizationSystem(VirtualizationSystem virtualizationSystem);
 
-        [Obsolete]
-        public List<(VirtualizationSystem, IConnectService)> GetAllObsolete();
-
         public List<IConnectServiceItem> GetAll();
     }
 }

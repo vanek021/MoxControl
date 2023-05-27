@@ -5,6 +5,8 @@ using MoxControl.Connect.Proxmox.Services.InternalServices;
 
 namespace MoxControl.Connect.Proxmox.Services
 {
+#pragma warning disable CS8618
+
     public class ProxmoxConnectService : IConnectService
     {
         public IServerService Servers { get; set; }
@@ -17,4 +19,5 @@ namespace MoxControl.Connect.Proxmox.Services
             return Task.CompletedTask;
         }
     }
+#pragma warning restore CS8618
 }

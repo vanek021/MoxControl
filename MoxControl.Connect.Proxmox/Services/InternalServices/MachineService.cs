@@ -150,7 +150,7 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
                 return;
 
             var credentials = GetServerCredentials(machine.Server, initiatorUsername);
-            var client = new ProxmoxVirtualizationClient(machine.Server.Host, machine.Server.Port, credentials.Login, credentials.Password, machine.Server.Realm, machine.Server.BaseNode, machine.Server.BaseStorage);
+            var client = new ProxmoxVirtualizationClient(credentials.Login, credentials.Password, machine.Server);
 
             var templateId = machine.TemplateId ?? default;
             var imageId = machine.ImageId ?? default;
@@ -238,7 +238,7 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
 
             var credentials = GetServerCredentials(machine.Server, initiatorUsername);
 
-            var client = new ProxmoxVirtualizationClient(machine.Server.Host, machine.Server.Port, credentials.Login, credentials.Password, machine.Server.Realm, machine.Server.BaseNode, machine.Server.BaseStorage);
+            var client = new ProxmoxVirtualizationClient(credentials.Login, credentials.Password, machine.Server);
 
             var machineStatus = await client.GetMachineStatus(machine.ProxmoxId.Value);
             var status = machineStatus.Status.GetMachineStatus();
@@ -270,7 +270,7 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
 
             try
             {
-                var proxmoxVirtualizationSystem = new ProxmoxVirtualizationClient(machine.Server.Host, machine.Server.Port, credentials.Login, credentials.Password, machine.Server.Realm, machine.Server.BaseNode, machine.Server.BaseStorage);
+                var proxmoxVirtualizationSystem = new ProxmoxVirtualizationClient(credentials.Login, credentials.Password, machine.Server);
 
                 var status = await proxmoxVirtualizationSystem.GetMachineStatus(machine.ProxmoxId.Value);
 
@@ -302,7 +302,7 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
 
             try
             {
-                var proxmoxVirtualizationSystem = new ProxmoxVirtualizationClient(machine.Server.Host, machine.Server.Port, credentials.Login, credentials.Password, machine.Server.Realm, machine.Server.BaseNode, machine.Server.BaseStorage);
+                var proxmoxVirtualizationSystem = new ProxmoxVirtualizationClient(credentials.Login, credentials.Password, machine.Server);
 
                 var result = await proxmoxVirtualizationSystem.ShutdownMachine(machine!.ProxmoxId!.Value);
 
@@ -334,7 +334,7 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
 
             try
             {
-                var proxmoxVirtualizationSystem = new ProxmoxVirtualizationClient(machine.Server.Host, machine.Server.Port, credentials.Login, credentials.Password, machine.Server.Realm, machine.Server.BaseNode, machine.Server.BaseStorage);
+                var proxmoxVirtualizationSystem = new ProxmoxVirtualizationClient(credentials.Login, credentials.Password, machine.Server);
 
                 var result = await proxmoxVirtualizationSystem.StartMachine(machine!.ProxmoxId!.Value);
 
@@ -366,7 +366,7 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
 
             try
             {
-                var proxmoxVirtualizationSystem = new ProxmoxVirtualizationClient(machine.Server.Host, machine.Server.Port, credentials.Login, credentials.Password, machine.Server.Realm, machine.Server.BaseNode, machine.Server.BaseStorage);
+                var proxmoxVirtualizationSystem = new ProxmoxVirtualizationClient(credentials.Login, credentials.Password, machine.Server);
 
                 var result = await proxmoxVirtualizationSystem.RebootMachine(machine!.ProxmoxId!.Value);
 
@@ -391,7 +391,7 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
 
             try
             {
-                var proxmoxVirtualizationSystem = new ProxmoxVirtualizationClient(machine.Server.Host, machine.Server.Port, credentials.Login, credentials.Password, machine.Server.Realm, machine.Server.BaseNode, machine.Server.BaseStorage);
+                var proxmoxVirtualizationSystem = new ProxmoxVirtualizationClient(credentials.Login, credentials.Password, machine.Server);
 
                 var result = await proxmoxVirtualizationSystem.ResetMachine(machine!.ProxmoxId!.Value);
 

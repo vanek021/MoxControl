@@ -135,7 +135,7 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
 
             try
             {
-                var proxmoxVirtualizationSystem = new ProxmoxVirtualizationClient(server.Host, server.Port, credentials.Login, credentials.Password, server.Realm, server.BaseNode, server.BaseStorage);
+                var proxmoxVirtualizationSystem = new ProxmoxVirtualizationClient(credentials.Login, credentials.Password, server);
 
                 server.Status = ServerStatus.Running;
             }
@@ -176,7 +176,7 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
 
             try
             {
-                var proxmoxVirtualizationSystem = new ProxmoxVirtualizationClient(server.Host, server.Port, credentials.Login, credentials.Password, server.Realm, server.BaseNode, server.BaseStorage);
+                var proxmoxVirtualizationSystem = new ProxmoxVirtualizationClient(credentials.Login, credentials.Password, server);
                 machines = await proxmoxVirtualizationSystem.GetNodeMachines();
             }
             catch (Exception ex)
@@ -232,7 +232,7 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
 
             var credentials = GetServerCredentials(server, initiatorUsername);
 
-            var client = new ProxmoxVirtualizationClient(server.Host, server.Port, credentials.Login, credentials.Password, server.Realm, server.BaseNode, server.BaseStorage);
+            var client = new ProxmoxVirtualizationClient(credentials.Login, credentials.Password, server);
 
             var rrddataItems = await client.GetServerRrddata();
             var lastData = rrddataItems.LastOrDefault();
@@ -258,7 +258,7 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
 
             var credentials = GetServerCredentials(server, initiatorUsername);
 
-            var client = new ProxmoxVirtualizationClient(server.Host, server.Port, credentials.Login, credentials.Password, server.Realm, server.BaseNode, server.BaseStorage);
+            var client = new ProxmoxVirtualizationClient(credentials.Login, credentials.Password, server);
 
             var imageName = Path.GetFileName(image.ImagePath);
             var imagePath = image.StorageMethod == ImageStorageMethod.Local ? $"{_configuration["BaseUrl"]}{image.ImagePath}" : image.ImagePath;
@@ -305,7 +305,7 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
         {
             var credentials = GetServerCredentials(proxmoxServer, initiatorUsername);
 
-            var client = new ProxmoxVirtualizationClient(proxmoxServer.Host, proxmoxServer.Port, credentials.Login, credentials.Password, proxmoxServer.Realm, proxmoxServer.BaseNode, proxmoxServer.BaseStorage);
+            var client = new ProxmoxVirtualizationClient(credentials.Login, credentials.Password, proxmoxServer);
 
             var status = await client.CreateTemplateMachine(template.Name, Path.GetFileName(template.ISOImage.ImagePath),
                 template.CPUSockets, template.CPUCores, template.RAMSize, template.HDDSize, proxmoxServer.BaseDisksStorage, proxmoxServer.BaseStorage);

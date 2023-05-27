@@ -7,6 +7,7 @@ using MoxControl.Connect.Proxmox.VirtualizationClient.DTOs;
 using MoxControl.Connect.Models.Result;
 using MoxControl.Connect.Proxmox.VirtualizationClient.Helpers;
 using System.Runtime.CompilerServices;
+using MoxControl.Connect.Proxmox.Models.Entities;
 
 namespace MoxControl.Connect.Proxmox
 {
@@ -22,6 +23,12 @@ namespace MoxControl.Connect.Proxmox
             _pveClient.Login(login, password, realm).GetAwaiter().GetResult();
             _baseNode = baseNode;
             _baseStorage = baseStorage;
+        }
+
+        public ProxmoxVirtualizationClient(string login, string password, ProxmoxServer server) 
+            : this(server.Host, server.Port, login, password, server.Realm, server.BaseNode, server.BaseStorage)
+        {
+
         }
 
         public async Task<List<RrddataItem>> GetServerRrddata(string timeframe = "hour", string cf = "AVERAGE")

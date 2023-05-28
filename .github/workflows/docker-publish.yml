@@ -100,4 +100,3 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: publish
-        echo 'publishing'

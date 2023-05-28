@@ -24,6 +24,11 @@ env:
 
 jobs:
   build:
+  
+  publish:
+    needs: [build]
+    runs-on: ubuntu-latest
+    environment: production
 
     runs-on: ubuntu-latest
     permissions:
@@ -94,3 +99,6 @@ jobs:
         # This step uses the identity token to provision an ephemeral certificate
         # against the sigstore community Fulcio instance.
         run: echo "${{ steps.meta.outputs.tags }}" | xargs -I {} cosign sign {}@${{ steps.build-and-push.outputs.digest }}
+    steps:
+      - name: publish
+        echo 'publishing'

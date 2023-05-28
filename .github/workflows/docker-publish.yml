@@ -97,7 +97,7 @@ jobs:
         
   publish:
     needs: [build]
-      runs-on: ubuntu-latest
-      steps:
-        - name: publish
-          echo 'publishing'
+    runs-on: ubuntu-latest
+    steps:
+      - name: publish
+        echo 'publishing'

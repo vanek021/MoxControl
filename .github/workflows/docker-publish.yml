@@ -96,10 +96,8 @@ jobs:
         run: echo "${{ steps.meta.outputs.tags }}" | xargs -I {} cosign sign {}@${{ steps.build-and-push.outputs.digest }}
         
   publish:
-  
     needs: [build]
       runs-on: ubuntu-latest
-      environment: production
       steps:
-      - name: publish
-        echo 'publishing'
+        - name: publish
+          echo 'publishing'

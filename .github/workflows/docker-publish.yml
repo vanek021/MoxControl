@@ -100,3 +100,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: publish
+        run: npm install

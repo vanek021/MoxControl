@@ -100,4 +100,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: publish
-        run: npm install
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.ADDRESS }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          script: docker stop moxcontrol

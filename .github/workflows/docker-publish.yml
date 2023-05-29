@@ -6,8 +6,6 @@ name: Docker
 # documentation.
 
 on:
-  schedule:
-    - cron: '33 21 * * *'
   push:
     branches: [ "master" ]
     # Publish semver tags as releases.
@@ -105,4 +103,8 @@ jobs:
           host: ${{ secrets.ADDRESS }}
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
-          script: docker stop moxcontrol
+          script: | 
+            docker stop moxcontrol
+            docker rm moxcontrol
+            docker pull ghcr.io/vanek021/moxcontrol:master
+            docker run --name moxcontrol -p 5000:80 -p 5001:443 --restart=always --detach ghcr.io/vanek021/moxcontrol:master

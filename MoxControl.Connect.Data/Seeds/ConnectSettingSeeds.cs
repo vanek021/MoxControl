@@ -18,7 +18,7 @@ namespace MoxControl.Connect.Data.Seeds
 
                 if (setting is null)
                 {
-                    connectDbContext.ConnectSettings.Add(new ConnectSetting { VirtualizationSystem = virtualizationSystem });
+                    connectDbContext.ConnectSettings.Add(new ConnectSetting { VirtualizationSystem = virtualizationSystem, IsSystemHasInterface = true });
                 }
             }
 

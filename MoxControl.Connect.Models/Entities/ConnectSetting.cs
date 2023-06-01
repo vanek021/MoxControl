@@ -21,6 +21,11 @@ namespace MoxControl.Connect.Models.Entities
         public bool IsMachinesSyncEnabled { get; set; }
 
         /// <summary>
+        /// Имеет ли система виртуализации графический интерфейс управления серверами
+        /// </summary>
+        public bool IsSystemHasInterface { get; set; }
+
+        /// <summary>
         /// Дата последней проверки состояния серверов
         /// </summary>
         public DateTime? LastServersCheck { get; set; }

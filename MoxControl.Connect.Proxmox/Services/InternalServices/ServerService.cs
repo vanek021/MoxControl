@@ -338,5 +338,15 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
             var images = await _imageManager.GetAllAsync();
             return images.Where(i => server.ImageData.ImageIds.Contains(i.Id)).ToList();
         }
+
+        public async Task<string?> GetWebUISourceAsync(long serverId)
+        {
+            var server = await GetAsync(serverId);
+
+            if (server is null)
+                return null;
+
+            return $"https://{server.Host}:{server.Port}";
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MoxControl.Connect.Data;
 using MoxControl.Connect.Interfaces.Factories;
 using MoxControl.Connect.Models;
 using MoxControl.Connect.Models.Enums;
@@ -12,12 +13,14 @@ namespace MoxControl.Services
         private readonly IConnectServiceFactory _connectServiceFactory;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMapper _mapper;
+        private readonly ConnectDatabase _connectDb;
 
-        public ServerService(IConnectServiceFactory connectServiceFactory, IHttpContextAccessor httpContextAccessor, IMapper mapper)
+        public ServerService(IConnectServiceFactory connectServiceFactory, IHttpContextAccessor httpContextAccessor, IMapper mapper, ConnectDatabase connectDb)
         {
             _httpContextAccessor = httpContextAccessor;
             _connectServiceFactory = connectServiceFactory;
             _mapper = mapper;
+            _connectDb = connectDb;
         }
 
         public async Task<bool> CreateAsync(ServerViewModel viewModel)
@@ -90,6 +93,11 @@ namespace MoxControl.Services
             var serverDetailsVm = _mapper.Map<ServerDetailsViewModel>(server);
             serverDetailsVm.Machines = _mapper.Map<List<MachineViewModel>>(machines);
 
+            var setting = await _connectDb.ConnectSettings.GetByVirtualizationSystemAsync(virtualizationSystem);
+
+            if (setting is not null && setting.IsSystemHasInterface)
+                serverDetailsVm.WebUISource = await connectService.Servers.GetWebUISourceAsync(id);
+            
             return serverDetailsVm;
         }
 

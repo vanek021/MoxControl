@@ -11,7 +11,8 @@ namespace MoxControl.ViewModels.ServerViewModels
             CreateMap<BaseServer, ServerViewModel>();
 
             CreateMap<BaseServer, ServerDetailsViewModel>()
-                .ForMember(dest => dest.Machines, opt => opt.Ignore());
+                .ForMember(dest => dest.Machines, opt => opt.Ignore())
+                .ForMember(dest => dest.WebUISource, opt => opt.Ignore());
 
             CreateMap<ServerShortViewModel, BaseServer>();
             CreateMap<BaseServer, ServerShortViewModel>();

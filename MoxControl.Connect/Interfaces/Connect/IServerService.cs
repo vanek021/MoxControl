@@ -35,5 +35,7 @@ namespace MoxControl.Connect.Interfaces.Connect
         public Task HandleCreateTemplateAsync(long templateId, string? initiatorUsername = null);
 
         public Task<List<ISOImage>> GetAvailableImagesAsync(long serverId);
+
+        public Task<string?> GetWebUISourceAsync(long serverId);
     }
 }

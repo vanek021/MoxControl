@@ -1,7 +1,9 @@
 ﻿using Hangfire;
+using MoxControl.Connect.Data;
 using MoxControl.Connect.Interfaces.Factories;
 using MoxControl.Connect.Models.Enums;
 using MoxControl.Connect.Services;
+using MoxControl.Infrastructure.Extensions;
 
 namespace MoxControl.Connect
 {
@@ -10,18 +12,28 @@ namespace MoxControl.Connect
         private readonly IConnectServiceFactory _connectServiceFactory;
         private readonly ImageManager _imageManager;
         private readonly TemplateManager _templateManager;
+        private readonly ConnectDatabase _connectDb;
 
-        public HangfireConnectManager(IConnectServiceFactory connectServiceFactory, ImageManager imageManager, TemplateManager templateManager)
+        public HangfireConnectManager(IConnectServiceFactory connectServiceFactory, ImageManager imageManager, TemplateManager templateManager, ConnectDatabase connectDb)
         {
             _connectServiceFactory = connectServiceFactory;
             _imageManager = imageManager;
             _templateManager = templateManager;
+            _connectDb = connectDb;
         }
 
         public async Task SendServerHeartBeatAsync(VirtualizationSystem virtualizationSystem, long serverId, string? initiatorUsername = null)
         {
             var connectService = _connectServiceFactory.GetByVirtualizationSystem(virtualizationSystem);
             await connectService.Servers.SendHeartBeatAsync(serverId, initiatorUsername);
+
+            var setting = await _connectDb.ConnectSettings.GetByVirtualizationSystemAsync(virtualizationSystem);
+            if (setting is not null)
+            {
+                setting.LastServersCheck = DateTime.UtcNow.ToMoscowTime();
+                _connectDb.ConnectSettings.Update(setting);
+                await _connectDb.SaveChangesAsync();
+            }
         }
 
         public async Task SendHeartBeatToAllServersAsync()
@@ -65,8 +77,13 @@ namespace MoxControl.Connect
 
         public async Task SyncServerMachinesAsync(VirtualizationSystem virtualizationSystem, long serverId, string? initiatorUsername = null)
         {
-            var connectService = _connectServiceFactory.GetByVirtualizationSystem(virtualizationSystem);
-            await connectService.Servers.SyncMachinesAsync(serverId, initiatorUsername);
+            var setting = await _connectDb.ConnectSettings.GetByVirtualizationSystemAsync(virtualizationSystem);
+
+            if (setting.IsMachinesSyncEnabled)
+            {
+                var connectService = _connectServiceFactory.GetByVirtualizationSystem(virtualizationSystem);
+                await connectService.Servers.SyncMachinesAsync(serverId, initiatorUsername);
+            }
         }
 
         public async Task DeliverImageToAllServersAsync(long imageId, string? initiatorUsername = null)

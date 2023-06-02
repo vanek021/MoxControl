@@ -1,4 +1,12 @@
+
 $(document).ready(async function () {
+
+    await updateMachinesHealth();
+
+    setInterval(updateMachinesHealth, 30000);
+});
+
+async function updateMachinesHealth() {
     $("tr[data-machine-row]").each(async function () {
         var health = await getMachineHealth($(this).attr("data-virtualizationSystem"), $(this).attr("data-machine-id"));
 
@@ -14,7 +22,7 @@ $(document).ready(async function () {
         hddProgress.find("span").text(`HDD: ${health.hddUsedPercent}%`);
         ramProgress.find("span").text(`RAM: ${health.memoryUsedPercent}%`);
     });
-});
+}
 
 async function getMachineHealth(virtualizationSystem, machineId) {
     const response = await fetch(`/Machine/GetMachineHealth/${machineId}?virtualizationSystem=${virtualizationSystem}`);

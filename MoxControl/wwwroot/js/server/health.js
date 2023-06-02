@@ -1,4 +1,12 @@
-﻿$(document).ready(async function () {
+﻿
+$(document).ready(async function () {
+
+    await updateServersHealth();
+
+    setInterval(updateServersHealth, 30000);
+});
+
+async function updateServersHealth() {
     $("tr[data-server-row]").each(async function () {
         var health = await getServerHealth($(this).attr("data-virtualizationSystem"), $(this).attr("data-server-id"));
 
@@ -14,7 +22,7 @@
         hddProgress.find("span").text(`HDD: ${health.hddUsedPercent}%`);
         ramProgress.find("span").text(`RAM: ${health.memoryUsedPercent}%`);
     });
-});
+}
 
 async function getServerHealth(virtualizationSystem, serverId) {
     const response = await fetch(`/Server/GetServerHealth/${serverId}?virtualizationSystem=${virtualizationSystem}`);

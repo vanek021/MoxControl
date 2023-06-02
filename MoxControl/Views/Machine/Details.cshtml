@@ -280,21 +280,14 @@
     <script src="~/js/radialBarCreator.js" asp-append-version="true"></script>
     <script src="~/js/machine/health.js"></script>
     <script type="text/javascript">
+        var chart1 = null;
+        var chart2 = null;
+        var chart3 = null;
+
         $(document).ready(async function () {
-            var serverHealth = await getMachineHealth();
+            await renderMachineHealth();
 
-            createAndRenderRadialBar("chart1", "#00B2FF", serverHealth.cpuUsedPercent, "Загрузка CPU");
-            createAndRenderRadialBar("chart2", "#FFC700", serverHealth.memoryUsedPercent, "Загрузка RAM");
-            createAndRenderRadialBar("chart3", "#7239EA", serverHealth.hddUsedPercent, "Загрузка HDD");
-
-            $("#chartSpinner").remove();
-            if (!serverHealth.isSuccess) {
-                var txt = document.createElement("span");
-                txt.classList.add("text-danger");
-                txt.classList.add("text-center");
-                txt.innerHTML = "Не удалось загрузить данные";
-                $("#chartContainer").append(txt);
-            }
+            setInterval(renderMachineHealth, 15000);
 
             const turnOnRequestUrl = "/Machine/TurnOn";
             var turnOnBtn = $("#turnOnButton");
@@ -406,6 +399,34 @@
                 });
             });
         });
+
+        async function renderMachineHealth() {
+            var machineHealth = await getMachineHealth();
+
+            if (chart1 == null || chart2 == null || chart3 == null) {
+                chart1 = createAndRenderRadialBar("chart1", "#00B2FF", machineHealth.cpuUsedPercent, "Загрузка CPU");
+                chart2 = createAndRenderRadialBar("chart2", "#FFC700", machineHealth.memoryUsedPercent, "Загрузка RAM");
+                chart3 = createAndRenderRadialBar("chart3", "#7239EA", machineHealth.hddUsedPercent, "Загрузка HDD");
+            }
+            else {
+                updateRadialBar(chart1, "#00B2FF", machineHealth.cpuUsedPercent, "Загрузка CPU");
+                updateRadialBar(chart2, "#FFC700", machineHealth.memoryUsedPercent, "Загрузка RAM");
+                updateRadialBar(chart3, "#7239EA", machineHealth.hddUsedPercent, "Загрузка HDD");
+            }
+
+            var chartSpinner = $("#chartSpinner");
+            
+            if (chartSpinner)
+                chartSpinner.remove();
+
+            if (!machineHealth.isSuccess) {
+                var txt = document.createElement("span");
+                txt.classList.add("text-danger");
+                txt.classList.add("text-center");
+                txt.innerHTML = "Не удалось загрузить данные";
+                $("#chartContainer").append(txt);
+            }
+        }
 
         async function getMachineHealth() {
             const response = await fetch("/Machine/GetMachineHealth/@Html.Raw(Model.Id)?virtualizationSystem=@Html.Raw(Model.VirtualizationSystem.ToString())");

@@ -233,7 +233,11 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
             var client = new ProxmoxVirtualizationClient(credentials.Login, credentials.Password, machine.Server);
 
             var machineStatus = await client.GetMachineStatus(machine.ProxmoxId.Value);
-            var status = machineStatus.Status.GetMachineStatus();
+
+            var status = Connect.Models.Enums.MachineStatus.Unknown;
+
+            if (machineStatus is not null)
+                status = machineStatus.Status.GetMachineStatus();
 
             if (status != Connect.Models.Enums.MachineStatus.Running)
                 return null;

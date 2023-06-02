@@ -245,7 +245,7 @@
                                                 </div>
                                             </td>
                                             <td class="text-end pe-0">
-                                                <span class="@Model.Status.GetServerStatusColor()">@Model.Status.GetDisplayName()</span>
+                                                <span class="@machine.Status.GetMachineStatusColor()">@machine.Status.GetDisplayName()</span>
                                             </td>
                                         </tr>
                                     }
@@ -272,14 +272,34 @@
     <script src="~/js/radialBarCreator.js" asp-append-version="true"></script>
     <script src="~/js/machine/health.js"></script>
     <script type="text/javascript">
+        chart1 = null;
+        chart2 = null;
+        chart3 = null;
+
         $(document).ready(async function () {
+            await renderServerHealth();
+
+            setInterval(renderServerHealth, 15000);
+        });
+
+        async function renderServerHealth() {
             var serverHealth = await getServerHealth();
 
-            createAndRenderRadialBar("chart1", "#00B2FF", serverHealth.cpuUsedPercent, "Загрузка CPU");
-            createAndRenderRadialBar("chart2", "#FFC700", serverHealth.memoryUsedPercent, "Загрузка RAM");
-            createAndRenderRadialBar("chart3", "#7239EA", serverHealth.hddUsedPercent, "Загрузка HDD");
+            if (chart1 == null || chart2 == null || chart3 == null) {
+                chart1 = createAndRenderRadialBar("chart1", "#00B2FF", serverHealth.cpuUsedPercent, "Загрузка CPU");
+                chart2 = createAndRenderRadialBar("chart2", "#FFC700", serverHealth.memoryUsedPercent, "Загрузка RAM");
+                chart3 = createAndRenderRadialBar("chart3", "#7239EA", serverHealth.hddUsedPercent, "Загрузка HDD");
+            }
+            else {
+                updateRadialBar(chart1, "#00B2FF", serverHealth.cpuUsedPercent, "Загрузка CPU");
+                updateRadialBar(chart2, "#FFC700", serverHealth.memoryUsedPercent, "Загрузка RAM");
+                updateRadialBar(chart3, "#7239EA", serverHealth.hddUsedPercent, "Загрузка HDD");
+            }
 
-            $("#chartSpinner").remove();
+            var chartSpinner = $("#chartSpinner");
+            
+            if (chartSpinner)
+                chartSpinner.remove();
 
             if (!serverHealth.isSuccess) {
                 var txt = document.createElement("span");
@@ -288,7 +308,7 @@
                 txt.innerHTML = "Не удалось загрузить данные";
                 $("#chartContainer").append(txt);
             }
-        });
+        }
 
         async function getServerHealth() {
             const response = await fetch("/Server/GetServerHealth/@Html.Raw(Model.Id)?virtualizationSystem=@Html.Raw(Model.VirtualizationSystem.ToString())");

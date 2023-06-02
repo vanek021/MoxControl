@@ -82,4 +82,14 @@ function createAndRenderRadialBar(element, color, value, label) {
     options.colors = [color];
     var chart = new ApexCharts(document.querySelector(`#${element}`), options);
     chart.render();
+
+    return chart;
+}
+
+function updateRadialBar(chart, color, value, label) {
+    options.series = [value];
+    options.labels = [label];
+    options.colors = [color];
+
+    chart.updateOptions(options);
 }

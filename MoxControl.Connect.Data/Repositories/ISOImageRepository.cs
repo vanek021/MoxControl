@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MoxControl.Connect.Models.Entities;
+using MoxControl.Connect.Models.Enums;
 using MoxControl.Core.Attributes;
 using MoxControl.Core.Interfaces;
 using MoxControl.Core.Repositories;
@@ -17,7 +18,19 @@ namespace MoxControl.Connect.Data.Repositories
 
         public Task<List<ISOImage>> GetAll()
         {
-            return Table().ToListAsync();
+            return ManyWithIncludes().ToListAsync();
+        }
+
+        public Task<int> GetCountAsync() 
+        { 
+            return ManyWithIncludes().CountAsync(); 
+        }
+
+        public Task<int> GetInitializedCountAsync()
+        {
+            return ManyWithIncludes()
+                .Where(i => i.Status == ISOImageStatus.ReadyToUse)
+                .CountAsync();
         }
 
         public Task<string?> GetImagePath(long id)

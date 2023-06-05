@@ -64,6 +64,11 @@ namespace MoxControl.Connect.Models.Entities
         public virtual List<BaseMachine> Machines { get; set; } = new();
 
         /// <summary>
+        /// Дата последней синхронизации ВМ
+        /// </summary>
+        public DateTime? LastMachinesSync { get; set; }
+
+        /// <summary>
         /// Образы ОС, которые загружены на сервер
         /// </summary>
         [Column(TypeName = "jsonb")]

@@ -29,5 +29,10 @@ namespace MoxControl.Connect.Models.Entities
         /// Дата последней проверки состояния серверов
         /// </summary>
         public DateTime? LastServersCheck { get; set; }
+
+        /// <summary>
+        /// Дата последней проверки состояния виртуальных машин
+        /// </summary>
+        public DateTime? LastMachinesCheck { get; set; }
     }
 }

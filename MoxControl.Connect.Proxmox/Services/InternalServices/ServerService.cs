@@ -11,6 +11,7 @@ using MoxControl.Connect.Proxmox.Models.Enums;
 using MoxControl.Connect.Proxmox.VirtualizationClient.DTOs;
 using MoxControl.Connect.Proxmox.VirtualizationClient.Helpers;
 using MoxControl.Connect.Services.InternalServices;
+using MoxControl.Infrastructure.Extensions;
 using System.Globalization;
 
 namespace MoxControl.Connect.Proxmox.Services.InternalServices
@@ -221,6 +222,10 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
                 }
                 await _context.SaveChangesAsync();
             }
+
+            server.LastMachinesSync = DateTime.UtcNow.ToMoscowTime();
+            _context.ProxmoxServers.Update(server);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<ServerHealthModel?> GetHealthModelAsync(long serverId, string? initiatorUsername = null)

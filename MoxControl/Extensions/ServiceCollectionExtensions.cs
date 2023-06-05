@@ -21,6 +21,7 @@ namespace MoxControl.Extensions
             serviceCollection.AddScoped<HomeService>();
             serviceCollection.AddScoped<NotificationService>();
             serviceCollection.AddScoped<TelegramService>();
+            serviceCollection.AddScoped<SyncService>();
             serviceCollection.AddScoped<MoxControlUserManager>();
 
             return serviceCollection;

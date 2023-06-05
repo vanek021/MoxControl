@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MoxControl.Connect.Models.Entities;
+using MoxControl.Connect.Models.Enums;
 using MoxControl.Core.Attributes;
 using MoxControl.Core.Interfaces;
 using MoxControl.Core.Repositories;
@@ -33,6 +34,13 @@ namespace MoxControl.Connect.Data.Repositories
         public Task<int> GetTotalCount()
         {
             return ManyWithIncludes().CountAsync();
+        }
+
+        public Task<int> GetInitializedCount()
+        {
+            return ManyWithIncludes()
+                .Where(t => t.Status == TemplateStatus.ReadyToUse)
+                .CountAsync();
         }
 
         public Task<Template?> GetByIdWithImageAsync(long id)

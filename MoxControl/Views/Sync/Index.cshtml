@@ -1,8 +1,7 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@using MoxControl.Infrastructure.Extensions;
+@using MoxControl.ViewModels.SyncViewModels;
+
+@model SyncViewModel
 
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
     <div class="container-xxl" id="kt_content_container">
@@ -11,7 +10,78 @@
             <div class="card-header">
                 <!--begin::Card title-->
                 <div class="card-title m-0">
-                    <h3 class="fw-bold m-0">Информация о шаблоне: @Model.Name</h3>
+                    <h3 class="fw-bold m-0">Синхронизация ВМ</h3>
+                </div>
+                <!--end::Card title-->
+            </div>
+            <!--begin::Card header-->
+            <!--begin::Body-->
+            <div class="card-body pt-5">
+                <div id="kt_ecommerce_products_table_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                    <div class="table-responsive">
+                        <!--begin::Table-->
+                        <table class="table table-row-dashed table-row-gray-200 align-middle gs-0 gy-4">
+                            <!--begin::Table head-->
+                            <thead>
+                                <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                                    <th class="min-w-100px sorting_disabled">Название сервера</th>
+                                    <th class="w-200px sorting_disabled">Система виртуализации</th>
+                                    <th class="w-200px sorting_disabled">Последняя синхронизация</th>
+                                    <th class="w-200px sorting_disabled">Действия</th>
+                                </tr>
+                            </thead>
+                            <!--end::Table head-->
+                            <!--begin::Table body-->
+                            <tbody>
+                                @foreach (var server in @Model.SyncServers)
+                                {
+                                    <tr>
+                                        <td>
+                                            <span class="text-dark fw-bolder mb-1 fs-6">
+                                                @server.Name
+                                            </span>
+                                            <span class="text-muted fw-bold d-block">@server.Description</span>
+                                        </td>
+                                        <td class="pe-0">
+                                            <span class="text-dark fw-bolder mb-1 fs-6">
+                                                @server.VirtualizationSystem.GetDisplayName()
+                                            </span>
+                                        </td>
+                                        <td class="pe-0">
+                                            <span class="text-dark fw-bolder mb-1 fs-6">
+                                                @server.LastMachinesSync
+                                            </span>
+                                        </td>
+                                        <td class="pe-0">
+                                            <button type="button" class="btn btn-active-color-primary btn-icon btn-sm btn-outline-light d- btn-syncMachines" data-virtualizationSystem="@server.VirtualizationSystem" data-serverId="@server.Id" data-serverName="@server.Name">
+                                                <!--begin::Svg Icon | path: icons/duotune/general/gen054.svg-->
+                                                <span class="svg-icon svg-icon-2">
+                                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M14.5 20.7259C14.6 21.2259 14.2 21.826 13.7 21.926C13.2 22.026 12.6 22.0259 12.1 22.0259C9.5 22.0259 6.9 21.0259 5 19.1259C1.4 15.5259 1.09998 9.72592 4.29998 5.82592L5.70001 7.22595C3.30001 10.3259 3.59999 14.8259 6.39999 17.7259C8.19999 19.5259 10.8 20.426 13.4 19.926C13.9 19.826 14.4 20.2259 14.5 20.7259ZM18.4 16.8259L19.8 18.2259C22.9 14.3259 22.7 8.52593 19 4.92593C16.7 2.62593 13.5 1.62594 10.3 2.12594C9.79998 2.22594 9.4 2.72595 9.5 3.22595C9.6 3.72595 10.1 4.12594 10.6 4.02594C13.1 3.62594 15.7 4.42595 17.6 6.22595C20.5 9.22595 20.7 13.7259 18.4 16.8259Z" fill="currentColor" />
+                                                        <path opacity="0.3" d="M2 3.62592H7C7.6 3.62592 8 4.02592 8 4.62592V9.62589L2 3.62592ZM16 14.4259V19.4259C16 20.0259 16.4 20.4259 17 20.4259H22L16 14.4259Z" fill="currentColor" />
+                                                    </svg>
+                                                </span>
+                                                <!--end::Svg Icon-->
+                                            </button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                            <!--end::Table body-->
+                        </table>
+                    </div>
+                </div>
+                <!--end::Table-->
+                <button id="syncAllMachinesBtn" class="btn btn-primary">Запустить синхронизацию</button>
+            </div>
+            <!--end::Body-->
+        </div>
+        <div class="card mb-5 mb-xl-10">
+            <!--begin::Card header-->
+            <div class="card-header">
+                <!--begin::Card title-->
+                <div class="card-title m-0">
+                    <h3 class="fw-bold m-0">Синхронизация шаблонов</h3>
                 </div>
                 <!--end::Card title-->
             </div>
@@ -21,11 +91,11 @@
                 <!--begin::Row-->
                 <div class="row mb-6">
                     <!--begin::Label-->
-                    <label class="col-lg-6 fw-semibold text-muted">Название</label>
+                    <label class="col-lg-6 fw-semibold text-muted">Всего шаблонов:</label>
                     <!--end::Label-->
                     <!--begin::Col-->
                     <div class="col-lg-6">
-                        <span class="fw-bold fs-6 text-gray-80">@Model.Name</span>
+                        <span class="fw-bold fs-6 text-gray-80">@Model.SyncTemplate.TotalCount</span>
                     </div>
                     <!--end::Col-->
                 </div>
@@ -33,11 +103,11 @@
                 <!--begin::Row-->
                 <div class="row mb-6">
                     <!--begin::Label-->
-                    <label class="col-lg-6 fw-semibold text-muted">Описание</label>
+                    <label class="col-lg-6 fw-semibold text-muted">Из них ициализировано:</label>
                     <!--end::Label-->
                     <!--begin::Col-->
                     <div class="col-lg-6">
-                        <span class="fw-bold fs-6 text-gray-80">@Model.Description</span>
+                        <span class="fw-bold fs-6 text-gray-80">@Model.SyncTemplate.InitializedCount</span>
                     </div>
                     <!--end::Col-->
                 </div>
@@ -45,11 +115,39 @@
                 <!--begin::Row-->
                 <div class="row mb-6">
                     <!--begin::Label-->
-                    <label class="col-lg-6 fw-semibold text-muted">Кол-во сокетов</label>
+                    <label class="col-lg-6 fw-semibold text-danger">Количество серверов, нуждающихся в повторной инициализации:</label>
                     <!--end::Label-->
                     <!--begin::Col-->
                     <div class="col-lg-6">
-                        <span class="fw-bold fs-6 text-gray-80">@Model.CPUSockets</span>
+                        <span class="fw-bold fs-6 text-gray-80 text-danger">@Model.SyncTemplate.NotInitializedServersCount</span>
+                    </div>
+                    <!--end::Col-->
+                </div>
+                <!--end::Row-->
+                <button id="syncTemplatesBtn" class="btn btn-primary">Запустить синхронизацию</button>
+            </div>
+            <!--end::Body-->
+        </div>
+        <div class="card mb-5 mb-xl-10">
+            <!--begin::Card header-->
+            <div class="card-header">
+                <!--begin::Card title-->
+                <div class="card-title m-0">
+                    <h3 class="fw-bold m-0">Синхронизация образов</h3>
+                </div>
+                <!--end::Card title-->
+            </div>
+            <!--begin::Card header-->
+            <!--begin::Body-->
+            <div class="card-body pt-5">
+                <!--begin::Row-->
+                <div class="row mb-6">
+                    <!--begin::Label-->
+                    <label class="col-lg-6 fw-semibold text-muted">Всего образов:</label>
+                    <!--end::Label-->
+                    <!--begin::Col-->
+                    <div class="col-lg-6">
+                        <span class="fw-bold fs-6 text-gray-80">@Model.SyncImage.TotalCount</span>
                     </div>
                     <!--end::Col-->
                 </div>
@@ -57,11 +155,11 @@
                 <!--begin::Row-->
                 <div class="row mb-6">
                     <!--begin::Label-->
-                    <label class="col-lg-6 fw-semibold text-muted">Кол-во ядер</label>
+                    <label class="col-lg-6 fw-semibold text-muted">Из них ициализировано:</label>
                     <!--end::Label-->
                     <!--begin::Col-->
                     <div class="col-lg-6">
-                        <span class="fw-bold fs-6 text-gray-80">@Model.CPUCores</span>
+                        <span class="fw-bold fs-6 text-gray-80">@Model.SyncImage.InitializedCount</span>
                     </div>
                     <!--end::Col-->
                 </div>
@@ -69,41 +167,197 @@
                 <!--begin::Row-->
                 <div class="row mb-6">
                     <!--begin::Label-->
-                    <label class="col-lg-6 fw-semibold text-muted">Размер оперативной памяти, в Мб</label>
+                    <label class="col-lg-6 fw-semibold text-danger">Количество серверов, нуждающихся в повторной инициализации:</label>
                     <!--end::Label-->
                     <!--begin::Col-->
                     <div class="col-lg-6">
-                        <span class="fw-bold fs-6 text-gray-80">@Model.RAMSize</span>
+                        <span class="fw-bold fs-6 text-gray-80 text-danger">@Model.SyncImage.NotInitializedServersCount</span>
                     </div>
                     <!--end::Col-->
                 </div>
                 <!--end::Row-->
-                <!--begin::Row-->
-                <div class="row mb-6">
-                    <!--begin::Label-->
-                    <label class="col-lg-6 fw-semibold text-muted">Размер жесткого диска, вГб</label>
-                    <!--end::Label-->
-                    <!--begin::Col-->
-                    <div class="col-lg-6">
-                        <span class="fw-bold fs-6 text-gray-80">@Model.HDDSize</span>
-                    </div>
-                    <!--end::Col-->
-                </div>
-                <!--end::Row-->
-                <!--begin::Input group-->
-                <div class="row mb-6">
-                    <!--begin::Label-->
-                    <label class="col-lg-6 fw-semibold text-muted">Статус</label>
-                    <!--end::Label-->
-                    <!--begin::Col-->
-                    <div class="col-lg-6 fv-row">
-                        <span class="fw-bold text-gray-800 fs-6"><span class="@Model.Status.GetTemplateStatusColor()">@Model.Status.GetDisplayName()</span></span>
-                    </div>
-                    <!--end::Col-->
-                </div>
-                <!--end::Input group-->
+                <button id="syncImagesBtn" class="btn btn-primary">Запустить синхронизацию</button>
             </div>
             <!--end::Body-->
         </div>
     </div>
 </div>
+
+<!--begin::Toast-->
+<div id="kt_docs_toast_stack_container" class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div class="toast toast-allMachinesSync" role="alert" aria-live="assertive" aria-atomic="true" data-kt-docs-toast="stack">
+        <div class="toast-header">
+            <span class="svg-icon svg-icon-2 svg-icon-primary me-3">Синхронизация ВМ</span>
+            <strong class="me-auto">Оповещение</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            Синхронизация ВМ для всех серверов запущена.
+        </div>
+    </div>
+    <div class="toast toast-imagesSync" role="alert" aria-live="assertive" aria-atomic="true" data-kt-docs-toast="stack">
+        <div class="toast-header">
+            <span class="svg-icon svg-icon-2 svg-icon-primary me-3">Синхронизация образов</span>
+            <strong class="me-auto">Оповещение</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            Синхронизация образов для всех серверов запущена.
+        </div>
+    </div>
+    <div class="toast toast-templatesSync" role="alert" aria-live="assertive" aria-atomic="true" data-kt-docs-toast="stack">
+        <div class="toast-header">
+            <span class="svg-icon svg-icon-2 svg-icon-primary me-3">Синхронизация шаблонов</span>
+            <strong class="me-auto">Оповещение</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            Синхронизация шаблонов для всех серверов запущена.
+        </div>
+    </div>
+</div>
+<!--end::Toast-->
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            const container = document.getElementById('kt_docs_toast_stack_container');
+            const toastAllMachinesSync = document.querySelector('.toast-allMachinesSync'); // Use CSS class or HTML attr to avoid duplicating ids
+            const toastImagesSync = document.querySelector('.toast-imagesSync');
+            const toastTemplatesSync = document.querySelector('.toast-templatesSync');
+
+            const syncAllMachinesRequestUrl = "/Sync/StartMachinesSync";
+            var syncAllMachinesBtn = $("#syncAllMachinesBtn");
+
+            const syncImagesRequestUrl = "/Sync/StartImagesSync";
+            var syncImagesBtn = $("#syncImagesBtn");
+
+            const syncTemplatesRequestUrl = "/Sync/StartTemplatesSync";
+            var syncTemplatesBtn = $("#syncTemplatesBtn");
+
+            
+
+            $(".btn-syncMachines").each(function() {
+                var virtualizationSystem = $(this).data("virtualizationsystem");
+                var serverId = $(this).data("serverid");
+                var serverName = $(this).data("servername");
+                var syncMachineRequestUrl = "/Sync/StartMachineSync";
+                let formData = new FormData();
+                formData.append("serverId", serverId);
+                formData.append("virtualizationSystem", virtualizationSystem);
+
+                $(this).click(function(e) {
+                    $.ajax({
+                        type: "POST",
+                        url: syncMachineRequestUrl,
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        withCredentials: true,
+                        beforeSend: function (xhr) {
+                        },
+                        success: function (result) {
+                            // Create new toast element
+                            const newToast = toastAllMachinesSync.cloneNode(true);
+                            var bodyToast = newToast.getElementsByClassName("toast-body")[0];
+                            bodyToast.textContent = `Синхронизация ВМ для сервера ${serverName} запущена.`;
+                            console.log(newToast);
+                            container.append(newToast);
+                            // Create new toast instance --- more info: https://getbootstrap.com/docs/5.1/components/toasts/#getorcreateinstance
+                            const toast = bootstrap.Toast.getOrCreateInstance(newToast);
+                            // Toggle toast to show --- more info: https://getbootstrap.com/docs/5.1/components/toasts/#show
+                            toast.show();
+                        }
+                    });
+                });
+            });
+
+            syncAllMachinesBtn.click(function (e) {
+                e.preventDefault();
+                let formData = new FormData();
+                $.ajax({
+                    type: "POST",
+                    url: syncAllMachinesRequestUrl,
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    withCredentials: true,
+                    beforeSend: function (xhr) {
+                        syncAllMachinesBtn.prop('disabled', true);
+                    },
+                    success: function (result) {
+                        syncAllMachinesBtn.prop('disabled', false);
+
+                        // Create new toast element
+                        const newToast = toastAllMachinesSync.cloneNode(true);
+                        container.append(newToast);
+
+                        // Create new toast instance --- more info: https://getbootstrap.com/docs/5.1/components/toasts/#getorcreateinstance
+                        const toast = bootstrap.Toast.getOrCreateInstance(newToast);
+
+                        // Toggle toast to show --- more info: https://getbootstrap.com/docs/5.1/components/toasts/#show
+                        toast.show();
+                    }
+                });
+            });
+
+            syncImagesBtn.click(function (e) {
+                e.preventDefault();
+                let formData = new FormData();
+                $.ajax({
+                    type: "POST",
+                    url: syncImagesRequestUrl,
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    withCredentials: true,
+                    beforeSend: function (xhr) {
+                        syncImagesBtn.prop('disabled', true);
+                    },
+                    success: function (result) {
+                        syncImagesBtn.prop('disabled', false);
+
+                        // Create new toast element
+                        const newToast = toastImagesSync.cloneNode(true);
+                        container.append(newToast);
+
+                        // Create new toast instance --- more info: https://getbootstrap.com/docs/5.1/components/toasts/#getorcreateinstance
+                        const toast = bootstrap.Toast.getOrCreateInstance(newToast);
+
+                        // Toggle toast to show --- more info: https://getbootstrap.com/docs/5.1/components/toasts/#show
+                        toast.show();
+                    }
+                });
+            });
+
+            syncTemplatesBtn.click(function (e) {
+                e.preventDefault();
+                let formData = new FormData();
+                $.ajax({
+                    type: "POST",
+                    url: syncTemplatesRequestUrl,
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    withCredentials: true,
+                    beforeSend: function (xhr) {
+                        syncTemplatesBtn.prop('disabled', true);
+                    },
+                    success: function (result) {
+                        syncTemplatesBtn.prop('disabled', false);
+
+                        // Create new toast element
+                        const newToast = toastTemplatesSync.cloneNode(true);
+                        container.append(newToast);
+
+                        // Create new toast instance --- more info: https://getbootstrap.com/docs/5.1/components/toasts/#getorcreateinstance
+                        const toast = bootstrap.Toast.getOrCreateInstance(newToast);
+
+                        // Toggle toast to show --- more info: https://getbootstrap.com/docs/5.1/components/toasts/#show
+                        toast.show();
+                    }
+                });
+            });
+        });
+    </script>
+}

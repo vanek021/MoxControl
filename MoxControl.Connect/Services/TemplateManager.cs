@@ -22,6 +22,11 @@ namespace MoxControl.Connect.Services
             return await _connectDatabase.Templates.GetTotalCount();
         }
 
+        public async Task<int> GetInitializedCount()
+        {
+            return await _connectDatabase.Templates.GetInitializedCount();
+        }
+
         public async Task<List<Template>> GetAllAsync()
         {
             return await _connectDatabase.Templates.GetAllAsync();

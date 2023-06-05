@@ -29,6 +29,16 @@ namespace MoxControl.Connect.Services
             return await _connectDatabase.ISOImages.GetAll();
         }
 
+        public async Task<int> GetCountAsync()
+        {
+            return await _connectDatabase.ISOImages.GetCountAsync();
+        }
+
+        public async Task<int> GetInitializedCountAsync()
+        {
+            return await _connectDatabase.ISOImages.GetInitializedCountAsync();
+        }
+
         public async Task<ISOImage?> GetByIdAsync(long id)
         {
             return await _connectDatabase.ISOImages.GetByIdAsync(id);

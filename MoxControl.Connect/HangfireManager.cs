@@ -4,6 +4,7 @@ using MoxControl.Connect.Interfaces.Factories;
 using MoxControl.Connect.Models.Enums;
 using MoxControl.Connect.Services;
 using MoxControl.Infrastructure.Extensions;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace MoxControl.Connect
 {
@@ -26,14 +27,6 @@ namespace MoxControl.Connect
         {
             var connectService = _connectServiceFactory.GetByVirtualizationSystem(virtualizationSystem);
             await connectService.Servers.SendHeartBeatAsync(serverId, initiatorUsername);
-
-            var setting = await _connectDb.ConnectSettings.GetByVirtualizationSystemAsync(virtualizationSystem);
-            if (setting is not null)
-            {
-                setting.LastServersCheck = DateTime.UtcNow.ToMoscowTime();
-                _connectDb.ConnectSettings.Update(setting);
-                await _connectDb.SaveChangesAsync();
-            }
         }
 
         public async Task SendHeartBeatToAllServersAsync()
@@ -44,6 +37,14 @@ namespace MoxControl.Connect
             {
                 var servers = await connectServiceItem.Service.Servers.GetAllAsync();
                 servers.ForEach(s => BackgroundJob.Enqueue<HangfireConnectManager>(h => h.SendServerHeartBeatAsync(connectServiceItem.VirtualizationSystem, s.Id, null)));
+
+                var setting = await _connectDb.ConnectSettings.GetByVirtualizationSystemAsync(connectServiceItem.VirtualizationSystem);
+                if (setting is not null)
+                {
+                    setting.LastServersCheck = DateTime.UtcNow.ToMoscowTime();
+                    _connectDb.ConnectSettings.Update(setting);
+                    await _connectDb.SaveChangesAsync();
+                }
             }
         }
 
@@ -61,10 +62,18 @@ namespace MoxControl.Connect
             {
                 var machines = await connectServiceItem.Service.Machines.GetAllAsync();
                 machines.ForEach(m => BackgroundJob.Enqueue<HangfireConnectManager>(h => h.SendMachineHeartBeatAsync(connectServiceItem.VirtualizationSystem, m.Id, null)));
+
+                var setting = await _connectDb.ConnectSettings.GetByVirtualizationSystemAsync(connectServiceItem.VirtualizationSystem);
+                if (setting is not null)
+                {
+                    setting.LastMachinesCheck = DateTime.UtcNow.ToMoscowTime();
+                    _connectDb.ConnectSettings.Update(setting);
+                    await _connectDb.SaveChangesAsync();
+                }
             }
         }
 
-        public async Task HangfireSyncMachinesForAllServers()
+        public async Task SyncMachinesForAllServers()
         {
             var connectServiceItems = _connectServiceFactory.GetAll();
 
@@ -124,11 +133,62 @@ namespace MoxControl.Connect
             await connectService.Machines.ProcessCreateAsync(machineId, initiatorUsername);
         }
 
+        public async Task SyncImagesForAllServersAsync()
+        {
+            var connectServiceItems = _connectServiceFactory.GetAll();
+            var images = await _imageManager.GetAllAsync();
+
+            foreach (var connectServiceItem in connectServiceItems)
+            {
+                var servers = await connectServiceItem.Service.Servers.GetAllAsync();
+
+                foreach (var server in servers)
+                {
+                    var imageIdsForDelivery = images.Select(i => i.Id).ToList();
+
+                    if (server.ImageData is not null)
+                        imageIdsForDelivery = imageIdsForDelivery.Except(server.ImageData.ImageIds).ToList();
+
+                    imageIdsForDelivery.ForEach(i => BackgroundJob.Enqueue<HangfireConnectManager>(h => h.DeliverImageToServerAsync(connectServiceItem.VirtualizationSystem, server.Id, i, null)));
+                }
+            }
+        }
+
+        public async Task SyncTemplatesForAllServersAsync()
+        {
+            var connectServiceItems = _connectServiceFactory.GetAll();
+            var templates = await _templateManager.GetAllAsync();
+
+            foreach (var connectServiceItem in connectServiceItems)
+            {
+                var servers = await connectServiceItem.Service.Servers.GetAllAsync();
+
+                foreach (var server in servers)
+                {
+                    var templateIdsForDelivery = templates.Select(i => i.Id).ToList();
+
+                    if (server.TemplateData is not null)
+                        templateIdsForDelivery = templateIdsForDelivery.Except(server.TemplateData.TemplateIds).ToList();
+
+                    templateIdsForDelivery.ForEach(t => BackgroundJob.Enqueue<HangfireConnectManager>(h => h.HandleTemplateCreateForServerAsync(server.VirtualizationSystem, server.Id, t)));
+                }
+            }
+        }
+
+        public async Task HandleTemplateCreateForServerAsync(VirtualizationSystem virtualizationSystem, long serverId, long templateId)
+        {
+            var connectService = _connectServiceFactory.GetByVirtualizationSystem(virtualizationSystem);
+
+            await connectService.Servers.HandleCreateTemplateAsync(templateId, null);
+        }
+
         public static void RegisterJobs()
         {
             RecurringJob.AddOrUpdate<HangfireConnectManager>(x => x.SendHeartBeatToAllServersAsync(), "*/5 * * * *");
             RecurringJob.AddOrUpdate<HangfireConnectManager>(x => x.SendHeartBeatToAllMachinesAsync(), "*/5 * * * *");
-            RecurringJob.AddOrUpdate<HangfireConnectManager>(x => x.HangfireSyncMachinesForAllServers(), Cron.Hourly());
+            RecurringJob.AddOrUpdate<HangfireConnectManager>(x => x.SyncMachinesForAllServers(), Cron.Hourly());
+            RecurringJob.AddOrUpdate<HangfireConnectManager>(x => x.SyncImagesForAllServersAsync(), Cron.Daily());
+            RecurringJob.AddOrUpdate<HangfireConnectManager>(x => x.SyncTemplatesForAllServersAsync(), Cron.Daily());
         }
     }
 }

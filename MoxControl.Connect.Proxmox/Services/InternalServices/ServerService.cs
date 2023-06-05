@@ -33,7 +33,7 @@ namespace MoxControl.Connect.Proxmox.Services.InternalServices
             => await GetBaseQuery().FirstOrDefaultAsync(x => x.Id == id);
 
         public async Task<List<BaseServer>> GetAllAsync()
-            => await GetBaseQuery().Select(x => (BaseServer)x).ToListAsync();
+            => await GetBaseQuery().Select(x => (BaseServer)x).OrderBy(x => x.Id).ToListAsync();
 
         public async Task<int> GetTotalCountAsync()
             => await GetBaseQuery().CountAsync();

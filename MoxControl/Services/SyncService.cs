@@ -44,7 +44,7 @@ namespace MoxControl.Services
                 var servers = await connectService.Service.Servers.GetAllAsync();
                 foreach (var server in servers)
                 {
-                    var leftImages = syncViewModel.SyncTemplate.TotalCount - server.TemplateData?.TemplateIds.Count;
+                    var leftImages = syncViewModel.SyncImage.TotalCount - server.ImageData?.ImageIds.Count;
                     if (leftImages > 0)
                         syncViewModel.SyncImage.NotInitializedServersCount += 1;
 

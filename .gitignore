@@ -324,4 +324,5 @@ ASALocalRun/
 *.nvuser
 
 
-MoxControl/wwwroot/uploads/
+/MoxControl/wwwroot/uploads/
+/MoxControl/appsettings.Production.json

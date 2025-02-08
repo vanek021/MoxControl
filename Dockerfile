@@ -16,5 +16,4 @@ RUN dotnet publish -c release -o /app --no-restore
 FROM mcr.microsoft.com/dotnet/aspnet:7.0
 WORKDIR /app
 COPY --from=build /app ./
-RUN touch appsettings.Production.json
 ENTRYPOINT ["dotnet", "MoxControl.dll"]
